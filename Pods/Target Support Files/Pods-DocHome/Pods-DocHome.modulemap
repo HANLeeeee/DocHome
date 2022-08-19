@@ -1,6 +1,0 @@
-framework module Pods_DocHome {
-  umbrella header "Pods-DocHome-umbrella.h"
-
-  export *
-  module * { export * }
-}
