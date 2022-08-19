@@ -5,6 +5,7 @@
 *.h linguist-detectable=false
 *.m linguist-detectable=false
 *.rb linguist-detectable=false
+Podfile linguist-detectable=false
 
 
 *.swift linguist-detectable=true
