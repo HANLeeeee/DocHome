@@ -3,5 +3,7 @@
 *.scss linguist-detectable=false
 *.js linguist-detectable=false
 *.h linguist-detectable=false
+*.m linguist-detectable=false
+
 
 *.swift linguist-detectable=true
