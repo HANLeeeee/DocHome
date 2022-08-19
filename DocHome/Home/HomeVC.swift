@@ -42,6 +42,18 @@ class HomeVC: UIViewController {
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("테이블뷰 셀 클릭 \(indexPath.row)번째")
+        switch indexPath.section {
+        case 0:
+            print("검색클릭")
+            
+            
+        case 1:
+            print("카테고리클릭")
+            
+        default:
+            print( "병원클릭")
+        }
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

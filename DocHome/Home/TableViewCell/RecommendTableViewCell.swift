@@ -85,7 +85,7 @@ class RecommendTableViewCell: UITableViewCell {
         
         cellView.snp.makeConstraints { make in
             self.cellViewTopConstraint = make.top.equalTo(cellTitle.snp.bottom).offset(0).constraint
-            make.left.right.bottom.equalTo(0).inset(UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15))
+            make.left.right.bottom.equalTo(0).inset(UIEdgeInsets(top: 0, left: 15, bottom: 3, right: 15))
             make.height.equalTo(100)
         }
         
@@ -101,7 +101,7 @@ class RecommendTableViewCell: UITableViewCell {
             self.cellViewTopConstraint?.update(offset: 10)
         } else {
             cellTitle.isHidden = true
-            self.cellViewTopConstraint?.update(offset: -10)
+            self.cellViewTopConstraint?.update(offset: -13)
         }
     }
 }
