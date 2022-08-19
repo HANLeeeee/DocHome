@@ -34,7 +34,6 @@ class CategoryTableViewCell: UITableViewCell {
         let btn = UIButton()
         btn.backgroundColor = UIColor(named: "COLOR_PURPLE")
         btn.setTitle("내과", for: .normal)
-//        btn.setTitleColor(.black, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         btn.layer.cornerRadius = 10
         btn.layer.borderWidth = 1
@@ -46,7 +45,6 @@ class CategoryTableViewCell: UITableViewCell {
         let btn = UIButton()
         btn.backgroundColor = UIColor(named: "COLOR_PURPLE")
         btn.setTitle("치과", for: .normal)
-//        btn.setTitleColor(.black, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         btn.layer.cornerRadius = 10
         btn.layer.borderWidth = 1
@@ -59,7 +57,6 @@ class CategoryTableViewCell: UITableViewCell {
         let btn = UIButton()
         btn.backgroundColor = UIColor(named: "COLOR_PURPLE")
         btn.setTitle("안과", for: .normal)
-//        btn.setTitleColor(.black, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         btn.layer.cornerRadius = 10
         btn.layer.borderWidth = 1
@@ -72,7 +69,6 @@ class CategoryTableViewCell: UITableViewCell {
         let btn = UIButton()
         btn.backgroundColor = UIColor(named: "COLOR_PURPLE")
         btn.setTitle("한의원", for: .normal)
-//        btn.setTitleColor(.black, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         btn.layer.cornerRadius = 10
         btn.layer.borderWidth = 1
