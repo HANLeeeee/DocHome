@@ -20,5 +20,12 @@ class SearchVC: UIViewController {
         super.viewDidLoad()
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureVC()
+    }
+    
+    func configureVC() {
+        searchView.searchTextField.becomeFirstResponder()
+    }
 }

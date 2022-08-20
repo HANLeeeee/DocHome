@@ -38,6 +38,16 @@ class SearchView: UIView {
         return tf
     }()
     
+    lazy var resultTableView = { () -> UITableView in
+        let tableView = UITableView()
+//        tableView.backgroundColor = .brown
+        tableView.layer.cornerRadius = 10
+        tableView.layer.borderWidth = 1
+        tableView.layer.borderColor = UIColor.systemGray5.cgColor
+        tableView.isHidden = true
+        return tableView
+    }()
+    
     //MARK: - init()
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,6 +70,8 @@ class SearchView: UIView {
         self.addSubview(searchView)
         searchView.addSubview(searchBtn)
         searchView.addSubview(searchTextField)
+        
+        self.addSubview(resultTableView)
     }
     
     func makeConstraints() {
@@ -70,11 +82,16 @@ class SearchView: UIView {
         
         searchBtn.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.right.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10))
+            make.right.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 10))
         }
         
         searchTextField.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 50))
+        }
+        
+        resultTableView.snp.makeConstraints { make in
+            make.top.equalTo(searchView.snp.bottom).inset(-20)
+            make.left.right.bottom.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 10, right: 20))
         }
     }
     
@@ -91,5 +108,6 @@ class SearchView: UIView {
     @objc func didTabSearchBtn(_ sender: Any) {
         print("검색 버튼 클릭")
         self.endEditing(true)
+        resultTableView.isHidden = false
     }
 }
