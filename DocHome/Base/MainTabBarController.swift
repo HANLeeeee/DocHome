@@ -14,7 +14,7 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         print("텝바 뷰디드로드")
         
-        let homeVC = UINavigationController.init(rootViewController: HomeVC(title: "홈"))
+        let homeVC = UINavigationController.init(rootViewController: HomeVC(title: "닥홈"))
         let mapVC = UINavigationController.init(rootViewController: MapVC(title: "지도"))
         let settingVC = UINavigationController.init(rootViewController: SettingVC(title: "설정"))
         
@@ -27,5 +27,8 @@ class MainTabBarController: UITabBarController {
         homeVC.tabBarItem = homeTabBarItem
         mapVC.tabBarItem = mapTabBarItem
         settingVC.tabBarItem = settingTabBarItem
+        
+        self.tabBar.tintColor = UIColor(named: "COLOR_PURPLE")
+        
     }
 }

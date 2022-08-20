@@ -19,6 +19,7 @@ class HomeView: UIView {
         return tableView
     }()
 
+    //MARK: - init()
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
@@ -33,6 +34,8 @@ class HomeView: UIView {
         makeConstraints()
     }
     
+    
+    //MARK: - func
     func addViews() {
         self.addSubview(homeTableView)
     }

@@ -45,7 +45,8 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             print("검색클릭")
-            
+            self.present(SearchVC(), animated: true)
+//            self.navigationController?.pushViewController(SearchVC(), animated: true)
             
         case 1:
             print("카테고리클릭")
