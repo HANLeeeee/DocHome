@@ -1,0 +1,9 @@
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.scss linguist-detectable=false
+*.js linguist-detectable=false
+*.h linguist-detectable=false
+*.m linguist-detectable=false
+*.rb linguist-detectable=false
+
+*.swift linguist-detectable=true
