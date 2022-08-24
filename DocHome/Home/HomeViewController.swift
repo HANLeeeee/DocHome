@@ -24,10 +24,10 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        registerVC()
+        registerTableView()
     }
     
-    func registerVC() {
+    func registerTableView() {
         homeView.homeTableView.delegate = self
         homeView.homeTableView.dataSource = self
         homeView.homeTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.searchCell)

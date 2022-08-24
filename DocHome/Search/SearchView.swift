@@ -23,18 +23,14 @@ class SearchView: UIView {
         let btn = UIButton()
         btn.setBackgroundImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         btn.tintColor = UIColor(named: "COLOR_PURPLE")
-        btn.addTarget(self,
-                      action: #selector(didTabSearchBtn(_:)),
-                      for: .touchUpInside)
+        
         return btn
     }()
     
     lazy var searchTextField = { () -> UITextField in
         let tf = UITextField()
         tf.placeholder = "병원명을 입력하세요"
-        tf.addTarget(self,
-                     action: #selector(didChangeSearchTF(_:)),
-                     for: .editingChanged)
+        
         return tf
     }()
     
@@ -101,16 +97,5 @@ class SearchView: UIView {
     //MARK: - configure
     func configureView() {
         self.tabEndEditing()
-    }
-    
-    //MARK: - objc func
-    @objc func didChangeSearchTF(_ sender: Any) {
-        print("텍스트필드 입력중")
-    }
-    
-    @objc func didTabSearchBtn(_ sender: Any) {
-        print("검색 버튼 클릭")
-        self.endEditing(true)
-        resultTableView.isHidden = false
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 enum APIManager: URLRequestConvertible {
-    case searchKeyword(keyword: String)
+    case searchKeyword(keyword: String, x: String, y: String)
     case searchCategory(x: String, y: String)
     
     var baseURL: URL {
@@ -45,10 +45,14 @@ enum APIManager: URLRequestConvertible {
     
     var parameters: Parameters {
         switch self {
-        case .searchKeyword(let keyword):
+        case .searchKeyword(let keyword, let x, let y):
             var params = Parameters()
             params["query"] = keyword
             params["category_group_code"] = Constants.APIURL.KakaoAPI.category_group_code.hospital
+            params["x"] = x
+            params["y"] = y
+            params["radius"] = "20000"
+
             return params
             
         case .searchCategory(let x, let y):
@@ -69,8 +73,8 @@ enum APIManager: URLRequestConvertible {
         request.headers = headers
         request.method = method
         
-        request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-        
+        request = try URLEncoding.default.encode(request, with: parameters)
+
         return request
     }
 }
