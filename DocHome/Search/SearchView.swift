@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SnapKit
 
 class SearchView: UIView {
     
@@ -47,6 +48,17 @@ class SearchView: UIView {
         return tableView
     }()
     
+    lazy var searchResultLabel = { () -> UILabel in
+        let label = UILabel()
+        label.text = "검색 결과 없음"
+        label.font = .systemFont(ofSize: 15, weight: .semibold)
+        label.textColor = .darkGray
+        label.isHidden = true
+        
+        return label
+    }()
+    
+    
     //MARK: - init()
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -70,6 +82,7 @@ class SearchView: UIView {
         searchView.addSubview(searchBtn)
         searchView.addSubview(searchTextField)
         
+        self.addSubview(searchResultLabel)
         self.addSubview(resultTableView)
     }
     
@@ -88,9 +101,14 @@ class SearchView: UIView {
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 50))
         }
         
+        searchResultLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(searchView.snp.bottom).offset(50)
+        }
+        
         resultTableView.snp.makeConstraints { make in
             make.top.equalTo(searchView.snp.bottom).inset(-20)
-            make.left.right.bottom.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 10, right: 20))
+            make.left.right.bottom.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0))
         }
     }
     

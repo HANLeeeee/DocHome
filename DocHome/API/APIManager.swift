@@ -52,6 +52,7 @@ enum APIManager: URLRequestConvertible {
             params["x"] = x
             params["y"] = y
             params["radius"] = "20000"
+            params["sort"] = "distance"
 
             return params
             
@@ -61,6 +62,7 @@ enum APIManager: URLRequestConvertible {
             params["x"] = x
             params["y"] = y
             params["radius"] = "20000"
+            params["sort"] = "distance"
             
             return params
         }

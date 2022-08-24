@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class CategoryTableViewCell: UITableViewCell {
     
@@ -74,6 +75,15 @@ class CategoryTableViewCell: UITableViewCell {
         
         return btn
     }()
+
+    lazy var cellTitle = { () -> UILabel in
+        let label = UILabel()
+        label.text = "내 주변 병원"
+        label.font = .systemFont(ofSize: 25, weight: .bold)
+        label.textColor = UIColor(named: "COLOR_PURPLE")
+        
+        return label
+    }()
     
     //MARK: - init()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -98,21 +108,29 @@ class CategoryTableViewCell: UITableViewCell {
     //MARK: - UI 관련
     func addViews() {
         self.addSubview(cellStackView)
-//        cellStackView.addSubview(cellButton)
         cellStackView.addArrangedSubview(cellButton)
         cellStackView.addArrangedSubview(cellButton2)
         cellStackView.addArrangedSubview(cellButton3)
         cellStackView.addArrangedSubview(cellButton4)
         cellStackView.addArrangedSubview(cellButton5)
+        
+        self.addSubview(cellTitle)
     }
     
     func addLayoutConstraints() {
         cellStackView.snp.makeConstraints { make in
-            make.edges.equalTo(0).inset(UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15))
+            make.top.left.right.equalTo(0).inset(UIEdgeInsets(top: 10, left: 15, bottom: 0, right: 15))
             make.height.equalTo(50)
         }
+        
         cellButton.snp.makeConstraints { make in
             make.height.equalTo(50)
+        }
+        
+        cellTitle.snp.makeConstraints { make in
+            make.top.equalTo(cellStackView.snp.bottom).offset(30)
+            make.left.equalTo(20)
+            make.bottom.equalTo(-5)
         }
     }
 

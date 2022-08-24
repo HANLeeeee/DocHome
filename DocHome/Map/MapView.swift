@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class MapView: UIView {
     
@@ -17,7 +18,7 @@ class MapView: UIView {
         view.baseMapType = .standard
         view.currentLocationTrackingMode = .onWithoutHeading
         view.showCurrentLocationMarker = true
-        print("RU")
+        
         return view
     }()
 

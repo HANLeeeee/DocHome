@@ -14,7 +14,9 @@ class HomeViewController: UIViewController {
         self.title = title
     }
     
+    let userLocation = UserDefaultsData.shared.getLocation()
     let homeView = HomeView()
+    var searchResultData = [Document]()
         
     //MARK: - 라이프사이클
     override func loadView() {
@@ -27,6 +29,12 @@ class HomeViewController: UIViewController {
         registerTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getHospitalInfo()
+    }
+    
+    //MARK: - 커스텀메소드
     func registerTableView() {
         homeView.homeTableView.delegate = self
         homeView.homeTableView.dataSource = self
@@ -34,8 +42,28 @@ class HomeViewController: UIViewController {
         homeView.homeTableView.register(RecommendTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.recommendCell)
         homeView.homeTableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.categoryCell)
     }
-}
+    
+    func getHospitalInfo() {
+        Loading.showLoading()
+        DispatchQueue.main.async { [self] in
+            API.shared.searchCategoryAPI(x: userLocation.longitude ?? "0", y: userLocation.latitude ?? "0", completion: { [self] result in
+                switch result {
+                case .success(let result):
+                    if result.documents.count == 0 {
+                        searchResultData = []
+                    } else {
+                        searchResultData = result.documents
+                    }
+                    homeView.homeTableView.reloadData()
+                case .failure(let error):
+                    print(error)
+                }
+            })
+            Loading.hideLoading()
 
+        }
+    }
+}
 
 
 //MARK: - 테이블뷰 관련
@@ -70,7 +98,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             return 1
 
         default:
-            return 10
+            return searchResultData.count
         }
     }
     
@@ -91,8 +119,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.recommendCell, for: indexPath) as! RecommendTableViewCell
             
-            let index = indexPath.row
-            cell.configure(index: index)
+            let searchResult = searchResultData[indexPath.row]
+            cell.configureCell(searchResult: searchResult)
             cell.selectionStyle = .none
             return cell
             

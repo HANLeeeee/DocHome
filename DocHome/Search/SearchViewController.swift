@@ -10,6 +10,7 @@ import UIKit
 class SearchViewController: UIViewController {
     let userLocation = UserDefaultsData.shared.getLocation()
     let searchView = SearchView()
+    var searchResultData = [Document]()
         
     //MARK: - 라이프사이클
     override func loadView() {
@@ -51,12 +52,14 @@ class SearchViewController: UIViewController {
 //MARK: - 테이블뷰 관련
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return searchResultData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.searchKeywordCell, for: indexPath)as! SearchKeywordTableViewCell
         
+        let searchResult = searchResultData[indexPath.row]
+        cell.configureCell(searchResult: searchResult)
         cell.selectionStyle = .none
         return cell
     }
@@ -76,21 +79,26 @@ extension SearchViewController {
     @objc func didTabSearchBtn(_ sender: Any) {
         print("검색 버튼 클릭")
         self.view.endEditing(true)
-        searchView.resultTableView.isHidden = false
         Loading.showLoading()
         DispatchQueue.main.async { [self] in
             if let searchText = searchView.searchTextField.text {
-                API.shared.searchKeyword(keyword: searchText, x: userLocation.latitude ?? "0", y: userLocation.longitude ?? "0", completion: { result in
-                    Loading.hideLoading()
+                API.shared.searchKeywordAPI(keyword: searchText, x: userLocation.longitude ?? "0", y: userLocation.latitude ?? "0", completion: { [self] result in
                     switch result {
                     case .success(let result):
-                        print(result.documents.count)
-                        
+                        if result.documents.count == 0 {
+                            searchResultData = []
+                            searchView.resultTableView.isHidden = true
+                            searchView.searchResultLabel.isHidden = false
+                        } else {
+                            searchResultData = result.documents
+                            searchView.resultTableView.isHidden = false
+                        }
+                        searchView.resultTableView.reloadData()
                     case .failure(let error):
                         print(error)
                     }
-                    
                 })
+                Loading.hideLoading()
                 return
             }
         }

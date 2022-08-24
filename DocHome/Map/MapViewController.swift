@@ -12,6 +12,7 @@ import CoreLocation
 class MapViewController: UIViewController, MTMapViewDelegate {
     
     //MARK: - 프로퍼티
+    let userLocation = UserDefaultsData.shared.getLocation()
     let mapView = MapView()
     var locationManger = CLLocationManager()
     
@@ -38,7 +39,7 @@ class MapViewController: UIViewController, MTMapViewDelegate {
     func configureLocation() {
         mapView.searchMapView.delegate = self
         //위치설정
-        mapView.searchMapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude:  37.456518177069526, longitude: 126.70531256589555)), zoomLevel: 1, animated: true)
+        mapView.searchMapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(userLocation.latitude!)!, longitude: Double(userLocation.longitude!)!)), zoomLevel: 1, animated: true)
         
         locationManger.delegate = self
         // 거리 정확도 설정
