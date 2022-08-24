@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeVC: UIViewController {
+class HomeViewController: UIViewController {
     
     convenience init(title: String) {
         self.init()
@@ -30,22 +30,22 @@ class HomeVC: UIViewController {
     func registerVC() {
         homeView.homeTableView.delegate = self
         homeView.homeTableView.dataSource = self
-        homeView.homeTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
-        homeView.homeTableView.register(RecommendTableViewCell.self, forCellReuseIdentifier: RecommendTableViewCell.identifier)
-        homeView.homeTableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: CategoryTableViewCell.identifier)
+        homeView.homeTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.searchCell)
+        homeView.homeTableView.register(RecommendTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.recommendCell)
+        homeView.homeTableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.categoryCell)
     }
 }
 
 
 
 //MARK: - 테이블뷰 관련
-extension HomeVC: UITableViewDelegate, UITableViewDataSource {
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("테이블뷰 셀 클릭 \(indexPath.row)번째")
         switch indexPath.section {
         case 0:
             print("검색클릭")
-            self.present(SearchVC(), animated: true)
+            self.present(SearchViewController(), animated: true)
 //            self.navigationController?.pushViewController(SearchVC(), animated: true)
             
         case 1:
@@ -77,19 +77,19 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.searchCell, for: indexPath) as! SearchTableViewCell
             
             cell.selectionStyle = .none
             return cell
             
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.categoryCell, for: indexPath) as! CategoryTableViewCell
             
             cell.selectionStyle = .none
             return cell
             
         default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: RecommendTableViewCell.identifier, for: indexPath) as! RecommendTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.recommendCell, for: indexPath) as! RecommendTableViewCell
             
             let index = indexPath.row
             cell.configure(index: index)

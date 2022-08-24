@@ -14,9 +14,9 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         print("텝바 뷰디드로드")
         
-        let homeVC = UINavigationController.init(rootViewController: HomeVC(title: "닥홈"))
-        let mapVC = UINavigationController.init(rootViewController: MapVC(title: "지도"))
-        let settingVC = UINavigationController.init(rootViewController: SettingVC(title: "설정"))
+        let homeVC = UINavigationController.init(rootViewController: HomeViewController(title: "닥홈"))
+        let mapVC = UINavigationController.init(rootViewController: MapViewController(title: "지도"))
+        let settingVC = UINavigationController.init(rootViewController: SettingViewController(title: "설정"))
         
         self.viewControllers = [homeVC, mapVC, settingVC]
         

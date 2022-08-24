@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import CoreLocation
 
-class MapVC: UIViewController, MTMapViewDelegate {
+class MapViewController: UIViewController, MTMapViewDelegate {
     
     //MARK: - 프로퍼티
     let mapView = MapView()
@@ -61,7 +61,7 @@ class MapVC: UIViewController, MTMapViewDelegate {
 
 
 //MARK: - CoreLocation 위치 관련
-extension MapVC : CLLocationManagerDelegate {
+extension MapViewController : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             print("위도: \(location.coordinate.latitude)")

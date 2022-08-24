@@ -41,9 +41,12 @@ class SearchView: UIView {
     lazy var resultTableView = { () -> UITableView in
         let tableView = UITableView()
 //        tableView.backgroundColor = .brown
-        tableView.layer.cornerRadius = 10
-        tableView.layer.borderWidth = 1
-        tableView.layer.borderColor = UIColor.systemGray5.cgColor
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
+        tableView.showsHorizontalScrollIndicator = false
+//        tableView.layer.cornerRadius = 10
+//        tableView.layer.borderWidth = 1
+//        tableView.layer.borderColor = UIColor.systemGray5.cgColor
         tableView.isHidden = true
         return tableView
     }()

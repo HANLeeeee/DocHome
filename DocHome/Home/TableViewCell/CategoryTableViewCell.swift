@@ -8,8 +8,6 @@
 import UIKit
 
 class CategoryTableViewCell: UITableViewCell {
-
-    static let identifier = "CategoryTableViewCell"
     
     lazy var cellStackView = { () -> UIStackView in
         let stackView = UIStackView()

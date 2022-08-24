@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingVC: UIViewController {
+class SettingViewController: UIViewController {
     
     convenience init(title: String) {
         self.init()

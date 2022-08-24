@@ -9,9 +9,7 @@ import UIKit
 import SnapKit
 
 class RecommendTableViewCell: UITableViewCell {
-    
-    static let identifier = "RecommendTableViewCell"
-    
+        
     lazy var cellTitle = { () -> UILabel in
         let label = UILabel()
         label.text = "내 주변 병원"

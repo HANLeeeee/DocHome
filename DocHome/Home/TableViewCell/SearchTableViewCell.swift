@@ -8,9 +8,7 @@
 import UIKit
 
 class SearchTableViewCell: UITableViewCell {
-    
-    static let identifier = "SearchTableViewCell"
-    
+        
     lazy var searchBtn = { () -> UIButton in
         let btn = UIButton()
         btn.backgroundColor = .white
