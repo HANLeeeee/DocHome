@@ -17,6 +17,7 @@ class HomeViewController: UIViewController {
     let userLocation = UserDefaultsData.shared.getLocation()
     let homeView = HomeView()
     var searchResultData = [Document]()
+    let refreshControl = UIRefreshControl()
         
     //MARK: - 라이프사이클
     override func loadView() {
@@ -31,6 +32,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("홈뷰 윌어피어")
         getHospitalInfo()
     }
     
@@ -41,26 +43,29 @@ class HomeViewController: UIViewController {
         homeView.homeTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.searchCell)
         homeView.homeTableView.register(RecommendTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.recommendCell)
         homeView.homeTableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.categoryCell)
+        refreshControl.endRefreshing()
+        homeView.homeTableView.refreshControl = refreshControl
     }
     
     func getHospitalInfo() {
         Loading.showLoading()
+        print("데이터가져오기")
         DispatchQueue.main.async { [self] in
             API.shared.searchCategoryAPI(x: userLocation.longitude ?? "0", y: userLocation.latitude ?? "0", completion: { [self] result in
                 switch result {
                 case .success(let result):
                     if result.documents.count == 0 {
-                        searchResultData = []
+                        searchResultData.removeAll()
                     } else {
                         searchResultData = result.documents
                     }
                     homeView.homeTableView.reloadData()
+                    refreshControl.endRefreshing()
+                    Loading.hideLoading()
                 case .failure(let error):
                     print(error)
                 }
             })
-            Loading.hideLoading()
-
         }
     }
 }
@@ -68,6 +73,14 @@ class HomeViewController: UIViewController {
 
 //MARK: - 테이블뷰 관련
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offset = scrollView.contentOffset.y
+        if offset < 0 {
+            searchResultData.removeAll()
+            getHospitalInfo()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("테이블뷰 셀 클릭 \(indexPath.row)번째")
         switch indexPath.section {
@@ -123,7 +136,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             cell.configureCell(searchResult: searchResult)
             cell.selectionStyle = .none
             return cell
-            
         }
     }
     

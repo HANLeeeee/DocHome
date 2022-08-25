@@ -29,8 +29,8 @@ class UserDefaultsData {
     }
     
     func getLocation() -> UserLocation {
-        let latitude = UserDefaults.standard.string(forKey: "위도")
-        let longitude = UserDefaults.standard.string(forKey: "경도")
+        let latitude = UserDefaults.standard.string(forKey: "위도") ?? "0"
+        let longitude = UserDefaults.standard.string(forKey: "경도") ?? "0"
         return UserLocation(latitude: latitude, longitude: longitude)
     }
 }

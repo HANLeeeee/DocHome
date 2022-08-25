@@ -94,11 +94,11 @@ extension SearchViewController {
                             searchView.resultTableView.isHidden = false
                         }
                         searchView.resultTableView.reloadData()
+                        Loading.hideLoading()
                     case .failure(let error):
                         print(error)
                     }
                 })
-                Loading.hideLoading()
                 return
             }
         }
