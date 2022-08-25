@@ -94,6 +94,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             
         default:
             print( "병원클릭")
+            print(searchResultData[indexPath.row])
+            let searchDetailVC = SearchDetailViewController()
+            searchDetailVC.detailData = searchResultData[indexPath.row]
+            self.navigationController?.pushViewController(searchDetailVC, animated: true)
         }
         
     }

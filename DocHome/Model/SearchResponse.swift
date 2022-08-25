@@ -12,10 +12,18 @@ struct SearchResponse: Codable {
 }
 
 struct Document: Codable {
-    let addressName, categoryGroupCode, categoryGroupName, categoryName: String
-    let distance, id, phone, placeName: String
-    let placeURL: String
-    let roadAddressName, x, y: String
+    var addressName: String = ""
+    var categoryGroupCode: String = ""
+    var categoryGroupName: String = ""
+    var categoryName: String = ""
+    var distance: String = ""
+    var id: String = ""
+    var phone: String = ""
+    var placeName: String = ""
+    var placeURL: String = ""
+    var roadAddressName: String = ""
+    var x: String = ""
+    var y: String = ""
 
     enum CodingKeys: String, CodingKey {
         case addressName = "address_name"
@@ -54,4 +62,3 @@ struct SameName: Codable {
         case selectedRegion = "selected_region"
     }
 }
-

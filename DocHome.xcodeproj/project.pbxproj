@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		43C77D13E37BE6B7D7018F92 /* Pods_DocHome.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDC91C4F720A57C823475FC7 /* Pods_DocHome.framework */; };
+		B16E540828B7B8EE0053B818 /* SearchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16E540728B7B8EE0053B818 /* SearchDetailView.swift */; };
+		B16E540A28B7C4410053B818 /* SearchDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16E540928B7C4410053B818 /* SearchDetailViewController.swift */; };
 		B1815FA628AA09E600F06AC0 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1815FA528AA09E600F06AC0 /* CategoryTableViewCell.swift */; };
 		B19CC0F228A8FEFA001E56B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19CC0F128A8FEFA001E56B4 /* AppDelegate.swift */; };
 		B19CC0F428A8FEFA001E56B4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19CC0F328A8FEFA001E56B4 /* SceneDelegate.swift */; };
@@ -315,6 +317,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B16E540728B7B8EE0053B818 /* SearchDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailView.swift; sourceTree = "<group>"; };
+		B16E540928B7C4410053B818 /* SearchDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewController.swift; sourceTree = "<group>"; };
 		B1815FA528AA09E600F06AC0 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		B19CC0EE28A8FEFA001E56B4 /* DocHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B19CC0F128A8FEFA001E56B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -665,6 +669,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		B16E540628B7B8D70053B818 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				B16E540928B7C4410053B818 /* SearchDetailViewController.swift */,
+				B16E540728B7B8EE0053B818 /* SearchDetailView.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		B1815FA728AA1AA500F06AC0 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -715,6 +728,7 @@
 				B1B956FE28B69940001085BB /* UserDefaults */,
 				B1B956F728B67E00001085BB /* Model */,
 				B1B956EF28B66BCB001085BB /* API */,
+				B16E540628B7B8D70053B818 /* Detail */,
 				B19CC81C28A94D9F001E56B4 /* Home */,
 				B1B956FA28B68304001085BB /* Search */,
 				B19CC81D28A94DA7001E56B4 /* Map */,
@@ -1583,12 +1597,14 @@
 				B19CC82128A94DDB001E56B4 /* SearchTableViewCell.swift in Sources */,
 				B1B9570728B6DF77001085BB /* SearchResponse.swift in Sources */,
 				B19CC81228A9193E001E56B4 /* MapViewController.swift in Sources */,
+				B16E540A28B7C4410053B818 /* SearchDetailViewController.swift in Sources */,
 				B1B956F128B66CBC001085BB /* API.swift in Sources */,
 				B19CC81B28A94AEF001E56B4 /* MapView.swift in Sources */,
 				B1B9570028B69961001085BB /* UserDefaultsData.swift in Sources */,
 				B19CC81928A94844001E56B4 /* HomeView.swift in Sources */,
 				B1B9570228B69AAD001085BB /* UserLocation.swift in Sources */,
 				B19CC81428A91AF9001E56B4 /* SettingViewController.swift in Sources */,
+				B16E540828B7B8EE0053B818 /* SearchDetailView.swift in Sources */,
 				B1B9570528B69DAF001085BB /* Loading.swift in Sources */,
 				B1815FA628AA09E600F06AC0 /* CategoryTableViewCell.swift in Sources */,
 				B1CF455128B13D38003835BC /* SearchView.swift in Sources */,
