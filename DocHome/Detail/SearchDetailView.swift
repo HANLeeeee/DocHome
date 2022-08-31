@@ -22,6 +22,8 @@ class SearchDetailView: UIView {
                                                 height: self.frame.size.height
                                                ))
         view.baseMapType = .standard
+        
+        //현재위치트래킹
         view.currentLocationTrackingMode = .onWithoutHeading
         view.showCurrentLocationMarker = true
         
@@ -52,7 +54,7 @@ class SearchDetailView: UIView {
     
     func makeConstraints() {
         mapView.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide).inset(10)
+            make.top.equalTo(self.safeAreaLayoutGuide)
             make.centerX.equalToSuperview()
             make.height.equalTo(Constants.Device.width)
             make.width.equalTo(Constants.Device.width)

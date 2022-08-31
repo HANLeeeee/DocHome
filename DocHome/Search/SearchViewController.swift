@@ -8,9 +8,11 @@
 import UIKit
 
 class SearchViewController: UIViewController {
+    
     let userLocation = UserDefaultsData.shared.getLocation()
     let searchView = SearchView()
     var searchResultData = [Document]()
+    var searchViewDelegate: SearchViewDelegate?
         
     //MARK: - 라이프사이클
     override func loadView() {
@@ -32,7 +34,8 @@ class SearchViewController: UIViewController {
         searchView.resultTableView.delegate = self
         searchView.resultTableView.dataSource = self
         
-        searchView.resultTableView.register(SearchKeywordTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.searchKeywordCell)
+        searchView.resultTableView.register(SearchKeywordTableViewCell.self,
+                                            forCellReuseIdentifier: Constants.TableView.Identifier.searchKeywordCell)
     }
     
     
@@ -51,9 +54,13 @@ class SearchViewController: UIViewController {
 
 //MARK: - 테이블뷰 관련
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("병원검색테이블뷰셀 클릭")
-        
+        print("테이블뷰 셀 클릭 \(indexPath.row)번째")
+        let searchDetailVC = SearchDetailViewController()
+        searchDetailVC.detailData = searchResultData[indexPath.row]
+        searchViewDelegate?.goSearchDetailVC(searchDetailVC: searchDetailVC)
+        self.dismiss(animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -85,18 +92,21 @@ extension SearchViewController {
         print("검색 버튼 클릭")
         self.view.endEditing(true)
         Loading.showLoading()
+        searchView.resultTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+
         DispatchQueue.main.async { [self] in
             if let searchText = searchView.searchTextField.text {
                 API.shared.searchKeywordAPI(keyword: searchText, x: userLocation.longitude ?? "0", y: userLocation.latitude ?? "0", completion: { [self] result in
                     switch result {
                     case .success(let result):
                         if result.documents.count == 0 {
-                            searchResultData = []
+                            searchResultData.removeAll()
                             searchView.resultTableView.isHidden = true
                             searchView.searchResultLabel.isHidden = false
                         } else {
                             searchResultData = result.documents
                             searchView.resultTableView.isHidden = false
+                            searchView.searchResultLabel.isHidden = true
                         }
                         searchView.resultTableView.reloadData()
                         Loading.hideLoading()

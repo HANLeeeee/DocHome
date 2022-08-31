@@ -14,6 +14,9 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
     let searchDetailView = SearchDetailView()
     var detailData = Document()
     
+    var mapPoint: MTMapPoint?
+    var poiItem: MTMapPOIItem?
+    
     //MARK: - 라이프사이클
     override func loadView() {
         self.view = .init()
@@ -24,6 +27,7 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureLocation()
+        addMarker()
     }
     
     func configureLocation() {
@@ -31,7 +35,15 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
         searchDetailView.mapLocationView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(
             latitude: Double(detailData.y)!,
             longitude: Double(detailData.x)!
-        )), zoomLevel: 1, animated: true)
-        
+        )), zoomLevel: MTMapZoomLevel(0.5), animated: true)
+    }
+    
+    func addMarker() {
+        mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(detailData.y)!, longitude: Double(detailData.x)!))
+        poiItem = MTMapPOIItem()
+        poiItem?.markerType = MTMapPOIItemMarkerType.redPin
+        poiItem?.mapPoint = mapPoint
+        poiItem?.itemName = detailData.placeName
+        searchDetailView.mapLocationView.add(poiItem)
     }
 }

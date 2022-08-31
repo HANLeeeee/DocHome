@@ -32,7 +32,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("홈뷰 윌어피어")
+        print("홈뷰 viewWillAppear")
         getHospitalInfo()
     }
     
@@ -48,31 +48,26 @@ class HomeViewController: UIViewController {
         homeView.homeTableView.register(CategoryTableViewCell.self,
                                         forCellReuseIdentifier: Constants.TableView.Identifier.categoryCell)
         
+        //refreshControl 설정
         refreshControl.endRefreshing()
         homeView.homeTableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshAction), for: .valueChanged)
     }
     
     @objc func refreshAction() {
-        searchResultData.removeAll()
         getHospitalInfo()
     }
     
     func getHospitalInfo() {
         Loading.showLoading()
-        print("데이터가져오기")
         searchResultData.removeAll()
         DispatchQueue.main.async { [self] in
             API.shared.searchCategoryAPI(x: userLocation.longitude ?? "0", y: userLocation.latitude ?? "0", completion: { [self] result in
                 switch result {
                 case .success(let result):
-                    if result.documents.count == 0 {
-                        searchResultData.removeAll()
-                    } else {
-                        print("데이터 복사")
+                    if result.documents.count != 0 {
                         searchResultData = result.documents
                     }
-                    print("새로고침되는중")
                     homeView.homeTableView.reloadData()
                     refreshControl.endRefreshing()
                     Loading.hideLoading()
@@ -93,7 +88,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             print("검색클릭")
-            self.present(SearchViewController(), animated: true)
+            let searchVC = SearchViewController()
+            searchVC.searchViewDelegate = self
+            self.present(searchVC, animated: true)
             
         case 1:
             print("카테고리클릭")
@@ -103,9 +100,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             print(searchResultData[indexPath.row])
             let searchDetailVC = SearchDetailViewController()
             searchDetailVC.detailData = searchResultData[indexPath.row]
-            self.navigationController?.pushViewController(searchDetailVC, animated: true)
+            goSearchDetailVC(searchDetailVC: searchDetailVC)
         }
-        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -140,7 +136,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         default:
-            print("셀에 데이터 적용")
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.recommendCell, for: indexPath) as! RecommendTableViewCell
             
             let searchResult = searchResultData[indexPath.row]
@@ -152,5 +147,18 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+}
+
+
+//MARK: - searchViewProtocol 델리게이트
+extension HomeViewController: SearchViewDelegate {
+    func goSearchDetailVC(searchDetailVC: SearchDetailViewController) {
+        print("델리게이트호출")
+        self.navigationController?.pushViewController(searchDetailVC, animated: true)
+//        print(searchResultData[indexPath.row])
+//        let searchDetailVC = SearchDetailViewController()
+//        searchDetailVC.detailData = searchResultData[indexPath.row]
+//        self.navigationController?.pushViewController(searchDetailVC, animated: true)
     }
 }

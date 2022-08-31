@@ -41,10 +41,7 @@ class SearchView: UIView {
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.showsHorizontalScrollIndicator = false
-//        tableView.layer.cornerRadius = 10
-//        tableView.layer.borderWidth = 1
-//        tableView.layer.borderColor = UIColor.systemGray5.cgColor
-        tableView.isHidden = true
+        
         return tableView
     }()
     
@@ -64,7 +61,6 @@ class SearchView: UIView {
         super.init(frame: frame)
         self.backgroundColor = .white
         addViews()
-        configureView()
     }
         
     required init?(coder: NSCoder) {
@@ -107,13 +103,8 @@ class SearchView: UIView {
         }
         
         resultTableView.snp.makeConstraints { make in
-            make.top.equalTo(searchView.snp.bottom).inset(-20)
+            make.top.equalTo(searchView.snp.bottom).inset(-15)
             make.left.right.bottom.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0))
         }
-    }
-    
-    //MARK: - configure
-    func configureView() {
-        self.tabEndEditing()
     }
 }

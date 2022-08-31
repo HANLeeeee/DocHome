@@ -314,6 +314,7 @@
 		B1CF49B628B14CAD003835BC /* interface_m_t_map_point-members.html in Resources */ = {isa = PBXBuildFile; fileRef = B1CF48A528B14CAC003835BC /* interface_m_t_map_point-members.html */; };
 		B1CF49B728B14CAD003835BC /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = B1CF48A628B14CAC003835BC /* jquery.js */; };
 		B1CF49B828B14CAD003835BC /* changelog.txt in Resources */ = {isa = PBXBuildFile; fileRef = B1CF48A728B14CAC003835BC /* changelog.txt */; };
+		B1EEB17028BFC6BC00CE583E /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EEB16F28BFC6BC00CE583E /* Protocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -635,6 +636,7 @@
 		B1CF48A528B14CAC003835BC /* interface_m_t_map_point-members.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "interface_m_t_map_point-members.html"; sourceTree = "<group>"; };
 		B1CF48A628B14CAC003835BC /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
 		B1CF48A728B14CAC003835BC /* changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = changelog.txt; sourceTree = "<group>"; };
+		B1EEB16F28BFC6BC00CE583E /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		C976D5C25EFD19642A0FD966 /* Pods-DocHome.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DocHome.debug.xcconfig"; path = "Target Support Files/Pods-DocHome/Pods-DocHome.debug.xcconfig"; sourceTree = "<group>"; };
 		DDC91C4F720A57C823475FC7 /* Pods_DocHome.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DocHome.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1CB403CA9EB99515032D77E /* Pods-DocHome.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DocHome.release.xcconfig"; path = "Target Support Files/Pods-DocHome/Pods-DocHome.release.xcconfig"; sourceTree = "<group>"; };
@@ -672,8 +674,8 @@
 		B16E540628B7B8D70053B818 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				B16E540928B7C4410053B818 /* SearchDetailViewController.swift */,
 				B16E540728B7B8EE0053B818 /* SearchDetailView.swift */,
+				B16E540928B7C4410053B818 /* SearchDetailViewController.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -727,6 +729,7 @@
 				B1B9570328B69D9B001085BB /* Loading */,
 				B1B956FE28B69940001085BB /* UserDefaults */,
 				B1B956F728B67E00001085BB /* Model */,
+				B1EEB16E28BFC6A700CE583E /* Protocol */,
 				B1B956EF28B66BCB001085BB /* API */,
 				B16E540628B7B8D70053B818 /* Detail */,
 				B19CC81C28A94D9F001E56B4 /* Home */,
@@ -765,8 +768,8 @@
 		B19CC81C28A94D9F001E56B4 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				B19CC0F528A8FEFA001E56B4 /* HomeViewController.swift */,
 				B19CC81828A94844001E56B4 /* HomeView.swift */,
+				B19CC0F528A8FEFA001E56B4 /* HomeViewController.swift */,
 				B19CC81E28A94DB1001E56B4 /* TableViewCell */,
 			);
 			path = Home;
@@ -820,8 +823,8 @@
 		B1B956FA28B68304001085BB /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				B1CF431C28B13A59003835BC /* SearchViewController.swift */,
 				B1CF455028B13D38003835BC /* SearchView.swift */,
+				B1CF431C28B13A59003835BC /* SearchViewController.swift */,
 				B1B956FB28B68317001085BB /* TableViewCell */,
 			);
 			path = Search;
@@ -1201,6 +1204,14 @@
 				B1CF487328B14CAC003835BC /* all_f.js */,
 			);
 			path = search;
+			sourceTree = "<group>";
+		};
+		B1EEB16E28BFC6A700CE583E /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				B1EEB16F28BFC6BC00CE583E /* Protocol.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1603,6 +1614,7 @@
 				B1B9570028B69961001085BB /* UserDefaultsData.swift in Sources */,
 				B19CC81928A94844001E56B4 /* HomeView.swift in Sources */,
 				B1B9570228B69AAD001085BB /* UserLocation.swift in Sources */,
+				B1EEB17028BFC6BC00CE583E /* Protocol.swift in Sources */,
 				B19CC81428A91AF9001E56B4 /* SettingViewController.swift in Sources */,
 				B16E540828B7B8EE0053B818 /* SearchDetailView.swift in Sources */,
 				B1B9570528B69DAF001085BB /* Loading.swift in Sources */,
