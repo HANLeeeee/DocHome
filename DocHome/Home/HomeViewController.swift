@@ -96,11 +96,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             print("카테고리클릭")
             
         default:
-            print( "병원클릭")
-            print(searchResultData[indexPath.row])
-            let searchDetailVC = SearchDetailViewController()
-            searchDetailVC.detailData = searchResultData[indexPath.row]
-            goSearchDetailVC(searchDetailVC: searchDetailVC)
+            print("병원클릭")
+            goSearchDetailVC(data: searchResultData[indexPath.row])
         }
     }
     
@@ -153,12 +150,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: - searchViewProtocol 델리게이트
 extension HomeViewController: SearchViewDelegate {
-    func goSearchDetailVC(searchDetailVC: SearchDetailViewController) {
+    func goSearchDetailVC(data: Document) {
         print("델리게이트호출")
+        let searchDetailVC = SearchDetailViewController()
+        searchDetailVC.detailData = data
         self.navigationController?.pushViewController(searchDetailVC, animated: true)
-//        print(searchResultData[indexPath.row])
-//        let searchDetailVC = SearchDetailViewController()
-//        searchDetailVC.detailData = searchResultData[indexPath.row]
-//        self.navigationController?.pushViewController(searchDetailVC, animated: true)
     }
 }

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol SearchViewDelegate {
-    func goSearchDetailVC(searchDetailVC: SearchDetailViewController)
+    func goSearchDetailVC(data: Document)
 }

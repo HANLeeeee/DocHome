@@ -57,9 +57,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("테이블뷰 셀 클릭 \(indexPath.row)번째")
-        let searchDetailVC = SearchDetailViewController()
-        searchDetailVC.detailData = searchResultData[indexPath.row]
-        searchViewDelegate?.goSearchDetailVC(searchDetailVC: searchDetailVC)
+        searchViewDelegate?.goSearchDetailVC(data: searchResultData[indexPath.row])
         self.dismiss(animated: true)
     }
     
