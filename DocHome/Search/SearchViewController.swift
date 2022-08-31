@@ -51,6 +51,11 @@ class SearchViewController: UIViewController {
 
 //MARK: - 테이블뷰 관련
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("병원검색테이블뷰셀 클릭")
+        
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResultData.count
     }

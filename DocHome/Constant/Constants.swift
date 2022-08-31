@@ -6,8 +6,15 @@
 //
 
 import Foundation
+import UIKit
 
 struct Constants {
+    
+    //MARK: - 디바이스
+    struct Device {
+        static let height = UIScreen.main.bounds.size.height
+        static let width = UIScreen.main.bounds.size.width
+    }
     
     //MARK: - View
     struct View {
@@ -23,6 +30,7 @@ struct Constants {
             static let settingVC = "SettingViewController"
             
             static let searchVC = "SearchViewController"
+            static let searchDetailVC = "SearchDetailViewController"
         }
     }
     

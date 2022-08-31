@@ -7,8 +7,10 @@
 
 import UIKit
 
-class SearchDetailViewController: UIViewController {
+class SearchDetailViewController: UIViewController, MTMapViewDelegate {
     
+    //MARK: - 프로퍼티
+    let userLocation = UserDefaultsData.shared.getLocation()
     let searchDetailView = SearchDetailView()
     var detailData = Document()
     
@@ -21,5 +23,15 @@ class SearchDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureLocation()
+    }
+    
+    func configureLocation() {
+        searchDetailView.mapLocationView.delegate = self
+        searchDetailView.mapLocationView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(
+            latitude: Double(detailData.y)!,
+            longitude: Double(detailData.x)!
+        )), zoomLevel: 1, animated: true)
+        
     }
 }

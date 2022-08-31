@@ -65,8 +65,6 @@ class SearchKeywordTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    
-    
     //MARK: - UI 관련
     func addViews() {
         self.addSubview(resultView)

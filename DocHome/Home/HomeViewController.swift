@@ -40,16 +40,28 @@ class HomeViewController: UIViewController {
     func registerTableView() {
         homeView.homeTableView.delegate = self
         homeView.homeTableView.dataSource = self
-        homeView.homeTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.searchCell)
-        homeView.homeTableView.register(RecommendTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.recommendCell)
-        homeView.homeTableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: Constants.TableView.Identifier.categoryCell)
+        
+        homeView.homeTableView.register(SearchTableViewCell.self,
+                                        forCellReuseIdentifier: Constants.TableView.Identifier.searchCell)
+        homeView.homeTableView.register(RecommendTableViewCell.self,
+                                        forCellReuseIdentifier: Constants.TableView.Identifier.recommendCell)
+        homeView.homeTableView.register(CategoryTableViewCell.self,
+                                        forCellReuseIdentifier: Constants.TableView.Identifier.categoryCell)
+        
         refreshControl.endRefreshing()
         homeView.homeTableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshAction), for: .valueChanged)
+    }
+    
+    @objc func refreshAction() {
+        searchResultData.removeAll()
+        getHospitalInfo()
     }
     
     func getHospitalInfo() {
         Loading.showLoading()
         print("데이터가져오기")
+        searchResultData.removeAll()
         DispatchQueue.main.async { [self] in
             API.shared.searchCategoryAPI(x: userLocation.longitude ?? "0", y: userLocation.latitude ?? "0", completion: { [self] result in
                 switch result {
@@ -57,8 +69,10 @@ class HomeViewController: UIViewController {
                     if result.documents.count == 0 {
                         searchResultData.removeAll()
                     } else {
+                        print("데이터 복사")
                         searchResultData = result.documents
                     }
+                    print("새로고침되는중")
                     homeView.homeTableView.reloadData()
                     refreshControl.endRefreshing()
                     Loading.hideLoading()
@@ -73,13 +87,6 @@ class HomeViewController: UIViewController {
 
 //MARK: - 테이블뷰 관련
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let offset = scrollView.contentOffset.y
-        if offset < 0 {
-            searchResultData.removeAll()
-            getHospitalInfo()
-        }
-    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("테이블뷰 셀 클릭 \(indexPath.row)번째")
@@ -87,7 +94,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             print("검색클릭")
             self.present(SearchViewController(), animated: true)
-//            self.navigationController?.pushViewController(SearchVC(), animated: true)
             
         case 1:
             print("카테고리클릭")
@@ -134,6 +140,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         default:
+            print("셀에 데이터 적용")
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.recommendCell, for: indexPath) as! RecommendTableViewCell
             
             let searchResult = searchResultData[indexPath.row]

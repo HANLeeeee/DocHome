@@ -16,6 +16,18 @@ class SearchDetailView: UIView {
         return view
     }()
     
+    lazy var mapLocationView = { () -> MTMapView in
+        let view = MTMapView.init(frame: CGRect(x: 0, y: 0,
+                                                width: self.frame.size.width,
+                                                height: self.frame.size.height
+                                               ))
+        view.baseMapType = .standard
+        view.currentLocationTrackingMode = .onWithoutHeading
+        view.showCurrentLocationMarker = true
+        
+        return view
+    }()
+    
     //MARK: - init()
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,12 +47,19 @@ class SearchDetailView: UIView {
     //MARK: - func
     func addViews() {
         self.addSubview(mapView)
+        mapView.addSubview(mapLocationView)
     }
     
     func makeConstraints() {
         mapView.snp.makeConstraints { make in
-            make.top.left.right.equalTo(self.safeAreaLayoutGuide).inset(15)
-            make.height.equalTo(50)
+            make.top.equalTo(self.safeAreaLayoutGuide).inset(10)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(Constants.Device.width)
+            make.width.equalTo(Constants.Device.width)
+        }
+        
+        mapLocationView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }
