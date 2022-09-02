@@ -7,6 +7,7 @@
 
 import Foundation
 import SnapKit
+import UIKit
 
 class SearchDetailView: UIView {
     
@@ -28,6 +29,11 @@ class SearchDetailView: UIView {
         view.showCurrentLocationMarker = true
         
         return view
+    }()
+    
+    lazy var alabel = { () -> UILabel in
+        let label = UILabel
+        return label
     }()
     
     //MARK: - init()

@@ -35,7 +35,7 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
         searchDetailView.mapLocationView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(
             latitude: Double(detailData.y)!,
             longitude: Double(detailData.x)!
-        )), zoomLevel: MTMapZoomLevel(0.5), animated: true)
+        )), zoomLevel: MTMapZoomLevel(0.1), animated: true)
     }
     
     func addMarker() {
