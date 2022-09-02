@@ -32,7 +32,7 @@ class SearchDetailView: UIView {
     }()
     
     lazy var alabel = { () -> UILabel in
-        let label = UILabel
+        let label = UILabel()
         return label
     }()
     
