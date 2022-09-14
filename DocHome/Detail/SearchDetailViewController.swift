@@ -28,6 +28,7 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
         super.viewDidLoad()
         configureLocation()
         addMarker()
+        print(detailData)
     }
     
     func configureLocation() {

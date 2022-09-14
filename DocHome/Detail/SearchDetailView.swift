@@ -44,7 +44,7 @@ class SearchDetailView: UIView {
     lazy var titleLabel = { () -> UILabel in
         let label = UILabel()
         label.textColor = UIColor(named: "COLOR_PURPLE")
-        label.text = "어머니 프랑시스 북간도에 한 위에 나는 지나가는 이국 듯합니다. 이름과 하나에 어머님, 거외다. 너무나 불러 쉬이 봄이 다하지 까닭입니다. 하나 아이들의 않은 시와 둘 듯합니다. 까닭이요, 사랑과 아침이 까닭이요, 아이들의 하나의 라이너 까닭입니다. 흙으로 많은 아침이 슬퍼하는 하나에 밤이 하나의 덮어 옥 까닭입니다."
+        label.text = "병원명"
         label.font = .systemFont(ofSize: 22, weight: .bold)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -54,8 +54,37 @@ class SearchDetailView: UIView {
     lazy var locationLabel = { () -> UILabel in
         let label = UILabel()
         label.textColor = .darkGray
-        label.text = "어머니 프랑시스 북간도에 한 위에 나는 지나가는 이국 듯합니다. 이름과 하나에 어머님, 거외다. 너무나 불러 쉬이 봄이 다하지 까닭입니다. 하나 아이들의 않은 시와 둘 듯합니다. 까닭이요, 사랑과 아침이 까닭이요, 아이들의 하나의 라이너 까닭입니다. 흙으로 많은 아침이 슬퍼하는 하나에 밤이 하나의 덮어 옥 까닭입니다."
-        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.text = "주소"
+        label.font = .systemFont(ofSize: 18, weight: .bold)
+        label.numberOfLines = 1
+        return label
+    }()
+    
+    lazy var locationLabel2 = { () -> UILabel in
+        let label = UILabel()
+        label.textColor = .black
+        label.text = "스크롤 뷰 안에 컨텐츠 들이 들어가는 컨텐츠뷰를 하나 생성하였습니다. 애플 공식 문서에서도 정의되어있듯이 스크롤뷰 안에는 스크롤 되는 컨텐츠뷰가 존재해야 스크롤 뷰가 정상적으로 동작합니다. 따라서 컨텐츠 뷰라는 이름을 가진 UIView객체를 하나 생성하였습니다. 스크롤 되는 모든 컴포넌트들은 모두 여기의 자식뷰로 들어갈 예정입니다."
+        label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    lazy var distanceLabel = { () -> UILabel in
+        let label = UILabel()
+        label.textColor = .darkGray
+        label.text = "현재 위치에서의 거리"
+        label.font = .systemFont(ofSize: 18, weight: .bold)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    lazy var telLabel = { () -> UILabel in
+        let label = UILabel()
+        label.textColor = .darkGray
+        label.text = "02-1234-5678"
+        label.font = .systemFont(ofSize: 18, weight: .semibold)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -87,38 +116,58 @@ class SearchDetailView: UIView {
         
         contentView.addSubview(titleLabel)
         contentView.addSubview(locationLabel)
+        contentView.addSubview(locationLabel2)
+        contentView.addSubview(distanceLabel)
+        contentView.addSubview(telLabel)
     }
     
     func makeConstraints() {
         scrollView.snp.makeConstraints { make in
-            make.edges.equalTo(self.safeAreaLayoutGuide)
+            make.edges.equalTo(0)
         }
         
         contentView.snp.makeConstraints { make in
-            make.edges.equalTo(scrollView)
-            make.height.greaterThanOrEqualTo(self.snp.height).priority(.low)
-            make.width.equalTo(scrollView.snp.width)
+            make.edges.equalTo(0)
+            make.width.equalTo(frame.width)
+            make.height.equalTo(frame.height)
         }
         
         mapView.snp.makeConstraints { make in
-            make.top.equalTo(self.contentView)
+            make.centerX.top.equalToSuperview()
             make.height.equalTo(Constants.Device.width)
             make.width.equalTo(Constants.Device.width)
         }
         
         mapLocationView.snp.makeConstraints { make in
-            make.edges.equalTo(self.mapView)
+            make.edges.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(mapView.snp.bottom).offset(30)
             make.left.equalTo(20)
             make.right.equalTo(-20)
-            make.bottom.equalTo(20)
         }
         
         locationLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(30)
+            make.top.equalTo(titleLabel.snp.bottom).offset(20)
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+        }
+        
+        locationLabel2.snp.makeConstraints { make in
+            make.top.equalTo(locationLabel.snp.bottom).offset(10)
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+        }
+        
+        distanceLabel.snp.makeConstraints { make in
+            make.top.equalTo(locationLabel2.snp.bottom).offset(10)
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+        }
+        
+        telLabel.snp.makeConstraints { make in
+            make.top.equalTo(distanceLabel.snp.bottom).offset(20)
             make.left.equalTo(20)
             make.right.equalTo(-20)
         }
