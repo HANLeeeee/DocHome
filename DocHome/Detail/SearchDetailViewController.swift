@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class SearchDetailViewController: UIViewController, MTMapViewDelegate {
     
@@ -26,9 +27,16 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureTarget()
         configureLocation()
         addMarker()
-        print(detailData)
+        setViewData()
+    }
+    
+    func configureTarget() {
+        searchDetailView.linkBtn.addTarget(self,
+                      action: #selector(didTabLinkBtn(_:)),
+                      for: .touchUpInside)
     }
     
     func configureLocation() {
@@ -46,5 +54,22 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
         poiItem?.mapPoint = mapPoint
         poiItem?.itemName = detailData.placeName
         searchDetailView.mapLocationView.add(poiItem)
+    }
+    
+    func setViewData() {
+        searchDetailView.titleLabel.text = detailData.placeName
+        searchDetailView.locationLabel.text = detailData.roadAddressName
+        searchDetailView.distanceLabel.text = "현재 위치에서의 거리 \(detailData.distance)m"
+        searchDetailView.telLabel.text = detailData.phone
+    }
+}
+
+//MARK: - Action 관련
+extension SearchDetailViewController {
+    @objc func didTabLinkBtn(_ sender: Any) {
+        print("검색 버튼 클릭")
+        let url = NSURL(string: detailData.placeURL)
+        let urlView: SFSafariViewController = SFSafariViewController(url: url! as URL)
+        self.present(urlView, animated: true, completion: nil)
     }
 }
