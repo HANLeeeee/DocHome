@@ -34,9 +34,15 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
     }
     
     func configureTarget() {
+        searchDetailView.myLocationBtn.addTarget(self,
+                                                 action: #selector(didTabMyLocationBtn(_:)),
+                                                 for: .touchUpInside)
+        searchDetailView.destinationBtn.addTarget(self,
+                                                 action: #selector(didTabDestinationBtn(_:)),
+                                                 for: .touchUpInside)
         searchDetailView.linkBtn.addTarget(self,
-                      action: #selector(didTabLinkBtn(_:)),
-                      for: .touchUpInside)
+                                           action: #selector(didTabLinkBtn(_:)),
+                                           for: .touchUpInside)
     }
     
     func configureLocation() {
@@ -66,10 +72,27 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
 
 //MARK: - Action 관련
 extension SearchDetailViewController {
+    @objc func didTabMyLocationBtn(_ sender: Any) {
+        print("내 위치로 버튼 클릭")
+        searchDetailView.mapLocationView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(
+            latitude: Double(userLocation.latitude!)!,
+            longitude: Double(userLocation.longitude!)!
+        )), zoomLevel: MTMapZoomLevel(0.1), animated: true)
+    }
+    
+    @objc func didTabDestinationBtn(_ sender: Any) {
+        print("목적지로 버튼 클릭")
+        searchDetailView.mapLocationView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(
+            latitude: Double(detailData.y)!,
+            longitude: Double(detailData.x)!
+        )), zoomLevel: MTMapZoomLevel(0.1), animated: true)
+    }
+    
     @objc func didTabLinkBtn(_ sender: Any) {
-        print("검색 버튼 클릭")
+        print("카카오맵 버튼 클릭")
         let url = NSURL(string: detailData.placeURL)
         let urlView: SFSafariViewController = SFSafariViewController(url: url! as URL)
         self.present(urlView, animated: true, completion: nil)
     }
+    
 }

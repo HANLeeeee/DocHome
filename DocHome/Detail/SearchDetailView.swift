@@ -41,6 +41,30 @@ class SearchDetailView: UIView {
         return view
     }()
     
+    lazy var myLocationBtn = { () -> UIButton in
+        let btn = UIButton()
+        btn.setTitle("내 위치로", for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        btn.setTitleColor(.link, for: .normal)
+        btn.setImage(UIImage(systemName: "location.fill"), for: .normal)
+        //버튼 title 왼쪽정렬
+        btn.contentHorizontalAlignment = .left
+        btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5)
+        return btn
+    }()
+    
+    lazy var destinationBtn = { () -> UIButton in
+        let btn = UIButton()
+        btn.setTitle("목적지로", for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 15)
+        btn.setTitleColor(.link, for: .normal)
+        btn.setImage(UIImage(systemName: "pin.fill"), for: .normal)
+        //버튼 title 왼쪽정렬
+        btn.contentHorizontalAlignment = .left
+        btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5)
+        return btn
+    }()
+    
     lazy var titleLabel = { () -> UILabel in
         let label = UILabel()
         label.textColor = UIColor(named: "COLOR_PURPLE")
@@ -114,6 +138,8 @@ class SearchDetailView: UIView {
         contentView.addSubview(mapView)
         mapView.addSubview(mapLocationView)
         
+        contentView.addSubview(myLocationBtn)
+        contentView.addSubview(destinationBtn)
         contentView.addSubview(titleLabel)
         contentView.addSubview(locationLabel)
         contentView.addSubview(distanceLabel)
@@ -142,8 +168,23 @@ class SearchDetailView: UIView {
             make.edges.equalToSuperview()
         }
         
+        myLocationBtn.snp.makeConstraints { make in
+            make.top.equalTo(mapView.snp.bottom).offset(10)
+            make.left.equalTo(20)
+            make.height.equalTo(20)
+            make.width.equalTo(100)
+        }
+        
+        destinationBtn.snp.makeConstraints { make in
+            make.top.equalTo(mapView.snp.bottom).offset(10)
+            make.centerY.equalTo(myLocationBtn.snp.centerY)
+            make.left.equalTo(myLocationBtn.snp.right).offset(10)
+            make.height.equalTo(20)
+            make.width.equalTo(100)
+        }
+        
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(mapView.snp.bottom).offset(30)
+            make.top.equalTo(myLocationBtn.snp.bottom).offset(20)
             make.left.equalTo(20)
             make.right.equalTo(-20)
         }

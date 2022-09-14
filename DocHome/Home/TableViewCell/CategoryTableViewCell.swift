@@ -55,7 +55,7 @@ class CategoryTableViewCell: UITableViewCell {
     lazy var cellButton4 = { () -> UIButton in
         let btn = UIButton()
         btn.backgroundColor = UIColor(named: "COLOR_PURPLE")
-        btn.setTitle("안과", for: .normal)
+        btn.setTitle("피부과", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         btn.layer.cornerRadius = 10
         btn.layer.borderWidth = 1
@@ -67,7 +67,7 @@ class CategoryTableViewCell: UITableViewCell {
     lazy var cellButton5 = { () -> UIButton in
         let btn = UIButton()
         btn.backgroundColor = UIColor(named: "COLOR_PURPLE")
-        btn.setTitle("한의원", for: .normal)
+        btn.setTitle("기타", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         btn.layer.cornerRadius = 10
         btn.layer.borderWidth = 1
