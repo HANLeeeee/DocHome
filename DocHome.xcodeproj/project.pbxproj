@@ -701,6 +701,18 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
+		B188A76428D347090038F91A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B16E540628B7B8D70053B818 /* Detail */,
+				B19CC81C28A94D9F001E56B4 /* Home */,
+				B1B956FA28B68304001085BB /* Search */,
+				B19CC81D28A94DA7001E56B4 /* Map */,
+				B1815FA728AA1AA500F06AC0 /* Setting */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		B19CC0E528A8FEF9001E56B4 = {
 			isa = PBXGroup;
 			children = (
@@ -731,11 +743,7 @@
 				B1B956F728B67E00001085BB /* Model */,
 				B1EEB16E28BFC6A700CE583E /* Protocol */,
 				B1B956EF28B66BCB001085BB /* API */,
-				B16E540628B7B8D70053B818 /* Detail */,
-				B19CC81C28A94D9F001E56B4 /* Home */,
-				B1B956FA28B68304001085BB /* Search */,
-				B19CC81D28A94DA7001E56B4 /* Map */,
-				B1815FA728AA1AA500F06AC0 /* Setting */,
+				B188A76428D347090038F91A /* View */,
 			);
 			path = DocHome;
 			sourceTree = "<group>";
