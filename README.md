@@ -6,7 +6,7 @@
 
 ## 📌 Project Goal
 - Snapkit을 사용하여 Code Base를 기반으로 UI 구현 <br/>
-- OpenAPI사용하여 데이터받아와서 구현<br/>
+- KakaoMap API에서 Map 데이터 받아와서 구현<br/>
 
 
 
@@ -37,7 +37,7 @@ pod 'Alamofire', '~> 5.6.2'
 <br/><br/>
 ## 📌 알게된 점
 - Code Base를 기반으로 AutoLayout 구현하기<br/>
-- 카카오맵API 사용하여 지도 띄우기 <br/>
+- KakaoMap API 사용하여 지도 띄우기 <br/>
 
 
 
