@@ -23,7 +23,7 @@ class API {
                 completion(.success(result))
                 
             case .failure(let error):
-                print("리스폰스에러 \(error.localizedDescription)")
+                print("리스폰스에러 searchKeywordAPI \(error.localizedDescription)")
             }
         }
     }
@@ -37,7 +37,7 @@ class API {
                 completion(.success(result))
                 
             case .failure(let error):
-                print("리스폰스에러 \(error.localizedDescription)")
+                print("리스폰스에러 searchCategoryAPI \(error.localizedDescription)")
             }
         }
     }

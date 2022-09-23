@@ -94,5 +94,4 @@ extension SearchDetailViewController {
         let urlView: SFSafariViewController = SFSafariViewController(url: url! as URL)
         self.present(urlView, animated: true, completion: nil)
     }
-    
 }

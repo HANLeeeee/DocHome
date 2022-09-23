@@ -84,16 +84,23 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 extension SearchViewController {
     @objc func didChangeSearchTF(_ sender: Any) {
         print("텍스트필드 입력중")
+        callSearchAPI()
     }
     
     @objc func didTabSearchBtn(_ sender: Any) {
         print("검색 버튼 클릭")
         self.view.endEditing(true)
-        Loading.showLoading()
-        searchView.resultTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-
-        DispatchQueue.main.async { [self] in
-            if let searchText = searchView.searchTextField.text {
+        callSearchAPI()
+    }
+    
+    func callSearchAPI() {
+        guard let searchText = searchView.searchTextField.text else { return }
+        if searchText != "" {
+            Loading.showLoading()
+            searchView.resultTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+        
+            print("호출 \(searchText)")
+            DispatchQueue.main.async { [self] in
                 API.shared.searchKeywordAPI(keyword: searchText, x: userLocation.longitude ?? "0", y: userLocation.latitude ?? "0", completion: { [self] result in
                     switch result {
                     case .success(let result):
@@ -112,7 +119,6 @@ extension SearchViewController {
                         print(error)
                     }
                 })
-                return
             }
         }
     }
