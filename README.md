@@ -37,6 +37,7 @@ pod 'Alamofire', '~> 5.6.2'
 <br/><br/>
 ## 📌 알게된 점
 - Code Base를 기반으로 AutoLayout 구현하기<br/>
+- 뷰(1)에서 뷰(2)를 present 한 후 dismiss와 동시에 뷰(3)를 뷰(1)의 네비게이션과 연결하여 화면전환 <br/>
 - KakaoMap API 사용하여 지도 띄우기 <br/>
 
 
