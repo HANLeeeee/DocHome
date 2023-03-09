@@ -1,5 +1,5 @@
 # DocHome
-> 2022.08.14 ~ 2022.09.11 (4주간) <br/>
+> 2022.08.14 ~ 2022.08.28 (2주간) <br/>
 <img width="1048" alt="image" src="https://user-images.githubusercontent.com/74815957/190853337-4cdb0575-295b-490b-8e79-afee67f9f31a.png">
 
 
@@ -37,6 +37,7 @@ pod 'Alamofire', '~> 5.6.2'
 <br/><br/>
 ## 📌 알게된 점
 - Code Base를 기반으로 AutoLayout 구현하기<br/>
+- 뷰(1)에서 뷰(2)를 present 한 후 dismiss와 동시에 뷰(3)를 뷰(1)의 네비게이션과 연결하여 화면전환 <br/>
 - KakaoMap API 사용하여 지도 띄우기 <br/>
 
 
@@ -47,8 +48,8 @@ pod 'Alamofire', '~> 5.6.2'
 https://user-images.githubusercontent.com/74815957/190853702-daa5d4dd-a257-41d7-953b-7b44dec83a0f.mov
 
 
-https://user-images.githubusercontent.com/74815957/190853943-ac41f44f-5c36-473f-979b-c516c2346a10.mov
 
+https://user-images.githubusercontent.com/74815957/191898404-ee234e3a-106b-416b-a13c-500abcb451da.mov
 
 
 
