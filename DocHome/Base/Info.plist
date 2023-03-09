@@ -4,8 +4,6 @@
 <dict>
 	<key>KAKAO_APP_KEY</key>
 	<string>469286378681b2d4e68860405947db3f</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>위치권한허용</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
