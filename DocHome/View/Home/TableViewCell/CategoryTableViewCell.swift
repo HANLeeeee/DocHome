@@ -119,7 +119,7 @@ class CategoryTableViewCell: UITableViewCell {
     
     func addLayoutConstraints() {
         cellStackView.snp.makeConstraints { make in
-            make.top.left.right.equalTo(0).inset(UIEdgeInsets(top: 10, left: 15, bottom: 0, right: 15))
+            make.top.leading.trailing.equalTo(0).inset(UIEdgeInsets(top: 10, left: 15, bottom: 0, right: 15))
             make.height.equalTo(50)
         }
         
@@ -129,7 +129,7 @@ class CategoryTableViewCell: UITableViewCell {
         
         cellTitle.snp.makeConstraints { make in
             make.top.equalTo(cellStackView.snp.bottom).offset(30)
-            make.left.equalTo(20)
+            make.leading.equalTo(20)
             make.bottom.equalTo(-5)
         }
     }

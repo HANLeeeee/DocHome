@@ -95,25 +95,25 @@ class RecommendTableViewCell: UITableViewCell {
         
         hospitalNameLabel.snp.makeConstraints { make in
             make.top.equalTo(25)
-            make.left.equalTo(10)
-            make.right.equalTo(-10)
+            make.leading.equalTo(10)
+            make.trailing.equalTo(-10)
         }
         
         hospitalLocationLabel.snp.makeConstraints { make in
             make.top.equalTo(hospitalNameLabel.snp.bottom).offset(10)
-            make.left.equalTo(hospitalNameLabel.snp.left)
-            make.right.equalTo(hospitalNameLabel.snp.right)
+            make.leading.equalTo(hospitalNameLabel.snp.leading)
+            make.trailing.equalTo(hospitalNameLabel.snp.trailing)
         }
         
         hospitalPhoneLabel.snp.makeConstraints { make in
             make.top.equalTo(hospitalLocationLabel.snp.bottom).offset(10)
-            make.left.equalTo(hospitalLocationLabel.snp.left)
+            make.leading.equalTo(hospitalLocationLabel.snp.leading)
         }
         
         hospitalDistanceLabel.snp.makeConstraints { make in
             make.top.equalTo(hospitalPhoneLabel.snp.top)
-            make.left.equalTo(hospitalPhoneLabel.snp.right).offset(10)
-            make.right.equalTo(hospitalNameLabel.snp.right).offset(-5)
+            make.leading.equalTo(hospitalPhoneLabel.snp.trailing).offset(10)
+            make.trailing.equalTo(hospitalNameLabel.snp.trailing).offset(-5)
         }
     }
     

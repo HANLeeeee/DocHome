@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class SearchTableViewCell: UITableViewCell {
         
@@ -69,7 +70,7 @@ class SearchTableViewCell: UITableViewCell {
         
         searchBtnImage.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.right.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 25))
+            make.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 25))
         }
     }
 }
