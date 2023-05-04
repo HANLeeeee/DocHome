@@ -7,6 +7,7 @@
 
 import UIKit
 import SafariServices
+import CoreLocation
 
 class SearchDetailViewController: UIViewController, MTMapViewDelegate {
     
@@ -51,8 +52,18 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
             latitude: Double(detailData.y)!,
             longitude: Double(detailData.x)!
         )), zoomLevel: MTMapZoomLevel(0.1), animated: true)
+        
+        
+        //현재위치트래킹
+        DispatchQueue.global().async { [self] in
+            if CLLocationManager.locationServicesEnabled() {
+                searchDetailView.mapLocationView.currentLocationTrackingMode = .onWithoutHeading
+                searchDetailView.mapLocationView.showCurrentLocationMarker = true
+            }
+        }
     }
 
+    //목적지 마커 추가
     func addMarker() {
         mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(detailData.y)!, longitude: Double(detailData.x)!))
         poiItem = MTMapPOIItem()

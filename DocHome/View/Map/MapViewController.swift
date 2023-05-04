@@ -52,9 +52,15 @@ class MapViewController: UIViewController, MTMapViewDelegate {
             if CLLocationManager.locationServicesEnabled() {
                 print("위치 서비스 On 상태")
                 self.locationManger.startUpdatingLocation() //위치 정보 받아오기 시작
-    //            print(locationManger.location?.coordinate)
             } else {
                 print("위치 서비스 Off 상태")
+            }
+        }
+        
+        DispatchQueue.global().async { [self] in
+            if CLLocationManager.locationServicesEnabled() {
+                mapView.searchMapView.currentLocationTrackingMode = .onWithoutHeading
+                mapView.searchMapView.showCurrentLocationMarker = true
             }
         }
     }

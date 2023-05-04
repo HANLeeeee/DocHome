@@ -32,11 +32,6 @@ class SearchDetailView: UIView {
                                                 height: self.frame.size.height
                                                ))
         view.baseMapType = .standard
-        
-        //현재위치트래킹
-//        view.currentLocationTrackingMode = .onWithoutHeading
-        view.showCurrentLocationMarker = true
-        
         return view
     }()
     

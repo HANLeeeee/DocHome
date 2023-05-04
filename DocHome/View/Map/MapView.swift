@@ -16,9 +16,6 @@ class MapView: UIView {
                                                 height: self.frame.size.height
                                                ))
         view.baseMapType = .standard
-//        view.currentLocationTrackingMode = .onWithoutHeading
-        view.showCurrentLocationMarker = true
-        
         return view
     }()
 
