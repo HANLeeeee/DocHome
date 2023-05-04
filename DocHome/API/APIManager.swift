@@ -6,16 +6,93 @@
 //
 
 import Foundation
-import Alamofire
 
+enum APIManager {
+    case searchKeyword(keyword: String, x: Double, y: Double)
+    case searchCategory(x: Double, y: Double)
+    
+    var endPoint: String {
+        switch self {
+        case .searchKeyword:
+            return "/v2/local/search/keyword.json"
+        case .searchCategory:
+            return "/v2/local/search/category.json"
+        }
+    }
+    
+    var headers: [String: String] {
+        switch self {
+        default:
+            let headers = [
+                "Accept": "*/*",
+                "Authorization": "KakaoAK d94bc5225be67c27460132ba4155d4da"
+            ]
+            return headers
+        }
+    }
+    
+    var parameters: [URLQueryItem] {
+        switch self {
+        case .searchKeyword(let keyword, let x, let y):
+            let params = [URLQueryItem(name: "query", value: "\(keyword)"),
+                          URLQueryItem(name: "category_group_code", value:
+                                        "\(Constants.APIURL.KakaoAPI.category_group_code.hospital)"),
+                          URLQueryItem(name: "x", value: "\(x)"),
+                          URLQueryItem(name: "y", value: "\(y)"),
+                          URLQueryItem(name: "radius", value: "\(20000)"),
+                          URLQueryItem(name: "sort", value: "distance")]
+            
+            return params
+            
+        case .searchCategory(let x, let y):
+            let params = [URLQueryItem(name: "category_group_code", value:
+                                        "\(Constants.APIURL.KakaoAPI.category_group_code.hospital)"),
+                          URLQueryItem(name: "x", value: "\(x)"),
+                          URLQueryItem(name: "y", value: "\(y)"),
+                          URLQueryItem(name: "radius", value: "\(20000)"),
+                          URLQueryItem(name: "sort", value: "distance")]
+            
+            return params
+        }
+    }
+    
+    var method: String {
+        switch self {
+        default:
+            return "GET"
+        }
+    }
+    
+    func asURLRequest(completion: @escaping (URLRequest) -> Void) {
+        var urlComponents = URLComponents(string: Constants.APIURL.KakaoAPI.searchURL)
+        
+        urlComponents?.path = endPoint
+        urlComponents?.percentEncodedQueryItems = parameters
+        
+        guard let url = urlComponents?.url else {
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        
+        for (key, value) in headers {
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        request.httpMethod = method
+
+        completion(request)
+    }
+}
+
+/* alamofire 사용 시
 enum APIManager: URLRequestConvertible {
     case searchKeyword(keyword: String, x: String, y: String)
     case searchCategory(x: String, y: String)
-    
+
     var baseURL: URL {
         return URL(string: Constants.APIURL.KakaoAPI.searchURL)!
     }
-    
+
     var endPoint: String {
         switch self {
         case .searchKeyword:
@@ -24,25 +101,25 @@ enum APIManager: URLRequestConvertible {
             return "/category.json"
         }
     }
-    
+
     var headers: HTTPHeaders {
         switch self {
         default:
             let headers: HTTPHeaders = [
-                "Accept": "*/*",
+                "Accept": "*//*", -/슬래시 하나 지우기
                 "Authorization": "KakaoAK d94bc5225be67c27460132ba4155d4da"
             ]
             return headers
         }
     }
-    
+
     var method: HTTPMethod {
         switch self {
         default:
             return .get
         }
     }
-    
+
     var parameters: Parameters {
         switch self {
         case .searchKeyword(let keyword, let x, let y):
@@ -55,7 +132,7 @@ enum APIManager: URLRequestConvertible {
             params["sort"] = "distance"
 
             return params
-            
+
         case .searchCategory(let x, let y):
             var params = Parameters()
             params["category_group_code"] = Constants.APIURL.KakaoAPI.category_group_code.hospital
@@ -63,20 +140,21 @@ enum APIManager: URLRequestConvertible {
             params["y"] = y
             params["radius"] = "20000"
             params["sort"] = "distance"
-            
+
             return params
         }
     }
-    
+
     func asURLRequest() throws -> URLRequest {
         let url = baseURL.appendingPathComponent(endPoint)
         var request = URLRequest(url: url)
-        
+
         request.headers = headers
         request.method = method
-        
+
         request = try URLEncoding.default.encode(request, with: parameters)
 
         return request
     }
 }
+*/

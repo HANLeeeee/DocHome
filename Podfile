@@ -8,7 +8,6 @@ target 'DocHome' do
   # Pods for DocHome
 
   pod 'SnapKit'
-  pod 'Alamofire', '~> 5.6.2'
 
 
 end

@@ -22,15 +22,15 @@ class UserDefaultsData {
         }
     }
     
-    func setLocation(latitude: String, longitude: String) {
-        UserDefaults.standard.setValue(latitude, forKey: "위도")
-        UserDefaults.standard.setValue(longitude, forKey: "경도")
+    func setLocation(latitude: Double, longitude: Double) {
+        UserDefaults.standard.setValue(latitude, forKey: "latitude")
+        UserDefaults.standard.setValue(longitude, forKey: "longitude")
         UserDefaults.standard.synchronize()
     }
     
     func getLocation() -> UserLocation {
-        let latitude = UserDefaults.standard.string(forKey: "위도") ?? "0"
-        let longitude = UserDefaults.standard.string(forKey: "경도") ?? "0"
+        let latitude = UserDefaults.standard.double(forKey: "latitude")
+        let longitude = UserDefaults.standard.double(forKey: "longitude")
         return UserLocation(latitude: latitude, longitude: longitude)
     }
 }

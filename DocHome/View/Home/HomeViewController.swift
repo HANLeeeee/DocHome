@@ -61,7 +61,21 @@ class HomeViewController: UIViewController {
     func getHospitalInfo() {
         Loading.showLoading()
         searchResultData.removeAll()
-        DispatchQueue.main.async { [self] in
+        DispatchQueue.global().async { [self] in
+            API.shared.searchCategoryAPI(x: userLocation.longitude, y: userLocation.latitude, completion: { [self] result in
+                
+                guard result.documents.count != 0 else { return }
+                searchResultData = result.documents
+                
+                DispatchQueue.main.async { [self] in
+                    homeView.homeTableView.reloadData()
+                    refreshControl.endRefreshing()
+                }
+                Loading.hideLoading()
+                
+            })
+
+            /* alamofire 사용 시
             API.shared.searchCategoryAPI(x: userLocation.longitude ?? "0", y: userLocation.latitude ?? "0", completion: { [self] result in
                 switch result {
                 case .success(let result):
@@ -75,6 +89,7 @@ class HomeViewController: UIViewController {
                     print(error)
                 }
             })
+             */
         }
     }
 }
@@ -136,6 +151,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.recommendCell, for: indexPath) as! RecommendTableViewCell
             
             let searchResult = searchResultData[indexPath.row]
+            
             cell.configureCell(searchResult: searchResult)
             cell.selectionStyle = .none
             return cell

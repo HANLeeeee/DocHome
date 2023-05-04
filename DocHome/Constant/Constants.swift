@@ -50,7 +50,7 @@ struct Constants {
     //MARK: - APIURL
     struct APIURL {
         struct KakaoAPI {
-            static let searchURL = "https://dapi.kakao.com/v2/local/search"
+            static let searchURL = "https://dapi.kakao.com"
             
             struct category_group_code {
                 static let bigMart = "MT1" //대형마트

@@ -75,8 +75,8 @@ extension SearchDetailViewController {
     @objc func didTabMyLocationBtn(_ sender: Any) {
         print("내 위치로 버튼 클릭")
         searchDetailView.mapLocationView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(
-            latitude: Double(userLocation.latitude!)!,
-            longitude: Double(userLocation.longitude!)!
+            latitude: userLocation.latitude,
+            longitude: userLocation.longitude
         )), zoomLevel: MTMapZoomLevel(0.1), animated: true)
     }
 
