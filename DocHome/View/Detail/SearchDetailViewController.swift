@@ -44,7 +44,7 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
                                            action: #selector(didTabLinkBtn(_:)),
                                            for: .touchUpInside)
     }
-    
+
     func configureLocation() {
         searchDetailView.mapLocationView.delegate = self
         searchDetailView.mapLocationView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(
@@ -52,7 +52,7 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
             longitude: Double(detailData.x)!
         )), zoomLevel: MTMapZoomLevel(0.1), animated: true)
     }
-    
+
     func addMarker() {
         mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(detailData.y)!, longitude: Double(detailData.x)!))
         poiItem = MTMapPOIItem()
@@ -61,7 +61,7 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
         poiItem?.itemName = detailData.placeName
         searchDetailView.mapLocationView.add(poiItem)
     }
-    
+
     func setViewData() {
         searchDetailView.titleLabel.text = detailData.placeName
         searchDetailView.locationLabel.text = detailData.roadAddressName
@@ -79,7 +79,7 @@ extension SearchDetailViewController {
             longitude: Double(userLocation.longitude!)!
         )), zoomLevel: MTMapZoomLevel(0.1), animated: true)
     }
-    
+
     @objc func didTabDestinationBtn(_ sender: Any) {
         print("목적지로 버튼 클릭")
         searchDetailView.mapLocationView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(
@@ -87,7 +87,7 @@ extension SearchDetailViewController {
             longitude: Double(detailData.x)!
         )), zoomLevel: MTMapZoomLevel(0.1), animated: true)
     }
-    
+
     @objc func didTabLinkBtn(_ sender: Any) {
         print("카카오맵 버튼 클릭")
         let url = NSURL(string: detailData.placeURL)

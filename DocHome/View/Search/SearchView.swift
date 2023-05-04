@@ -80,13 +80,13 @@ class SearchView: UIView {
     
     func makeConstraints() {
         searchView.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview().inset(15)
+            make.top.leading.trailing.equalToSuperview().inset(15)
             make.height.equalTo(50)
         }
         
         searchBtn.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.right.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 10))
+            make.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 10))
         }
         
         searchTextField.snp.makeConstraints { make in
@@ -100,7 +100,7 @@ class SearchView: UIView {
         
         resultTableView.snp.makeConstraints { make in
             make.top.equalTo(searchView.snp.bottom).inset(-15)
-            make.left.right.bottom.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0))
+            make.leading.trailing.bottom.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0))
         }
     }
 }

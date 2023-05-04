@@ -78,14 +78,14 @@ class SearchKeywordTableViewCell: UITableViewCell {
         }
         
         hospitalNameLabel.snp.makeConstraints { make in
-            make.top.left.equalTo(15)
-            make.right.equalTo(-15)
+            make.top.leading.equalTo(15)
+            make.trailing.equalTo(-15)
         }
         
         hospitalLocationLabel.snp.makeConstraints { make in
             make.top.equalTo(hospitalNameLabel.snp.bottom).offset(10)
-            make.left.equalTo(15)
-            make.bottom.right.equalTo(-15)
+            make.leading.equalTo(15)
+            make.bottom.trailing.equalTo(-15)
         }
     }
     

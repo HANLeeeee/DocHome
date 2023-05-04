@@ -48,12 +48,14 @@ class MapViewController: UIViewController, MTMapViewDelegate {
         locationManger.requestWhenInUseAuthorization()
   
         // 아이폰 설정에서의 위치 서비스가 켜진 상태라면
-        if CLLocationManager.locationServicesEnabled() {
-            print("위치 서비스 On 상태")
-            locationManger.startUpdatingLocation() //위치 정보 받아오기 시작
-//            print(locationManger.location?.coordinate)
-        } else {
-            print("위치 서비스 Off 상태")
+        DispatchQueue.global().async {
+            if CLLocationManager.locationServicesEnabled() {
+                print("위치 서비스 On 상태")
+                self.locationManger.startUpdatingLocation() //위치 정보 받아오기 시작
+    //            print(locationManger.location?.coordinate)
+            } else {
+                print("위치 서비스 Off 상태")
+            }
         }
     }
 }

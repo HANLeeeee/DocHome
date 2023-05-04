@@ -2,7 +2,7 @@
 //  SearchDetailView.swift
 //  DocHome
 //
-//  Created by 최하늘 on 2022/08/25.
+//  Created by 최하늘 on 2023/05/04.
 //
 
 import Foundation
@@ -10,17 +10,16 @@ import SnapKit
 import UIKit
 
 class SearchDetailView: UIView {
-    
     lazy var scrollView = { () -> UIScrollView in
-        let view = UIScrollView()
-        return view
+        let scrollView = UIScrollView()
+        return scrollView
     }()
     
     lazy var contentView = { () -> UIView in
         let view = UIView()
         return view
     }()
-
+    
     lazy var mapView = { () -> UIView in
         let view = UIView()
         view.backgroundColor = .red
@@ -35,7 +34,7 @@ class SearchDetailView: UIView {
         view.baseMapType = .standard
         
         //현재위치트래킹
-        view.currentLocationTrackingMode = .onWithoutHeading
+//        view.currentLocationTrackingMode = .onWithoutHeading
         view.showCurrentLocationMarker = true
         
         return view
@@ -68,9 +67,9 @@ class SearchDetailView: UIView {
     lazy var titleLabel = { () -> UILabel in
         let label = UILabel()
         label.textColor = UIColor(named: "COLOR_PURPLE")
-        label.text = "병원명"
+        label.text = "병원명이 아주 길었을 경우를 대비하여 작성한 예시입니다."
         label.font = .systemFont(ofSize: 26, weight: .bold)
-        label.lineBreakMode = .byWordWrapping
+        label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
         return label
     }()
@@ -80,7 +79,7 @@ class SearchDetailView: UIView {
         label.textColor = .black
         label.text = "스크롤 뷰 안에 컨텐츠 들이 들어가는 컨텐츠뷰를 하나 생성하였습니다. 애플 공식 문서에서도 정의되어있듯이 스크롤뷰 안에는 스크롤 되는 컨텐츠뷰가 존재해야 스크롤 뷰가 정상적으로 동작합니다. 따라서 컨텐츠 뷰라는 이름을 가진 UIView객체를 하나 생성하였습니다. 스크롤 되는 모든 컴포넌트들은 모두 여기의 자식뷰로 들어갈 예정입니다."
         label.font = .systemFont(ofSize: 18, weight: .semibold)
-        label.lineBreakMode = .byWordWrapping
+        label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
         return label
     }()
@@ -136,6 +135,7 @@ class SearchDetailView: UIView {
         
         contentView.addSubview(myLocationBtn)
         contentView.addSubview(destinationBtn)
+        
         contentView.addSubview(titleLabel)
         contentView.addSubview(locationLabel)
         contentView.addSubview(distanceLabel)
@@ -145,69 +145,65 @@ class SearchDetailView: UIView {
     
     func makeConstraints() {
         scrollView.snp.makeConstraints { make in
-            make.edges.equalTo(0)
+            make.edges.equalTo(self.safeAreaLayoutGuide)
         }
         
         contentView.snp.makeConstraints { make in
-            make.edges.equalTo(0)
-            make.width.equalTo(frame.width)
-            make.height.equalTo(frame.height)
+            make.edges.equalTo(scrollView.contentLayoutGuide)
+            make.width.equalTo(scrollView.frameLayoutGuide)
+            make.height.greaterThanOrEqualTo(self.snp.height).priority(.low)
         }
         
         mapView.snp.makeConstraints { make in
-            make.centerX.top.equalToSuperview()
+            make.top.equalToSuperview()
             make.height.equalTo(Constants.Device.width)
             make.width.equalTo(Constants.Device.width)
         }
         
-        mapLocationView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
         myLocationBtn.snp.makeConstraints { make in
-            make.top.equalTo(mapView.snp.bottom).offset(10)
-            make.left.equalTo(20)
+            make.top.equalTo(mapView.snp.bottom).offset(15)
+            make.leading.equalTo(20)
             make.height.equalTo(20)
             make.width.equalTo(100)
         }
         
         destinationBtn.snp.makeConstraints { make in
-            make.top.equalTo(mapView.snp.bottom).offset(10)
             make.centerY.equalTo(myLocationBtn.snp.centerY)
-            make.left.equalTo(myLocationBtn.snp.right).offset(10)
+            make.leading.equalTo(myLocationBtn.snp.trailing).offset(10)
             make.height.equalTo(20)
             make.width.equalTo(100)
         }
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(myLocationBtn.snp.bottom).offset(20)
-            make.left.equalTo(20)
-            make.right.equalTo(-20)
+            make.leading.equalTo(20)
+            make.trailing.equalTo(-20)
         }
         
         locationLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(20)
-            make.left.equalTo(20)
-            make.right.equalTo(-20)
+            make.leading.equalTo(20)
+            make.trailing.equalTo(-20)
         }
         
         distanceLabel.snp.makeConstraints { make in
             make.top.equalTo(locationLabel.snp.bottom).offset(10)
-            make.left.equalTo(20)
-            make.right.equalTo(-20)
+            make.leading.equalTo(20)
+            make.trailing.equalTo(-20)
         }
         
         telLabel.snp.makeConstraints { make in
             make.top.equalTo(distanceLabel.snp.bottom).offset(20)
-            make.left.equalTo(20)
-            make.right.equalTo(-20)
+            make.leading.equalTo(20)
+            make.trailing.equalTo(-20)
         }
         
         linkBtn.snp.makeConstraints { make in
             make.top.equalTo(telLabel.snp.bottom).offset(20)
-            make.left.equalTo(20)
-            make.right.equalTo(-20)
+            make.leading.equalTo(20)
+            make.trailing.equalTo(-20)
             make.height.equalTo(30)
         }
+        
     }
 }
