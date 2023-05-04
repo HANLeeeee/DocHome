@@ -67,7 +67,7 @@ class SearchKeywordTableViewCell: UITableViewCell {
     
     //MARK: - UI 관련
     func addViews() {
-        self.addSubview(resultView)
+        self.contentView.addSubview(resultView)
         resultView.addSubview(hospitalNameLabel)
         resultView.addSubview(hospitalLocationLabel)
     }

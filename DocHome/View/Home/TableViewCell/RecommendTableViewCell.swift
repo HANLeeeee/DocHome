@@ -80,7 +80,7 @@ class RecommendTableViewCell: UITableViewCell {
     
     //MARK: - UI 관련
     func addViews() {
-        self.addSubview(cellView)
+        self.contentView.addSubview(cellView)
         cellView.addSubview(hospitalNameLabel)
         cellView.addSubview(hospitalLocationLabel)
         cellView.addSubview(hospitalPhoneLabel)

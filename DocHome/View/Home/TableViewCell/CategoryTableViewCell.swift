@@ -107,14 +107,14 @@ class CategoryTableViewCell: UITableViewCell {
     
     //MARK: - UI 관련
     func addViews() {
-        self.addSubview(cellStackView)
+        self.contentView.addSubview(cellStackView)
         cellStackView.addArrangedSubview(cellButton)
         cellStackView.addArrangedSubview(cellButton2)
         cellStackView.addArrangedSubview(cellButton3)
         cellStackView.addArrangedSubview(cellButton4)
         cellStackView.addArrangedSubview(cellButton5)
         
-        self.addSubview(cellTitle)
+        self.contentView.addSubview(cellTitle)
     }
     
     func addLayoutConstraints() {

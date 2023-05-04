@@ -58,8 +58,8 @@ class SearchTableViewCell: UITableViewCell {
     
     //MARK: - UI 관련
     func addViews() {
-        self.addSubview(searchBtn)
-        self.addSubview(searchBtnImage)
+        self.contentView.addSubview(searchBtn)
+        self.contentView.addSubview(searchBtnImage)
     }
     
     func addLayoutConstraints() {
