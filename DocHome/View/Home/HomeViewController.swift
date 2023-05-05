@@ -122,17 +122,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     //섹션의 타이틀 텍스트 폰트 설정
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let titleLabel = UILabel()
-        titleLabel.frame = CGRect(x: 20, y: 10, width: 320, height: 30)
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 24)
-        titleLabel.textColor = UIColor(named: "COLOR_PURPLE")
-        titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-        titleLabel.textAlignment = .left
-
-        let headerView = UIView()
-        headerView.backgroundColor = .white
+        let headerView = HomeTableViewHeaderView()
+        headerView.titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+        headerView.bottomView.constraints[1].constant = headerView.titleLabel.intrinsicContentSize.width+10
         
-        headerView.addSubview(titleLabel)
         return headerView
     }
     

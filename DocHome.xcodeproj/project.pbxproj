@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		43C77D13E37BE6B7D7018F92 /* Pods_DocHome.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDC91C4F720A57C823475FC7 /* Pods_DocHome.framework */; };
+		B1144BDA2A05ACCD00E99ADD /* HomeTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1144BD92A05ACCD00E99ADD /* HomeTableViewHeaderView.swift */; };
 		B16E540A28B7C4410053B818 /* SearchDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16E540928B7C4410053B818 /* SearchDetailViewController.swift */; };
 		B184B5C32A03ED7100F28298 /* SearchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B184B5C22A03ED7100F28298 /* SearchDetailView.swift */; };
 		B19CC0F228A8FEFA001E56B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19CC0F128A8FEFA001E56B4 /* AppDelegate.swift */; };
@@ -316,6 +317,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B1144BD92A05ACCD00E99ADD /* HomeTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewHeaderView.swift; sourceTree = "<group>"; };
 		B16E540928B7C4410053B818 /* SearchDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewController.swift; sourceTree = "<group>"; };
 		B184B5C22A03ED7100F28298 /* SearchDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailView.swift; sourceTree = "<group>"; };
 		B19CC0EE28A8FEFA001E56B4 /* DocHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -736,7 +738,7 @@
 				B1B956FE28B69940001085BB /* UserDefaults */,
 				B1B956F728B67E00001085BB /* Model */,
 				B1B956EF28B66BCB001085BB /* API */,
-				B1BC1B032A055F9D007F5751 /* HelperView */,
+				B1BC1B032A055F9D007F5751 /* Helper */,
 				B188A76428D347090038F91A /* View */,
 			);
 			path = DocHome;
@@ -856,12 +858,13 @@
 			path = CollectionViewCell;
 			sourceTree = "<group>";
 		};
-		B1BC1B032A055F9D007F5751 /* HelperView */ = {
+		B1BC1B032A055F9D007F5751 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
 				B1BC1B042A055FCA007F5751 /* FavoriteButton.swift */,
+				B1144BD92A05ACCD00E99ADD /* HomeTableViewHeaderView.swift */,
 			);
-			path = HelperView;
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		B1CF478728B14CAB003835BC /* IOS_DaumMap_SDK */ = {
@@ -1610,6 +1613,7 @@
 				B19CC81928A94844001E56B4 /* HomeView.swift in Sources */,
 				B1B9570228B69AAD001085BB /* UserLocation.swift in Sources */,
 				B19CC81428A91AF9001E56B4 /* SettingViewController.swift in Sources */,
+				B1144BDA2A05ACCD00E99ADD /* HomeTableViewHeaderView.swift in Sources */,
 				B1CF455128B13D38003835BC /* SearchView.swift in Sources */,
 				B1BC1AFD2A05263A007F5751 /* FavoriteTableViewCell.swift in Sources */,
 				B1B956F628B66F7E001085BB /* Constants.swift in Sources */,
