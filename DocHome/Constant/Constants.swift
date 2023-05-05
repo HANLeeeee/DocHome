@@ -38,14 +38,29 @@ struct Constants {
     //MARK: - TableViewCell
     struct TableView {
         struct Identifier {
-            static let searchCell = "SearchTableViewCell"
+            static let homeTableViewCell = "HomeTableViewCell"
+//            static let searchCell = "SearchTableViewCell"
+//            static let categoryCell = "CategoryTableViewCell"
             static let recommendCell = "RecommendTableViewCell"
-            static let categoryCell = "CategoryTableViewCell"
+            
             
             static let searchKeywordCell = "SearchKeywordTableViewCell"
         }
     }
     
+    //MARK: - CollectionViewCell
+    struct CollectionView {
+        struct Identifier {
+            static let homeCollectionViewCell = "HomeCollectionViewCell"
+        }
+        
+        struct HomeCollectionViewCell {
+            struct size {
+                static var width: Double = 300
+                static var height: Double = 100
+            }
+        }
+    }
     
     //MARK: - APIURL
     struct APIURL {

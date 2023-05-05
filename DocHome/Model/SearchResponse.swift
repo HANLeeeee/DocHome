@@ -24,6 +24,7 @@ struct Document: Codable {
     var roadAddressName: String = ""
     var x: String = ""
     var y: String = ""
+    var isFavorite: Bool = false
 
     enum CodingKeys: String, CodingKey {
         case addressName = "address_name"

@@ -22,7 +22,6 @@ class SearchDetailView: UIView {
     
     lazy var mapView = { () -> UIView in
         let view = UIView()
-        view.backgroundColor = .red
         return view
     }()
     

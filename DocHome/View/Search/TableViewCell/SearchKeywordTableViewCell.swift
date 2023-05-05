@@ -48,22 +48,13 @@ class SearchKeywordTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addViews()
-        addLayoutConstraints()
+        makeConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    //MARK: - 라이프사이클
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
     
     //MARK: - UI 관련
     func addViews() {
@@ -72,7 +63,7 @@ class SearchKeywordTableViewCell: UITableViewCell {
         resultView.addSubview(hospitalLocationLabel)
     }
     
-    func addLayoutConstraints() {
+    func makeConstraints() {
         resultView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 15, right: 20))
         }
