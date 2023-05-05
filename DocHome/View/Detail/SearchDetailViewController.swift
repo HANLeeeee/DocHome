@@ -49,8 +49,8 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
     func configureLocation() {
         searchDetailView.mapLocationView.delegate = self
         searchDetailView.mapLocationView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(
-            latitude: Double(detailData.y)!,
-            longitude: Double(detailData.x)!
+            latitude: Double(detailData.y) ?? 0,
+            longitude: Double(detailData.x) ?? 0
         )), zoomLevel: MTMapZoomLevel(0.1), animated: true)
         
         
@@ -65,7 +65,7 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
 
     //목적지 마커 추가
     func addMarker() {
-        mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(detailData.y)!, longitude: Double(detailData.x)!))
+        mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(detailData.y) ?? 0, longitude: Double(detailData.x) ?? 0))
         poiItem = MTMapPOIItem()
         poiItem?.markerType = MTMapPOIItemMarkerType.redPin
         poiItem?.mapPoint = mapPoint
@@ -94,15 +94,15 @@ extension SearchDetailViewController {
     @objc func didTabDestinationBtn(_ sender: Any) {
         print("목적지로 버튼 클릭")
         searchDetailView.mapLocationView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(
-            latitude: Double(detailData.y)!,
-            longitude: Double(detailData.x)!
+            latitude: Double(detailData.y) ?? 0,
+            longitude: Double(detailData.x) ?? 0
         )), zoomLevel: MTMapZoomLevel(0.1), animated: true)
     }
 
     @objc func didTabLinkBtn(_ sender: Any) {
         print("카카오맵 버튼 클릭")
-        let url = NSURL(string: detailData.placeURL)
-        let urlView: SFSafariViewController = SFSafariViewController(url: url! as URL)
+        guard let url = NSURL(string: detailData.placeURL) else { return }
+        let urlView: SFSafariViewController = SFSafariViewController(url: url as URL)
         self.present(urlView, animated: true, completion: nil)
     }
 }

@@ -169,13 +169,17 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.homeTableViewCell, for: indexPath) as! HomeTableViewCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.homeTableViewCell, for: indexPath) as? HomeTableViewCell else {
+                return UITableViewCell()
+            }
             
             cell.selectionStyle = .none
             return cell
             
-        default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.recommendCell, for: indexPath) as! RecommendTableViewCell
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.recommendCell, for: indexPath) as? RecommendTableViewCell else {
+                return UITableViewCell()
+            }
             
             let searchResult = searchResultData[indexPath.row]
             cell.configureCell(searchResult: searchResult, index: indexPath.row)
@@ -183,6 +187,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.recommendTableViewCellDelegate = self
             return cell
+            
+        default:
+            return UITableViewCell()
         }
     }
     

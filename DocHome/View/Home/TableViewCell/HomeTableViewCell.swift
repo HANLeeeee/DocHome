@@ -62,7 +62,9 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionView.Identifier.homeCollectionViewCell, for: indexPath) as! HomeCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionView.Identifier.homeCollectionViewCell, for: indexPath) as? HomeCollectionViewCell else {
+            return UICollectionViewCell()
+        }
         return cell
     }
     

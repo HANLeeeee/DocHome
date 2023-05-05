@@ -56,7 +56,7 @@ struct Constants {
         
         struct HomeCollectionViewCell {
             struct size {
-                static var width: Double = 300
+                static var width: Double = 240
                 static var height: Double = 100
             }
         }
