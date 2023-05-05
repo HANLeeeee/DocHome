@@ -799,8 +799,8 @@
 		B1B956EF28B66BCB001085BB /* API */ = {
 			isa = PBXGroup;
 			children = (
-				B1B956F028B66CBC001085BB /* API.swift */,
 				B1B956F228B66D85001085BB /* APIManager.swift */,
+				B1B956F028B66CBC001085BB /* API.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";

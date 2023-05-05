@@ -100,52 +100,55 @@ extension SearchViewController {
     }
     
     func callSearchAPI() {
-        guard let searchText = searchView.searchTextField.text else { return }
-        if searchText != "" {
-            Loading.showLoading()
-            searchView.resultTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-        
-            print("호출 \(searchText)")
-            DispatchQueue.global().async { [self] in
-                API.shared.searchKeywordAPI(keyword: searchText, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] result in
-                    
-                    DispatchQueue.main.async { [self] in
-                        if result.documents.count == 0 {
-                            searchResultData.removeAll()
-                            searchView.resultTableView.isHidden = true
-                            searchView.searchResultLabel.isHidden = false
-                        } else {
-                            searchResultData = result.documents
-                            searchView.resultTableView.isHidden = false
-                            searchView.searchResultLabel.isHidden = true
-                        }
-                        searchView.resultTableView.reloadData()
+        guard var searchText = searchView.searchTextField.text else { return }
+        guard searchText.count != 0 else { return }
+        //공백제거
+        searchText = searchText.trimmingCharacters(in: .whitespaces)
+
+        Loading.showLoading()
+        searchView.resultTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+    
+        print("호출 \(searchText)")
+        DispatchQueue.global().async { [self] in
+            API.shared.searchKeywordAPI(keyword: searchText, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] result in
+                print("zzz \(result)")
+                DispatchQueue.main.async { [self] in
+                    if result.documents.count == 0 {
+                        searchResultData.removeAll()
+                        searchView.resultTableView.isHidden = true
+                        searchView.searchResultLabel.isHidden = false
+                    } else {
+                        searchResultData = result.documents
+                        searchView.resultTableView.isHidden = false
+                        searchView.searchResultLabel.isHidden = true
                     }
-                    Loading.hideLoading()
-                    
-                })
+                    searchView.resultTableView.reloadData()
+                }
+                Loading.hideLoading()
                 
-                /* alamofire 사용 시
-                API.shared.searchKeywordAPI(keyword: searchText, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] result in
-                    switch result {
-                    case .success(let result):
-                        if result.documents.count == 0 {
-                            searchResultData.removeAll()
-                            searchView.resultTableView.isHidden = true
-                            searchView.searchResultLabel.isHidden = false
-                        } else {
-                            searchResultData = result.documents
-                            searchView.resultTableView.isHidden = false
-                            searchView.searchResultLabel.isHidden = true
-                        }
-                        searchView.resultTableView.reloadData()
-                        Loading.hideLoading()
-                    case .failure(let error):
-                        print(error)
+            })
+            
+            /* alamofire 사용 시
+            API.shared.searchKeywordAPI(keyword: searchText, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] result in
+                switch result {
+                case .success(let result):
+                    if result.documents.count == 0 {
+                        searchResultData.removeAll()
+                        searchView.resultTableView.isHidden = true
+                        searchView.searchResultLabel.isHidden = false
+                    } else {
+                        searchResultData = result.documents
+                        searchView.resultTableView.isHidden = false
+                        searchView.searchResultLabel.isHidden = true
                     }
-                })
-                 */
-            }
+                    searchView.resultTableView.reloadData()
+                    Loading.hideLoading()
+                case .failure(let error):
+                    print(error)
+                }
+            })
+             */
+            
         }
     }
 }

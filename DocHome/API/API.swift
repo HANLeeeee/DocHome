@@ -16,20 +16,20 @@ class API {
         APIManager.searchKeyword(keyword: keyword, x: x, y: y).asURLRequest(completion: { request in
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard error == nil else {
-                    print("Error: error calling GET")
+                    print("searchKeywordAPI Error: error calling GET")
                     print(error!)
                     return
                 }
                 guard let data = data else {
-                    print("Error: Did not receive data")
+                    print("searchKeywordAPI Error: Did not receive data")
                     return
                 }
                 guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
-                    print("Error: HTTP request failed")
+                    print("searchKeywordAPI Error: HTTP request failed")
                     return
                 }
                 guard let result = try? JSONDecoder().decode(SearchResponse.self, from: data) else {
-                    print("Error: JSON Data Parsing failed")
+                    print("searchKeywordAPI Error: JSON Data Parsing failed")
                     return
                 }
                 completion(result)
@@ -42,20 +42,20 @@ class API {
         APIManager.searchCategory(x: x, y: y).asURLRequest(completion: { request in
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard error == nil else {
-                    print("Error: error calling GET")
+                    print("searchCategoryAPI Error: error calling GET")
                     print(error!)
                     return
                 }
                 guard let data = data else {
-                    print("Error: Did not receive data")
+                    print("searchCategoryAPI Error: Did not receive data")
                     return
                 }
                 guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
-                    print("Error: HTTP request failed")
+                    print("searchCategoryAPI Error: HTTP request failed")
                     return
                 }
                 guard let result = try? JSONDecoder().decode(SearchResponse.self, from: data) else {
-                    print("Error: JSON Data Parsing failed")
+                    print("searchCategoryAPI Error: JSON Data Parsing failed")
                     return
                 }
                 completion(result)

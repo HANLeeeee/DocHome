@@ -64,22 +64,19 @@ enum APIManager {
     }
     
     func asURLRequest(completion: @escaping (URLRequest) -> Void) {
-        var urlComponents = URLComponents(string: Constants.APIURL.KakaoAPI.searchURL)
+        guard var urlComponents = URLComponents(string: Constants.APIURL.KakaoAPI.searchURL) else { return }
         
-        urlComponents?.path = endPoint
-        urlComponents?.percentEncodedQueryItems = parameters
+        urlComponents.path = endPoint
+        urlComponents.queryItems = parameters
         
-        guard let url = urlComponents?.url else {
-            return
-        }
-        
+        guard let url = urlComponents.url else { return }
         var request = URLRequest(url: url)
         
         for (key, value) in headers {
             request.setValue(value, forHTTPHeaderField: key)
         }
         request.httpMethod = method
-
+        
         completion(request)
     }
 }
