@@ -15,7 +15,9 @@ class HomeViewController: UIViewController {
     }
     
     let homeView = HomeView()
-    var tableViewSectionHeader = ["즐겨찾기", "내 주변 병원"]
+    let hospitalCategory = ["외과", "내과", "치과", "피부과", "기타"]
+    let tableViewSectionHeader = ["즐겨찾기", "내 주변 병원"]
+    var searchResultOriginData = [Document]()
     var searchResultData = [Document]()
     let refreshControl = UIRefreshControl()
         
@@ -40,6 +42,12 @@ class HomeViewController: UIViewController {
     //MARK: - UI 메소드
     func setUI() {
         homeView.searchBtn.addTarget(self, action: #selector(touchUpSearchBtn), for: .touchUpInside)
+        
+        homeView.cellButton.addTarget(self, action: #selector(touchUpCategoryBtn), for: .touchUpInside)
+        homeView.cellButton2.addTarget(self, action: #selector(touchUpCategoryBtn2), for: .touchUpInside)
+        homeView.cellButton3.addTarget(self, action: #selector(touchUpCategoryBtn3), for: .touchUpInside)
+        homeView.cellButton4.addTarget(self, action: #selector(touchUpCategoryBtn4), for: .touchUpInside)
+        homeView.cellButton5.addTarget(self, action: #selector(touchUpCategoryBtn5), for: .touchUpInside)
     }
     
     //MARK: - 테이블뷰등록 메소드
@@ -70,12 +78,8 @@ class HomeViewController: UIViewController {
             API.shared.searchCategoryAPI(x: userLocation.longitude, y: userLocation.latitude, completion: { [self] result in
                 
                 guard result.documents.count != 0 else { return }
-                searchResultData = result.documents
-                
-                DispatchQueue.main.async { [self] in
-                    homeView.homeTableView.reloadData()
-                    refreshControl.endRefreshing()
-                }
+                searchResultOriginData = result.documents
+                getFilteredHospitalInfo(searchResultOriginData)
             })
 
             /* alamofire 사용 시
@@ -95,18 +99,70 @@ class HomeViewController: UIViewController {
              */
         }
     }
+    
+    func getFilteredHospitalInfo(_ filteredData: [Document]) {
+        searchResultData = filteredData
+        
+        DispatchQueue.main.async { [self] in
+            homeView.homeTableView.reloadData()
+            refreshControl.endRefreshing()
+        }
+    }
 }
 
 //MARK: - 버튼이벤트
 extension HomeViewController {
     @objc func touchUpSearchBtn() {
         print("검색클릭")
-       let searchVC = SearchViewController()
-       searchVC.searchViewDelegate = self
-       self.present(searchVC, animated: true)
+        let searchVC = SearchViewController()
+        searchVC.searchViewDelegate = self
+        self.present(searchVC, animated: true)
+    }
+    
+    @objc func touchUpCategoryBtn() {
+        print("외과클릭")
+        getFilteredHospitalInfo(filteredHospitalInfo(0))
+    }
+    
+    @objc func touchUpCategoryBtn2() {
+        print("내과클릭")
+        getFilteredHospitalInfo(filteredHospitalInfo(1))
+    }
+    
+    @objc func touchUpCategoryBtn3() {
+        print("치과클릭")
+        getFilteredHospitalInfo(filteredHospitalInfo(2))
+    }
+    
+    @objc func touchUpCategoryBtn4() {
+        print("피부과클릭")
+        getFilteredHospitalInfo(filteredHospitalInfo(3))
+    }
+    
+    @objc func touchUpCategoryBtn5() {
+        print("기타클릭")
+        getFilteredHospitalInfo(filteredHospitalInfo(4))
+    }
+    
+    //MARK: - 병원 카테고리 필터링
+    func filteredHospitalInfo(_ categoryIndex: Int) -> [Document] {
+        var filtered: [Document]
+        
+        //외과 내과 치과 피부과를 제외한 모든 카테고리
+        if categoryIndex == 4 {
+            filtered = searchResultOriginData.filter({
+                !$0.categoryName.contains(hospitalCategory[0]) && !$0.categoryName.contains(hospitalCategory[1]) && !$0.categoryName.contains(hospitalCategory[2]) && !$0.categoryName.contains(hospitalCategory[3])
+            })
+            
+        } else {
+            filtered = searchResultOriginData.filter({
+                $0.categoryName.contains(hospitalCategory[categoryIndex])
+            })
+        }
+        
+        return filtered
     }
 }
-
 
 //MARK: - 테이블뷰 관련
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
