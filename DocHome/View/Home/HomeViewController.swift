@@ -14,7 +14,6 @@ class HomeViewController: UIViewController {
         self.title = title
     }
     
-    let userLocation = UserDefaultsData.shared.getLocation()
     let homeView = HomeView()
     var tableViewSectionHeader = ["즐겨찾기", "내 주변 병원"]
     var searchResultData = [Document]()
@@ -60,9 +59,6 @@ class HomeViewController: UIViewController {
     
     //테이블뷰 당겨서 새로고침
     @objc func refreshAction() {
-        print("새로고침 \(favoriteSearchResultDatas.count)")
-        //병원정보를 가져오는 것이 아니라 여기서 위치를 다시 받아오기
-        //그리고 위치를 받아오는 곳에서 병원정보를 가져오기
         getHospitalInfo()
     }
     
@@ -71,6 +67,7 @@ class HomeViewController: UIViewController {
         Loading.showLoading()
         searchResultData.removeAll()
         DispatchQueue.global().async { [self] in
+            let userLocation = UserDefaultsData.shared.getLocation()
             API.shared.searchCategoryAPI(x: userLocation.longitude, y: userLocation.latitude, completion: { [self] result in
                 
                 guard result.documents.count != 0 else { return }
