@@ -1,5 +1,5 @@
 //
-//  HomeCollectionViewCell.swift
+//  FavoriteCollectionViewCell.swift
 //  DocHome
 //
 //  Created by 최하늘 on 2023/05/05.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class HomeCollectionViewCell: UICollectionViewCell {
+class FavoriteCollectionViewCell: UICollectionViewCell {
     
     //MARK: - UI 프로퍼티
     lazy var cellView = { () -> UIView in

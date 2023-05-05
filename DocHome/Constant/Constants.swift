@@ -38,9 +38,7 @@ struct Constants {
     //MARK: - TableViewCell
     struct TableView {
         struct Identifier {
-            static let homeTableViewCell = "HomeTableViewCell"
-//            static let searchCell = "SearchTableViewCell"
-//            static let categoryCell = "CategoryTableViewCell"
+            static let favoriteTableViewCell = "FavoriteTableViewCell"
             static let recommendCell = "RecommendTableViewCell"
             
             
@@ -51,10 +49,10 @@ struct Constants {
     //MARK: - CollectionViewCell
     struct CollectionView {
         struct Identifier {
-            static let homeCollectionViewCell = "HomeCollectionViewCell"
+            static let favoriteCollectionViewCell = "FavoriteCollectionViewCell"
         }
         
-        struct HomeCollectionViewCell {
+        struct FavoriteCollectionViewCell {
             struct size {
                 static var width: Double = 240
                 static var height: Double = 100

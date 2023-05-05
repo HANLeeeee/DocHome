@@ -1,5 +1,5 @@
 //
-//  HomeTableViewCell.swift
+//  FavoriteTableViewCell.swift
 //  DocHome
 //
 //  Created by 최하늘 on 2023/05/05.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class HomeTableViewCell: UITableViewCell {
+class FavoriteTableViewCell: UITableViewCell {
     
     lazy var collectionView = { () -> UICollectionView in
         let layout = UICollectionViewFlowLayout()
@@ -37,7 +37,7 @@ class HomeTableViewCell: UITableViewCell {
     func registerCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: Constants.CollectionView.Identifier.homeCollectionViewCell)
+        collectionView.register(FavoriteCollectionViewCell.self, forCellWithReuseIdentifier: Constants.CollectionView.Identifier.favoriteCollectionViewCell)
     }
     
     
@@ -50,19 +50,19 @@ class HomeTableViewCell: UITableViewCell {
         collectionView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.bottom.equalTo(-10)
-            make.height.equalTo(Constants.CollectionView.HomeCollectionViewCell.size.height+10)
+            make.height.equalTo(Constants.CollectionView.FavoriteCollectionViewCell.size.height+10)
         }
     }
 }
 
 //MARK: - 컬렉션뷰 관련
-extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension FavoriteTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionView.Identifier.homeCollectionViewCell, for: indexPath) as? HomeCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionView.Identifier.favoriteCollectionViewCell, for: indexPath) as? FavoriteCollectionViewCell else {
             return UICollectionViewCell()
         }
         return cell
@@ -70,6 +70,6 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: Constants.CollectionView.HomeCollectionViewCell.size.width, height: Constants.CollectionView.HomeCollectionViewCell.size.height)
+        return CGSize(width: Constants.CollectionView.FavoriteCollectionViewCell.size.width, height: Constants.CollectionView.FavoriteCollectionViewCell.size.height)
     }
 }

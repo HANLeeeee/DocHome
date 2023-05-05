@@ -48,8 +48,8 @@ class HomeViewController: UIViewController {
     func registerTableView() {
         homeView.homeTableView.delegate = self
         homeView.homeTableView.dataSource = self
-        homeView.homeTableView.register(HomeTableViewCell.self,
-                                        forCellReuseIdentifier: Constants.TableView.Identifier.homeTableViewCell)
+        homeView.homeTableView.register(FavoriteTableViewCell.self,
+                                        forCellReuseIdentifier: Constants.TableView.Identifier.favoriteTableViewCell)
         homeView.homeTableView.register(RecommendTableViewCell.self,
                                         forCellReuseIdentifier: Constants.TableView.Identifier.recommendCell)
         
@@ -169,7 +169,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.homeTableViewCell, for: indexPath) as? HomeTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.favoriteTableViewCell, for: indexPath) as? FavoriteTableViewCell else {
                 return UITableViewCell()
             }
             
