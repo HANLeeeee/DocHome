@@ -63,3 +63,6 @@ struct SameName: Codable {
         case selectedRegion = "selected_region"
     }
 }
+
+var favoriteSearchResultDatas = [Document]()
+

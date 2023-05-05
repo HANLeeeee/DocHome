@@ -18,7 +18,6 @@ class HomeViewController: UIViewController {
     let homeView = HomeView()
     var tableViewSectionHeader = ["즐겨찾기", "내 주변 병원"]
     var searchResultData = [Document]()
-    var favoriteSearchResultData = [Document]()
     let refreshControl = UIRefreshControl()
         
     //MARK: - 라이프사이클
@@ -61,7 +60,7 @@ class HomeViewController: UIViewController {
     
     //테이블뷰 당겨서 새로고침
     @objc func refreshAction() {
-        print("새로고침")
+        print("새로고침 \(favoriteSearchResultDatas.count)")
         //병원정보를 가져오는 것이 아니라 여기서 위치를 다시 받아오기
         //그리고 위치를 받아오는 곳에서 병원정보를 가져오기
         getHospitalInfo()
@@ -146,23 +145,20 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0:
-            print("즐겨찾기")
-            
-        default:
-            print("병원클릭")
-            goSearchDetailVC(data: searchResultData[indexPath.row])
-        }
+        goSearchDetailVC(data: searchResultData[indexPath.row])
     }
     
+    //섹션별 테이블뷰셀 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return 1
 
-        default:
+        case 1:
             return searchResultData.count
+            
+        default:
+            return 0
         }
     }
     
@@ -172,7 +168,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.favoriteTableViewCell, for: indexPath) as? FavoriteTableViewCell else {
                 return UITableViewCell()
             }
-            
+            cell.reloadFavoriteCollectionView()
             cell.selectionStyle = .none
             return cell
             
@@ -184,8 +180,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             let searchResult = searchResultData[indexPath.row]
             cell.configureCell(searchResult: searchResult, index: indexPath.row)
             cell.selectionStyle = .none
-            
-            cell.recommendTableViewCellDelegate = self
             return cell
             
         default:
@@ -199,20 +193,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 
-//MARK: - SearchView 델리게이트
+//MARK: - SearchViewDelegate
 extension HomeViewController: SearchViewDelegate {
     func goSearchDetailVC(data: Document) {
         let searchDetailVC = SearchDetailViewController()
         searchDetailVC.detailData = data
         self.navigationController?.pushViewController(searchDetailVC, animated: true)
-    }
-}
-
-//MARK: - RecommendTableViewCell 델리게이트
-extension HomeViewController: RecommendTableViewCellDelegate {
-    func touchUpfavoriteButton(index: Int) {
-        searchResultData[index].isFavorite = true
-        favoriteSearchResultData.append(searchResultData[index])
-        
     }
 }

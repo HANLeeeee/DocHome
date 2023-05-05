@@ -53,18 +53,26 @@ class FavoriteTableViewCell: UITableViewCell {
             make.height.equalTo(Constants.CollectionView.FavoriteCollectionViewCell.size.height+10)
         }
     }
+    
+    func reloadFavoriteCollectionView() {
+        collectionView.reloadData()
+    }
 }
 
 //MARK: - 컬렉션뷰 관련
 extension FavoriteTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return favoriteSearchResultDatas.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionView.Identifier.favoriteCollectionViewCell, for: indexPath) as? FavoriteCollectionViewCell else {
             return UICollectionViewCell()
         }
+        
+        guard favoriteSearchResultDatas.count != 0 else { return  cell }
+        cell.configureCell(favoriteSearchResult: favoriteSearchResultDatas[indexPath.row], index: indexPath.row)
+        
         return cell
     }
     

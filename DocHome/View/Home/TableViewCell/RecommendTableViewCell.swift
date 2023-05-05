@@ -8,13 +8,10 @@
 import UIKit
 import SnapKit
 
-protocol RecommendTableViewCellDelegate {
-    func touchUpfavoriteButton(index: Int)
-}
-
 class RecommendTableViewCell: UITableViewCell {
-    var recommendTableViewCellDelegate: RecommendTableViewCellDelegate?
+    
     var index = -1
+    var searchResult = Document()
     
     //MARK: - UI 프로퍼티
     lazy var cellView = { () -> UIView in
@@ -65,12 +62,9 @@ class RecommendTableViewCell: UITableViewCell {
         return label
     }()
     
-    lazy var favoriteButton = { () -> UIButton in
-        let btn = UIButton()
-        btn.setImage(UIImage(systemName: "star"), for: .normal)
-        btn.setImage(UIImage(systemName: "star.fill"), for: .selected)
-        btn.tintColor = .gray
-        btn.addTarget(self, action: #selector(touchUpFavoriteButton), for: .touchUpInside)
+    lazy var favoriteButton = { () -> FavoriteButton in
+        let btn = FavoriteButton()
+        btn.favoriteButtonDelegate = self
         return btn
     }()
         
@@ -85,13 +79,12 @@ class RecommendTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - 버튼이벤트
-    @objc func touchUpFavoriteButton(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        changeFavoriteButton(sender.isSelected)
-        recommendTableViewCellDelegate?.touchUpfavoriteButton(index: self.index)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.favoriteButton.isSelected = false
     }
-    
+   
     //MARK: - UI 관련
     func addViews() {
         self.contentView.addSubview(cellView)
@@ -105,7 +98,6 @@ class RecommendTableViewCell: UITableViewCell {
     func makeConstraints() {
         cellView.snp.makeConstraints { make in
             make.edges.equalTo(0).inset(UIEdgeInsets(top: 5, left: 15, bottom: 10, right: 15))
-//            make.height.equalTo(120)
         }
         
         hospitalNameLabel.snp.makeConstraints { make in
@@ -141,20 +133,40 @@ class RecommendTableViewCell: UITableViewCell {
     
     func configureCell(searchResult: Document, index: Int) {
         self.index = index
+        self.searchResult = searchResult
         hospitalNameLabel.text = searchResult.placeName
         hospitalLocationLabel.text = searchResult.roadAddressName
         hospitalPhoneLabel.text = searchResult.phone
         hospitalDistanceLabel.text = "\(searchResult.distance) m"
-        
-        changeFavoriteButton(searchResult.isFavorite)
+        if checkFavorite() {
+            favoriteButton.isSelected = true
+            self.searchResult.isFavorite = true
+        }
+        favoriteButton.changeFavoriteColor()
     }
     
-    //즐겨찾기버튼 변경
-    func changeFavoriteButton(_ isSelect: Bool) {
-        if favoriteButton.isSelected {
-            favoriteButton.tintColor = .systemYellow
+    func checkFavorite() -> Bool {
+        let filtered = favoriteSearchResultDatas.contains {
+            $0.id == self.searchResult.id
+        }
+        
+        return filtered
+    }
+}
+
+//MARK: - FavoriteButtonDelegate
+extension RecommendTableViewCell: FavoriteButtonDelegate {
+    func actionFavoriteButton(isSelect: Bool) {
+        print("RecommendTableViewCell 즐겨찾기버튼이 클릭되었어 \(isSelect)")
+        if !isSelect {
+            guard let favoriteIndex = favoriteSearchResultDatas.firstIndex(where: {
+                $0.id == self.searchResult.id }) else { return }
+            
+            favoriteSearchResultDatas.remove(at: favoriteIndex)
+            
         } else {
-            favoriteButton.tintColor = .gray
+            self.searchResult.isFavorite = true
+            favoriteSearchResultDatas.append(self.searchResult)
         }
     }
 }

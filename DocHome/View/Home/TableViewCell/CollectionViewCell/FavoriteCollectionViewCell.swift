@@ -10,6 +10,9 @@ import SnapKit
 
 class FavoriteCollectionViewCell: UICollectionViewCell {
     
+    var index = -1
+    var favoriteSearchResult = Document()
+        
     //MARK: - UI 프로퍼티
     lazy var cellView = { () -> UIView in
         let view = UIView()
@@ -48,15 +51,11 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    lazy var favoriteButton = { () -> UIButton in
-        let btn = UIButton()
-        btn.setImage(UIImage(systemName: "star"), for: .normal)
-        btn.setImage(UIImage(systemName: "star.fill"), for: .selected)
-        btn.tintColor = .gray
-//        btn.addTarget(self, action: #selector(touchUpFavoriteButton), for: .touchUpInside)
+    lazy var favoriteButton = { () -> FavoriteButton in
+        let btn = FavoriteButton()
+        btn.favoriteButtonDelegate = self
         return btn
     }()
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -106,6 +105,29 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             make.leading.equalTo(hospitalLocationLabel.snp.leading)
             make.trailing.equalTo(hospitalLocationLabel.snp.trailing).offset(-5)
             make.bottom.equalTo(-10)
+        }
+    }
+    
+    func configureCell(favoriteSearchResult: Document, index: Int) {
+        self.index = index
+        self.favoriteSearchResult = favoriteSearchResult
+        hospitalNameLabel.text = favoriteSearchResult.placeName
+        hospitalLocationLabel.text = favoriteSearchResult.roadAddressName
+        hospitalPhoneLabel.text = favoriteSearchResult.phone
+        favoriteButton.isSelected = favoriteSearchResult.isFavorite
+        favoriteButton.changeFavoriteColor()
+    }
+}
+
+//MARK: - FavoriteButtonDelegate
+extension FavoriteCollectionViewCell: FavoriteButtonDelegate {
+    func actionFavoriteButton(isSelect: Bool) {
+        print("FavoriteCollectionViewCell 즐겨찾기버튼이 클릭되었어")
+        if !isSelect {
+            favoriteSearchResultDatas.remove(at: self.index)
+            
+        } else {
+            favoriteSearchResultDatas.insert(self.favoriteSearchResult, at: self.index)
         }
     }
 }
