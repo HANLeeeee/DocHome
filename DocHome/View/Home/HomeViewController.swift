@@ -141,7 +141,17 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     //섹션의 타이틀 높이 설정
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        switch section {
+        case 0:
+            if favoriteSearchResultDatas.count == 0 {
+                return 0
+            }
+            return 50
+        
+        default:
+            return 50
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -152,6 +162,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
+            if favoriteSearchResultDatas.count == 0 {
+                return 0
+            }
             return 1
 
         case 1:
