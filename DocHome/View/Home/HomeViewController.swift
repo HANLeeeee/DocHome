@@ -64,7 +64,6 @@ class HomeViewController: UIViewController {
     
     //MARK: - 병원정보 가져오는 메소드
     func getHospitalInfo() {
-        Loading.showLoading()
         searchResultData.removeAll()
         DispatchQueue.global().async { [self] in
             let userLocation = UserDefaultsData.shared.getLocation()
@@ -77,8 +76,6 @@ class HomeViewController: UIViewController {
                     homeView.homeTableView.reloadData()
                     refreshControl.endRefreshing()
                 }
-                Loading.hideLoading()
-                
             })
 
             /* alamofire 사용 시

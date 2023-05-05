@@ -33,7 +33,6 @@
 		B1B956FD28B68351001085BB /* SearchKeywordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B956FC28B68351001085BB /* SearchKeywordTableViewCell.swift */; };
 		B1B9570028B69961001085BB /* UserDefaultsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B956FF28B69961001085BB /* UserDefaultsData.swift */; };
 		B1B9570228B69AAD001085BB /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B9570128B69AAD001085BB /* UserLocation.swift */; };
-		B1B9570528B69DAF001085BB /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B9570428B69DAF001085BB /* Loading.swift */; };
 		B1B9570728B6DF77001085BB /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B9570628B6DF77001085BB /* SearchResponse.swift */; };
 		B1B9570928B6F11D001085BB /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B9570828B6F11D001085BB /* Metal.framework */; };
 		B1BC1AFD2A05263A007F5751 /* FavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BC1AFC2A05263A007F5751 /* FavoriteTableViewCell.swift */; };
@@ -346,7 +345,6 @@
 		B1B956FC28B68351001085BB /* SearchKeywordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKeywordTableViewCell.swift; sourceTree = "<group>"; };
 		B1B956FF28B69961001085BB /* UserDefaultsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsData.swift; sourceTree = "<group>"; };
 		B1B9570128B69AAD001085BB /* UserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
-		B1B9570428B69DAF001085BB /* Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
 		B1B9570628B6DF77001085BB /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
 		B1B9570828B6F11D001085BB /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		B1BC1AFC2A05263A007F5751 /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
@@ -734,7 +732,6 @@
 			children = (
 				B19CC15728A8FF9E001E56B4 /* DaumMapHeader */,
 				B1815FA828AA1D8700F06AC0 /* Base */,
-				B1B9570328B69D9B001085BB /* Loading */,
 				B1B956F428B66F64001085BB /* Constant */,
 				B1B956FE28B69940001085BB /* UserDefaults */,
 				B1B956F728B67E00001085BB /* Model */,
@@ -849,14 +846,6 @@
 				B1B956FF28B69961001085BB /* UserDefaultsData.swift */,
 			);
 			path = UserDefaults;
-			sourceTree = "<group>";
-		};
-		B1B9570328B69D9B001085BB /* Loading */ = {
-			isa = PBXGroup;
-			children = (
-				B1B9570428B69DAF001085BB /* Loading.swift */,
-			);
-			path = Loading;
 			sourceTree = "<group>";
 		};
 		B1BC1AFE2A052955007F5751 /* CollectionViewCell */ = {
@@ -1621,7 +1610,6 @@
 				B19CC81928A94844001E56B4 /* HomeView.swift in Sources */,
 				B1B9570228B69AAD001085BB /* UserLocation.swift in Sources */,
 				B19CC81428A91AF9001E56B4 /* SettingViewController.swift in Sources */,
-				B1B9570528B69DAF001085BB /* Loading.swift in Sources */,
 				B1CF455128B13D38003835BC /* SearchView.swift in Sources */,
 				B1BC1AFD2A05263A007F5751 /* FavoriteTableViewCell.swift in Sources */,
 				B1B956F628B66F7E001085BB /* Constants.swift in Sources */,

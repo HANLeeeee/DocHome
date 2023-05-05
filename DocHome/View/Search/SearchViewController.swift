@@ -105,13 +105,11 @@ extension SearchViewController {
         //공백제거
         searchText = searchText.trimmingCharacters(in: .whitespaces)
 
-        Loading.showLoading()
         searchView.resultTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     
         print("호출 \(searchText)")
         DispatchQueue.global().async { [self] in
             API.shared.searchKeywordAPI(keyword: searchText, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] result in
-                print("zzz \(result)")
                 DispatchQueue.main.async { [self] in
                     if result.documents.count == 0 {
                         searchResultData.removeAll()
@@ -123,9 +121,7 @@ extension SearchViewController {
                         searchView.searchResultLabel.isHidden = true
                     }
                     searchView.resultTableView.reloadData()
-                }
-                Loading.hideLoading()
-                
+                }                
             })
             
             /* alamofire 사용 시
