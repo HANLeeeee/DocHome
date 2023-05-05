@@ -18,7 +18,14 @@ struct Constants {
     
     //MARK: - View
     struct View {
-        
+        struct HomeView {
+            struct TopView {
+                struct size {
+                    static let maxHeight: CGFloat = 120
+                    static let minHeight: CGFloat = 50
+                }
+            }
+        }
     }
     
     

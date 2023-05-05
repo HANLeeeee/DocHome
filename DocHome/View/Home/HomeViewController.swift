@@ -117,10 +117,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return tableViewSectionHeader.count
     }
+    
     //섹션의 타이틀 텍스트
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return tableViewSectionHeader[section]
     }
+    
     //섹션의 타이틀 텍스트 폰트 설정
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let titleLabel = UILabel()
@@ -136,6 +138,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         headerView.addSubview(titleLabel)
         return headerView
     }
+    
     //섹션의 타이틀 높이 설정
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
@@ -151,6 +154,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    //테이블뷰셀 클릭
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         goSearchDetailVC(data: searchResultData[indexPath.row])
     }
@@ -172,6 +176,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    //테이블뷰셀 설정
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
@@ -197,8 +202,33 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    //테이블뷰셀 높이 설정
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    //테이블뷰 스크롤 설정
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollOffset = scrollView.contentOffset.y
+        
+        let scrollY = homeView.topView.constraints[0].constant - scrollOffset
+        let maxHeight = Constants.View.HomeView.TopView.size.maxHeight
+        let minHeight = Constants.View.HomeView.TopView.size.minHeight
+        
+        if scrollY > maxHeight {
+            homeView.topView.constraints[0].constant = maxHeight
+            
+        } else if scrollY < minHeight {
+            homeView.topView.constraints[0].constant = minHeight
+            
+        } else {
+            homeView.topView.constraints[0].constant = scrollY
+            
+            //점점 흐리게
+            homeView.cellStackView.alpha = scrollY / maxHeight
+            //자연스럽게 스크롤
+            scrollView.contentOffset.y = 0
+        }
     }
 }
 

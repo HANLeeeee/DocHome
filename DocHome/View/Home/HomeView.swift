@@ -150,12 +150,12 @@ class HomeView: UIView {
         topView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(15)
-            make.height.equalTo(120)
+            make.height.equalTo(Constants.View.HomeView.TopView.size.maxHeight)
         }
         
         searchBtn.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(50)
+            make.height.equalTo(Constants.View.HomeView.TopView.size.minHeight)
         }
         
         searchBtnImage.snp.makeConstraints { make in
@@ -174,7 +174,7 @@ class HomeView: UIView {
         }
         
         homeTableView.snp.makeConstraints { make in
-            make.top.equalTo(topView.snp.bottom).offset(20)
+            make.top.equalTo(topView.snp.bottom).offset(10)
             make.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide)
         }
     }
