@@ -34,6 +34,7 @@ class MapViewController: UIViewController, MTMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureLocation()
+        addCurrentLocationMarker()
     }
     
     func configureLocation() {
@@ -44,9 +45,8 @@ class MapViewController: UIViewController, MTMapViewDelegate {
         locationManger.delegate = self
         // 거리 정확도 설정
         locationManger.desiredAccuracy = kCLLocationAccuracyBest
-        // 사용자에게 허용 받기 alert 띄우기
-        locationManger.requestWhenInUseAuthorization()
-  
+        getLocationPermission()
+        
         // 아이폰 설정에서의 위치 서비스가 켜진 상태라면
         DispatchQueue.global().async {
             if CLLocationManager.locationServicesEnabled() {
@@ -56,13 +56,21 @@ class MapViewController: UIViewController, MTMapViewDelegate {
                 print("위치 서비스 Off 상태")
             }
         }
-        
-        DispatchQueue.global().async { [self] in
-            if CLLocationManager.locationServicesEnabled() {
-                mapView.searchMapView.currentLocationTrackingMode = .onWithoutHeading
-                mapView.searchMapView.showCurrentLocationMarker = true
-            }
-        }
+    }
+    
+    // 사용자에게 허용 받기 alert 띄우기
+    func getLocationPermission() {
+        self.locationManger.requestWhenInUseAuthorization()
+    }
+    
+    //현재위치 마커 추가
+    func addCurrentLocationMarker() {
+        let mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: userLocation.latitude, longitude: userLocation.longitude))
+        let poiItem = MTMapPOIItem()
+        poiItem.markerType = MTMapPOIItemMarkerType.bluePin
+        poiItem.mapPoint = mapPoint
+        poiItem.itemName = "현재 위치"
+        mapView.searchMapView.add(poiItem)
     }
 }
 
@@ -81,5 +89,23 @@ extension MapViewController : CLLocationManagerDelegate {
     // 위도 경도 받아오기 에러
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
+    }
+
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("권한 설정 허용")
+            
+        case .restricted, .notDetermined:
+            print("권한 설정 안됨")
+            getLocationPermission()
+            
+        case .denied:
+            print("권한 설정 거부")
+            getLocationPermission()
+            
+        @unknown default:
+            print("권한 설정 이상")
+        }
     }
 }

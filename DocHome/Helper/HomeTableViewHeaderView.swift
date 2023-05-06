@@ -12,7 +12,7 @@ class HomeTableViewHeaderView: UIView {
     
     lazy var titleLabel = { () -> UILabel in
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.font = .systemFont(ofSize: 24, weight: .bold)
         label.textColor = UIColor(named: "COLOR_PURPLE")
         label.textAlignment = .left
         return label

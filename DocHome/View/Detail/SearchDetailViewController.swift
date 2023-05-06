@@ -16,9 +16,6 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
     let searchDetailView = SearchDetailView()
     var detailData = Document()
     
-    var mapPoint: MTMapPoint?
-    var poiItem: MTMapPOIItem?
-    
     //MARK: - 라이프사이클
     override func loadView() {
         self.view = .init()
@@ -30,7 +27,8 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
         super.viewDidLoad()
         configureTarget()
         configureLocation()
-        addMarker()
+        addCurrentLocationMarker()
+        addDestinationMarker()
         setViewData()
     }
     
@@ -52,24 +50,25 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
             latitude: Double(detailData.y) ?? 0,
             longitude: Double(detailData.x) ?? 0
         )), zoomLevel: MTMapZoomLevel(0.1), animated: true)
-        
-        
-        //현재위치트래킹
-        DispatchQueue.global().async { [self] in
-            if CLLocationManager.locationServicesEnabled() {
-                searchDetailView.mapLocationView.currentLocationTrackingMode = .onWithoutHeading
-                searchDetailView.mapLocationView.showCurrentLocationMarker = true
-            }
-        }
     }
 
+    //현재위치 마커 추가
+    func addCurrentLocationMarker() {
+        let mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: userLocation.latitude, longitude: userLocation.longitude))
+        let poiItem = MTMapPOIItem()
+        poiItem.markerType = MTMapPOIItemMarkerType.bluePin
+        poiItem.mapPoint = mapPoint
+        poiItem.itemName = "현재 위치"
+        searchDetailView.mapLocationView.add(poiItem)
+    }
+    
     //목적지 마커 추가
-    func addMarker() {
-        mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(detailData.y) ?? 0, longitude: Double(detailData.x) ?? 0))
-        poiItem = MTMapPOIItem()
-        poiItem?.markerType = MTMapPOIItemMarkerType.redPin
-        poiItem?.mapPoint = mapPoint
-        poiItem?.itemName = detailData.placeName
+    func addDestinationMarker() {
+        let mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(detailData.y) ?? 0, longitude: Double(detailData.x) ?? 0))
+        let poiItem = MTMapPOIItem()
+        poiItem.markerType = MTMapPOIItemMarkerType.redPin
+        poiItem.mapPoint = mapPoint
+        poiItem.itemName = detailData.placeName
         searchDetailView.mapLocationView.add(poiItem)
     }
 
