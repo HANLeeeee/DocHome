@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		43C77D13E37BE6B7D7018F92 /* Pods_DocHome.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDC91C4F720A57C823475FC7 /* Pods_DocHome.framework */; };
 		B1144BDA2A05ACCD00E99ADD /* HomeTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1144BD92A05ACCD00E99ADD /* HomeTableViewHeaderView.swift */; };
+		B1144BDC2A05FC3C00E99ADD /* CategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1144BDB2A05FC3C00E99ADD /* CategoryButton.swift */; };
 		B16E540A28B7C4410053B818 /* SearchDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16E540928B7C4410053B818 /* SearchDetailViewController.swift */; };
 		B184B5C32A03ED7100F28298 /* SearchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B184B5C22A03ED7100F28298 /* SearchDetailView.swift */; };
 		B19CC0F228A8FEFA001E56B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19CC0F128A8FEFA001E56B4 /* AppDelegate.swift */; };
@@ -318,6 +319,7 @@
 
 /* Begin PBXFileReference section */
 		B1144BD92A05ACCD00E99ADD /* HomeTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewHeaderView.swift; sourceTree = "<group>"; };
+		B1144BDB2A05FC3C00E99ADD /* CategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButton.swift; sourceTree = "<group>"; };
 		B16E540928B7C4410053B818 /* SearchDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewController.swift; sourceTree = "<group>"; };
 		B184B5C22A03ED7100F28298 /* SearchDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailView.swift; sourceTree = "<group>"; };
 		B19CC0EE28A8FEFA001E56B4 /* DocHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -862,6 +864,7 @@
 			isa = PBXGroup;
 			children = (
 				B1BC1B042A055FCA007F5751 /* FavoriteButton.swift */,
+				B1144BDB2A05FC3C00E99ADD /* CategoryButton.swift */,
 				B1144BD92A05ACCD00E99ADD /* HomeTableViewHeaderView.swift */,
 			);
 			path = Helper;
@@ -1618,6 +1621,7 @@
 				B1BC1AFD2A05263A007F5751 /* FavoriteTableViewCell.swift in Sources */,
 				B1B956F628B66F7E001085BB /* Constants.swift in Sources */,
 				B19CC0F628A8FEFA001E56B4 /* HomeViewController.swift in Sources */,
+				B1144BDC2A05FC3C00E99ADD /* CategoryButton.swift in Sources */,
 				B19CC0F228A8FEFA001E56B4 /* AppDelegate.swift in Sources */,
 				B19CC81028A9124C001E56B4 /* MainTabBarController.swift in Sources */,
 				B19CC0F428A8FEFA001E56B4 /* SceneDelegate.swift in Sources */,

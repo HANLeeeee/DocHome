@@ -38,8 +38,8 @@ class API {
         })
     }
     
-    func searchCategoryAPI(x: Double, y: Double, completion: @escaping (SearchResponse) -> Void) {
-        APIManager.searchCategory(x: x, y: y).asURLRequest(completion: { request in
+    func searchCategoryAPI(x: Double, y: Double, page: Int, completion: @escaping (SearchResponse) -> Void) {
+        APIManager.searchCategory(x: x, y: y, page: page).asURLRequest(completion: { request in
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard error == nil else {
                     print("searchCategoryAPI Error: error calling GET")

@@ -142,7 +142,7 @@ class RecommendTableViewCell: UITableViewCell {
             favoriteButton.isSelected = true
             self.searchResult.isFavorite = true
         }
-        favoriteButton.changeFavoriteColor()
+        favoriteButton.changeFavoriteButtonColor()
     }
     
     func checkFavorite() -> Bool {

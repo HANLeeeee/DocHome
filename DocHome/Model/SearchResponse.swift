@@ -40,7 +40,7 @@ struct Document: Codable {
 }
 
 struct Meta: Codable {
-    let isEnd: Bool
+    var isEnd: Bool
     let pageableCount: Int
     let sameName: SameName?
     let totalCount: Int

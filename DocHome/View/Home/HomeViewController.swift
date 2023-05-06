@@ -15,11 +15,16 @@ class HomeViewController: UIViewController {
     }
     
     let homeView = HomeView()
-    let hospitalCategory = ["외과", "내과", "치과", "피부과", "기타"]
+    let hospitalCategory = ["전체", "외과", "내과", "치과", "기타"]
     let tableViewSectionHeader = ["즐겨찾기", "내 주변 병원"]
     var searchResultOriginData = [Document]()
     var searchResultData = [Document]()
     let refreshControl = UIRefreshControl()
+    
+    var currentCategoryTag = 0
+    //페이징
+    var currentPage: Int = 1
+    var metaData: Meta?
         
     //MARK: - 라이프사이클
     override func loadView() {
@@ -43,11 +48,9 @@ class HomeViewController: UIViewController {
     func setUI() {
         homeView.searchBtn.addTarget(self, action: #selector(touchUpSearchBtn), for: .touchUpInside)
         
-        homeView.cellButton.addTarget(self, action: #selector(touchUpCategoryBtn), for: .touchUpInside)
-        homeView.cellButton2.addTarget(self, action: #selector(touchUpCategoryBtn2), for: .touchUpInside)
-        homeView.cellButton3.addTarget(self, action: #selector(touchUpCategoryBtn3), for: .touchUpInside)
-        homeView.cellButton4.addTarget(self, action: #selector(touchUpCategoryBtn4), for: .touchUpInside)
-        homeView.cellButton5.addTarget(self, action: #selector(touchUpCategoryBtn5), for: .touchUpInside)
+        for btn in homeView.categoryButtons {
+            btn.addTarget(self, action: #selector(touchUpCategoryBtn), for: .touchUpInside)
+        }
     }
     
     //MARK: - 테이블뷰등록 메소드
@@ -60,26 +63,33 @@ class HomeViewController: UIViewController {
                                         forCellReuseIdentifier: Constants.TableView.Identifier.recommendCell)
         
         //refreshControl 설정
-        refreshControl.endRefreshing()
+        refreshControl.beginRefreshing()
         homeView.homeTableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshAction), for: .valueChanged)
     }
     
     //테이블뷰 당겨서 새로고침
     @objc func refreshAction() {
+        currentPage = 1
         getHospitalInfo()
     }
     
     //MARK: - 병원정보 가져오는 메소드
     func getHospitalInfo() {
-        searchResultData.removeAll()
         DispatchQueue.global().async { [self] in
             let userLocation = UserDefaultsData.shared.getLocation()
-            API.shared.searchCategoryAPI(x: userLocation.longitude, y: userLocation.latitude, completion: { [self] result in
+            API.shared.searchCategoryAPI(x: userLocation.longitude, y: userLocation.latitude, page: self.currentPage, completion: { [self] result in
                 
                 guard result.documents.count != 0 else { return }
-                searchResultOriginData = result.documents
-                getFilteredHospitalInfo(searchResultOriginData)
+                
+                if self.currentPage == 1 {
+                    searchResultOriginData = result.documents
+                    
+                } else {
+                    searchResultOriginData += result.documents
+                }
+                metaData = result.meta
+                getFilteredHospitalInfo(filteredHospitalInfo(currentCategoryTag))
             })
 
             /* alamofire 사용 시
@@ -108,6 +118,11 @@ class HomeViewController: UIViewController {
             refreshControl.endRefreshing()
         }
     }
+    
+    func nextPage() {
+        currentPage += 1
+        getHospitalInfo()
+    }
 }
 
 //MARK: - 버튼이벤트
@@ -119,47 +134,37 @@ extension HomeViewController {
         self.present(searchVC, animated: true)
     }
     
-    @objc func touchUpCategoryBtn() {
-        print("외과클릭")
-        getFilteredHospitalInfo(filteredHospitalInfo(0))
-    }
-    
-    @objc func touchUpCategoryBtn2() {
-        print("내과클릭")
-        getFilteredHospitalInfo(filteredHospitalInfo(1))
-    }
-    
-    @objc func touchUpCategoryBtn3() {
-        print("치과클릭")
-        getFilteredHospitalInfo(filteredHospitalInfo(2))
-    }
-    
-    @objc func touchUpCategoryBtn4() {
-        print("피부과클릭")
-        getFilteredHospitalInfo(filteredHospitalInfo(3))
-    }
-    
-    @objc func touchUpCategoryBtn5() {
-        print("기타클릭")
-        getFilteredHospitalInfo(filteredHospitalInfo(4))
+    @objc func touchUpCategoryBtn(_ sender: CategoryButton) {
+        print("카테고리 클릭 \(sender.tag)")
+        homeView.categoryButtons.forEach {
+            if $0.tag == sender.tag {
+                currentCategoryTag = sender.tag
+                sender.isSelected = true
+                
+            } else {
+                $0.isSelected = false
+            }
+            $0.changeCategoryButtonColor()
+        }
+        getFilteredHospitalInfo(filteredHospitalInfo(sender.tag))
     }
     
     //MARK: - 병원 카테고리 필터링
     func filteredHospitalInfo(_ categoryIndex: Int) -> [Document] {
         var filtered: [Document]
         
-        //외과 내과 치과 피부과를 제외한 모든 카테고리
-        if categoryIndex == 4 {
-            filtered = searchResultOriginData.filter({
-                !$0.categoryName.contains(hospitalCategory[0]) && !$0.categoryName.contains(hospitalCategory[1]) && !$0.categoryName.contains(hospitalCategory[2]) && !$0.categoryName.contains(hospitalCategory[3])
-            })
-            
-        } else {
+        switch categoryIndex {
+        case 1,2,3:
             filtered = searchResultOriginData.filter({
                 $0.categoryName.contains(hospitalCategory[categoryIndex])
             })
+        case 4:
+            //외과 내과 치과 피부과를 제외한 모든 카테고리
+            filtered = searchResultOriginData.filter({ !$0.categoryName.contains(hospitalCategory[1]) && !$0.categoryName.contains(hospitalCategory[2]) && !$0.categoryName.contains(hospitalCategory[3])
+            })
+        default:
+            filtered = searchResultOriginData
         }
-        
         return filtered
     }
 }
@@ -248,12 +253,21 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let lastIndex = tableView.indexPathsForVisibleRows?.last?.row else { return }
+        guard let metaData = metaData else { return }
+        print("willDisplay \(lastIndex), \(searchResultData.count), \(metaData.isEnd)")
+        if lastIndex == searchResultData.count-1 && !metaData.isEnd {
+            nextPage()
+        }
+    }
+    
     //테이블뷰셀 높이 설정
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
-    //테이블뷰 스크롤 설정
+    //테이블뷰 스크롤 설정, 스티키헤더 설정
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let scrollOffset = scrollView.contentOffset.y
         

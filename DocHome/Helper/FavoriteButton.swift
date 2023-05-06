@@ -21,7 +21,7 @@ class FavoriteButton: UIButton {
         self.isSelected = false
         self.setImage(UIImage(systemName: "star"), for: .normal)
         self.setImage(UIImage(systemName: "star.fill"), for: .selected)
-        changeFavoriteColor()
+        changeFavoriteButtonColor()
         
         self.addTarget(self, action: #selector(touchUpFavoriteButton), for: .touchUpInside)
     }
@@ -35,11 +35,11 @@ class FavoriteButton: UIButton {
         btn.isSelected = !btn.isSelected
         print("FavoriteButton 즐겨찾기 버튼 클릭 \(btn.isSelected)")
 
-        changeFavoriteColor()
+        changeFavoriteButtonColor()
         favoriteButtonDelegate?.actionFavoriteButton(isSelect: btn.isSelected)
     }
     
-    func changeFavoriteColor() {
+    func changeFavoriteButtonColor() {
         self.tintColor = self.isSelected ? .systemYellow : .gray
     }
 }

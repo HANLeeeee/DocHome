@@ -19,11 +19,11 @@ class HomeView: UIView {
         let btn = UIButton()
         btn.backgroundColor = .white
         btn.layer.cornerRadius = 20
-        btn.layer.borderWidth = 1
+        btn.layer.borderWidth = 2
         btn.layer.borderColor = UIColor(named: "COLOR_PURPLE")?.cgColor
-        btn.setTitle("검색", for: .normal)
-        btn.setTitleColor(UIColor(named: "COLOR_PURPLE"), for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
+        btn.setTitle("병원명을 검색해보세요 !", for: .normal)
+        btn.setTitleColor(.lightGray, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         btn.contentHorizontalAlignment = .left
         btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
 
@@ -44,62 +44,40 @@ class HomeView: UIView {
         return stackView
     }()
     
-    lazy var cellButton = { () -> UIButton in
-        let btn = UIButton()
+    lazy var cellButton = { () -> CategoryButton in
+        let btn = CategoryButton()
+        btn.setTitle("전체", for: .normal)
+        btn.tag = 0
+        btn.isSelected = true
         btn.backgroundColor = UIColor(named: "COLOR_PURPLE")
+        return btn
+    }()
+    
+    lazy var cellButton2 = { () -> CategoryButton in
+        let btn = CategoryButton()
         btn.setTitle("외과", for: .normal)
-//        btn.setTitleColor(.black, for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        btn.layer.cornerRadius = 10
-        btn.layer.borderWidth = 1
-        btn.layer.borderColor = UIColor(named: "COLOR_PURPLE")?.cgColor
+        btn.tag = 1
         return btn
     }()
     
-    lazy var cellButton2 = { () -> UIButton in
-        let btn = UIButton()
-        btn.backgroundColor = UIColor(named: "COLOR_PURPLE")
+    lazy var cellButton3 = { () -> CategoryButton in
+        let btn = CategoryButton()
         btn.setTitle("내과", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        btn.layer.cornerRadius = 10
-        btn.layer.borderWidth = 1
-        btn.layer.borderColor = UIColor(named: "COLOR_PURPLE")?.cgColor
+        btn.tag = 2
         return btn
     }()
     
-    lazy var cellButton3 = { () -> UIButton in
-        let btn = UIButton()
-        btn.backgroundColor = UIColor(named: "COLOR_PURPLE")
+    lazy var cellButton4 = { () -> CategoryButton in
+        let btn = CategoryButton()
         btn.setTitle("치과", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        btn.layer.cornerRadius = 10
-        btn.layer.borderWidth = 1
-        btn.layer.borderColor = UIColor(named: "COLOR_PURPLE")?.cgColor
-        
+        btn.tag = 3
         return btn
     }()
     
-    lazy var cellButton4 = { () -> UIButton in
-        let btn = UIButton()
-        btn.backgroundColor = UIColor(named: "COLOR_PURPLE")
-        btn.setTitle("피부과", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        btn.layer.cornerRadius = 10
-        btn.layer.borderWidth = 1
-        btn.layer.borderColor = UIColor(named: "COLOR_PURPLE")?.cgColor
-        
-        return btn
-    }()
-    
-    lazy var cellButton5 = { () -> UIButton in
-        let btn = UIButton()
-        btn.backgroundColor = UIColor(named: "COLOR_PURPLE")
+    lazy var cellButton5 = { () -> CategoryButton in
+        let btn = CategoryButton()
         btn.setTitle("기타", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        btn.layer.cornerRadius = 10
-        btn.layer.borderWidth = 1
-        btn.layer.borderColor = UIColor(named: "COLOR_PURPLE")?.cgColor
-        
+        btn.tag = 4
         return btn
     }()
     
@@ -117,6 +95,7 @@ class HomeView: UIView {
         return tableView
     }()
     
+    var categoryButtons = [CategoryButton]()
 
     //MARK: - init()
     override init(frame: CGRect) {
@@ -124,6 +103,12 @@ class HomeView: UIView {
         self.backgroundColor = .white
         addViews()
         makeConstraints()
+        
+        categoryButtons.append(cellButton)
+        categoryButtons.append(cellButton2)
+        categoryButtons.append(cellButton3)
+        categoryButtons.append(cellButton4)
+        categoryButtons.append(cellButton5)
     }
         
     required init?(coder: NSCoder) {

@@ -9,7 +9,7 @@ import Foundation
 
 enum APIManager {
     case searchKeyword(keyword: String, x: Double, y: Double)
-    case searchCategory(x: Double, y: Double)
+    case searchCategory(x: Double, y: Double, page: Int)
     
     var endPoint: String {
         switch self {
@@ -44,13 +44,15 @@ enum APIManager {
             
             return params
             
-        case .searchCategory(let x, let y):
+        case .searchCategory(let x, let y, let page):
             let params = [URLQueryItem(name: "category_group_code", value:
                                         "\(Constants.APIURL.KakaoAPI.category_group_code.hospital)"),
                           URLQueryItem(name: "x", value: "\(x)"),
                           URLQueryItem(name: "y", value: "\(y)"),
                           URLQueryItem(name: "radius", value: "\(20000)"),
-                          URLQueryItem(name: "sort", value: "distance")]
+                          URLQueryItem(name: "sort", value: "distance"),
+                          URLQueryItem(name: "page", value: "\(page)"),
+                          URLQueryItem(name: "size", value: "10")]
             
             return params
         }

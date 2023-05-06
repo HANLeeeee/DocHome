@@ -115,7 +115,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         hospitalLocationLabel.text = favoriteSearchResult.roadAddressName
         hospitalPhoneLabel.text = favoriteSearchResult.phone
         favoriteButton.isSelected = favoriteSearchResult.isFavorite
-        favoriteButton.changeFavoriteColor()
+        favoriteButton.changeFavoriteButtonColor()
     }
 }
 
