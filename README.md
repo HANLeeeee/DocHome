@@ -1,5 +1,6 @@
 # DocHome
 > 2022.08.14 ~ 2022.08.28 (2주간) <br/>
+> 리팩토링 : 2022.05.05 ~ 진행중 <br/>
 <img width="1048" alt="image" src="https://user-images.githubusercontent.com/74815957/190853337-4cdb0575-295b-490b-8e79-afee67f9f31a.png">
 
 
