@@ -14,7 +14,7 @@ class SearchView: UIView {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
-        view.layer.borderWidth = 1
+        view.layer.borderWidth = 2
         view.layer.borderColor = UIColor(named: "COLOR_PURPLE")?.cgColor
         
         return view
@@ -30,8 +30,7 @@ class SearchView: UIView {
     
     lazy var searchTextField = { () -> UITextField in
         let tf = UITextField()
-        tf.placeholder = "병원명을 입력하세요"
-        
+        tf.placeholder = "병원명을 검색해보세요 !"
         return tf
     }()
     

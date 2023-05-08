@@ -256,7 +256,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let lastIndex = tableView.indexPathsForVisibleRows?.last?.row else { return }
         guard let metaData = metaData else { return }
-        print("willDisplay \(lastIndex), \(searchResultData.count), \(metaData.isEnd)")
         if lastIndex == searchResultData.count-1 && !metaData.isEnd {
             nextPage()
         }
