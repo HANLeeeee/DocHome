@@ -207,6 +207,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     //테이블뷰셀 클릭
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("테이블뷰 셀 클릭")
         goSearchDetailVC(data: searchResultData[indexPath.row])
     }
     
@@ -235,6 +236,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.reloadFavoriteCollectionView()
+            cell.favoriteTableViewCellDelegate = self
             cell.selectionStyle = .none
             return cell
             
@@ -298,5 +300,13 @@ extension HomeViewController: SearchViewDelegate {
         let searchDetailVC = SearchDetailViewController()
         searchDetailVC.detailData = data
         self.navigationController?.pushViewController(searchDetailVC, animated: true)
+    }
+}
+
+//MARK: - FavoriteTableViewCellDelegate
+extension HomeViewController: FavoriteTableViewCellDelegate {
+    func getCollectionViewIndex(index: Int) {
+        let favoriteDocument = favoriteSearchResultDatas[index]
+        goSearchDetailVC(data: favoriteDocument)
     }
 }

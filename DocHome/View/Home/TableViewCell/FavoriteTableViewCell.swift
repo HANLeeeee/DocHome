@@ -8,7 +8,13 @@
 import UIKit
 import SnapKit
 
+protocol FavoriteTableViewCellDelegate {
+    func getCollectionViewIndex(index: Int)
+}
+
 class FavoriteTableViewCell: UITableViewCell {
+    
+    var favoriteTableViewCellDelegate: FavoriteTableViewCellDelegate?
     
     lazy var collectionView = { () -> UICollectionView in
         let layout = UICollectionViewFlowLayout()
@@ -61,6 +67,11 @@ class FavoriteTableViewCell: UITableViewCell {
 
 //MARK: - 컬렉션뷰 관련
 extension FavoriteTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("컬렉션뷰 셀 클릭 \(indexPath.row)")
+        favoriteTableViewCellDelegate?.getCollectionViewIndex(index: indexPath.row)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return favoriteSearchResultDatas.count
     }
