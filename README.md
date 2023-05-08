@@ -3,7 +3,10 @@
 
 ### Refactoring
 > 2023.05.05 ~ 진행중 <br/>
-<img width="1048" alt="image" src="https://user-images.githubusercontent.com/74815957/190853337-4cdb0575-295b-490b-8e79-afee67f9f31a.png">
+
+<img width="1048" alt="image" src="https://user-images.githubusercontent.com/74815957/236842913-2aca767a-e791-457a-868c-2127bf3ff4ba.png">
+
+<br />
 
 
 
