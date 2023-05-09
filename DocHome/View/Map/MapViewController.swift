@@ -16,14 +16,12 @@ class MapViewController: UIViewController, MTMapViewDelegate {
     let mapView = MapView()
     var locationManger = CLLocationManager()
     
-    
     //MARK: - init()
     convenience init(title: String) {
         self.init()
         self.title = title
         self.view.backgroundColor = .white
     }
-    
     
     //MARK: - 라이프사이클
     override func loadView() {
@@ -33,14 +31,19 @@ class MapViewController: UIViewController, MTMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("맵뷰 viewDidLoad")
         configureLocation()
         addCurrentLocationMarker()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("맵뷰 viewWillAppear")
+        setCurrentLocation()
+    }
+    
     func configureLocation() {
         mapView.searchMapView.delegate = self
-        //위치설정
-        mapView.searchMapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: userLocation.latitude, longitude: userLocation.longitude)), zoomLevel: 1, animated: true)
         
         locationManger.delegate = self
         // 거리 정확도 설정
@@ -58,6 +61,11 @@ class MapViewController: UIViewController, MTMapViewDelegate {
         }
     }
     
+    func setCurrentLocation() {
+        //위치설정
+        mapView.searchMapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: userLocation.latitude, longitude: userLocation.longitude)), zoomLevel: 1, animated: true)
+    }
+    
     // 사용자에게 허용 받기 alert 띄우기
     func getLocationPermission() {
         self.locationManger.requestWhenInUseAuthorization()
@@ -73,8 +81,6 @@ class MapViewController: UIViewController, MTMapViewDelegate {
         mapView.searchMapView.add(poiItem)
     }
 }
-
-
 
 //MARK: - CoreLocation 위치 관련
 extension MapViewController : CLLocationManagerDelegate {
