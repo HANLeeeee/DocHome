@@ -671,23 +671,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		B16E540628B7B8D70053B818 /* Detail */ = {
-			isa = PBXGroup;
-			children = (
-				B184B5C22A03ED7100F28298 /* SearchDetailView.swift */,
-				B16E540928B7C4410053B818 /* SearchDetailViewController.swift */,
-			);
-			path = Detail;
-			sourceTree = "<group>";
-		};
-		B1815FA728AA1AA500F06AC0 /* Setting */ = {
-			isa = PBXGroup;
-			children = (
-				B19CC81328A91AF9001E56B4 /* SettingViewController.swift */,
-			);
-			path = Setting;
-			sourceTree = "<group>";
-		};
 		B1815FA828AA1D8700F06AC0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -704,11 +687,11 @@
 		B188A76428D347090038F91A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B19CC81C28A94D9F001E56B4 /* Home */,
-				B1B956FA28B68304001085BB /* Search */,
-				B16E540628B7B8D70053B818 /* Detail */,
-				B19CC81D28A94DA7001E56B4 /* Map */,
-				B1815FA728AA1AA500F06AC0 /* Setting */,
+				B1BC1B032A055F9D007F5751 /* Helper */,
+				B19CC81828A94844001E56B4 /* HomeView.swift */,
+				B1CF455028B13D38003835BC /* SearchView.swift */,
+				B184B5C22A03ED7100F28298 /* SearchDetailView.swift */,
+				B19CC81A28A94AEF001E56B4 /* MapView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -740,7 +723,8 @@
 				B1B956FE28B69940001085BB /* UserDefaults */,
 				B1B956F728B67E00001085BB /* Model */,
 				B1B956EF28B66BCB001085BB /* API */,
-				B1BC1B032A055F9D007F5751 /* Helper */,
+				B1FCDC142A0EC12600182B57 /* Cell */,
+				B1FCDC0E2A0EC09A00182B57 /* Controller */,
 				B188A76428D347090038F91A /* View */,
 			);
 			path = DocHome;
@@ -771,31 +755,12 @@
 			path = DaumMapHeader;
 			sourceTree = "<group>";
 		};
-		B19CC81C28A94D9F001E56B4 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				B19CC81828A94844001E56B4 /* HomeView.swift */,
-				B19CC0F528A8FEFA001E56B4 /* HomeViewController.swift */,
-				B19CC81E28A94DB1001E56B4 /* TableViewCell */,
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
-		B19CC81D28A94DA7001E56B4 /* Map */ = {
-			isa = PBXGroup;
-			children = (
-				B19CC81A28A94AEF001E56B4 /* MapView.swift */,
-				B19CC81128A9193E001E56B4 /* MapViewController.swift */,
-			);
-			path = Map;
-			sourceTree = "<group>";
-		};
 		B19CC81E28A94DB1001E56B4 /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				B1BC1AFE2A052955007F5751 /* CollectionViewCell */,
 				B1BC1AFC2A05263A007F5751 /* FavoriteTableViewCell.swift */,
 				B19CC82328A95C1C001E56B4 /* RecommendTableViewCell.swift */,
+				B1B956FC28B68351001085BB /* SearchKeywordTableViewCell.swift */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -824,24 +789,6 @@
 				B1B9570628B6DF77001085BB /* SearchResponse.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		B1B956FA28B68304001085BB /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				B1CF455028B13D38003835BC /* SearchView.swift */,
-				B1CF431C28B13A59003835BC /* SearchViewController.swift */,
-				B1B956FB28B68317001085BB /* TableViewCell */,
-			);
-			path = Search;
-			sourceTree = "<group>";
-		};
-		B1B956FB28B68317001085BB /* TableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				B1B956FC28B68351001085BB /* SearchKeywordTableViewCell.swift */,
-			);
-			path = TableViewCell;
 			sourceTree = "<group>";
 		};
 		B1B956FE28B69940001085BB /* UserDefaults */ = {
@@ -1212,6 +1159,27 @@
 				B1CF487328B14CAC003835BC /* all_f.js */,
 			);
 			path = search;
+			sourceTree = "<group>";
+		};
+		B1FCDC0E2A0EC09A00182B57 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B19CC0F528A8FEFA001E56B4 /* HomeViewController.swift */,
+				B1CF431C28B13A59003835BC /* SearchViewController.swift */,
+				B16E540928B7C4410053B818 /* SearchDetailViewController.swift */,
+				B19CC81128A9193E001E56B4 /* MapViewController.swift */,
+				B19CC81328A91AF9001E56B4 /* SettingViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B1FCDC142A0EC12600182B57 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B1BC1AFE2A052955007F5751 /* CollectionViewCell */,
+				B19CC81E28A94DB1001E56B4 /* TableViewCell */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
