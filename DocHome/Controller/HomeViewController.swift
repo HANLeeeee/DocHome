@@ -78,35 +78,26 @@ class HomeViewController: UIViewController {
     func getHospitalInfo() {
         DispatchQueue.global().async { [self] in
             let userLocation = UserDefaultsData.shared.getLocation()
-            API.shared.searchCategoryAPI(x: userLocation.longitude, y: userLocation.latitude, page: self.currentPage, completion: { [self] result in
+            APIExecute.shared.searchCategoryRequest(x: userLocation.longitude, y: userLocation.latitude, page: self.currentPage, completion: { [self] (result: Result<SearchResponse, Error>) in
                 
-                guard result.documents.count != 0 else { return }
-                
-                if self.currentPage == 1 {
-                    searchResultOriginData = result.documents
-                    
-                } else {
-                    searchResultOriginData += result.documents
-                }
-                metaData = result.meta
-                getFilteredHospitalInfo(filteredHospitalInfo(currentCategoryTag))
-            })
-
-            /* alamofire 사용 시
-            API.shared.searchCategoryAPI(x: userLocation.longitude ?? "0", y: userLocation.latitude ?? "0", completion: { [self] result in
                 switch result {
-                case .success(let result):
-                    if result.documents.count != 0 {
-                        searchResultData = result.documents
+                case .success(let response):
+                    guard response.documents.count != 0 else { return }
+
+                    if currentPage == 1 {
+                        searchResultOriginData = response.documents
+
+                    } else {
+                        searchResultOriginData += response.documents
                     }
-                    homeView.homeTableView.reloadData()
-                    refreshControl.endRefreshing()
-                    Loading.hideLoading()
+                    metaData = response.meta
+                    getFilteredHospitalInfo(filteredHospitalInfo(currentCategoryTag))
+
                 case .failure(let error):
-                    print(error)
+                    print("통신 에러 \(error)")
+                    return
                 }
             })
-             */
         }
     }
     

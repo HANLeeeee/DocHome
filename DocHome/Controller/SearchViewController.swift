@@ -90,61 +90,46 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 extension SearchViewController {
     @objc func didChangeSearchTF(_ sender: Any) {
         print("텍스트필드 입력중")
-        callSearchAPI()
+        searchTextField()
     }
     
     @objc func didTabSearchBtn(_ sender: Any) {
         print("검색 버튼 클릭")
         self.view.endEditing(true)
-        callSearchAPI()
+        searchTextField()
     }
     
-    func callSearchAPI() {
+    func searchTextField() {
         guard var searchText = searchView.searchTextField.text else { return }
         guard searchText.count != 0 else { return }
         //공백제거
         searchText = searchText.trimmingCharacters(in: .whitespaces)
-
         searchView.resultTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-    
         print("호출 \(searchText)")
         DispatchQueue.global().async { [self] in
-            API.shared.searchKeywordAPI(keyword: searchText, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] result in
-                DispatchQueue.main.async { [self] in
-                    if result.documents.count == 0 {
-                        searchResultData.removeAll()
-                        searchView.resultTableView.isHidden = true
-                        searchView.searchResultLabel.isHidden = false
-                    } else {
-                        searchResultData = result.documents
-                        searchView.resultTableView.isHidden = false
-                        searchView.searchResultLabel.isHidden = true
-                    }
-                    searchView.resultTableView.reloadData()
-                }                
-            })
-            
-            /* alamofire 사용 시
-            API.shared.searchKeywordAPI(keyword: searchText, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] result in
+            APIExecute.shared.searchKeywordRequest(keyword: searchText, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] (result: Result<SearchResponse, Error>) in
+                
                 switch result {
-                case .success(let result):
-                    if result.documents.count == 0 {
-                        searchResultData.removeAll()
-                        searchView.resultTableView.isHidden = true
-                        searchView.searchResultLabel.isHidden = false
-                    } else {
-                        searchResultData = result.documents
+                case .success(let response):
+                    DispatchQueue.main.async { [self] in
+                        if response.documents.count == 0 {
+                            searchResultData.removeAll()
+                            searchView.resultTableView.isHidden = true
+                            searchView.searchResultLabel.isHidden = false
+                            searchView.resultTableView.reloadData()
+                            return
+                        }
+                        searchResultData = response.documents
                         searchView.resultTableView.isHidden = false
                         searchView.searchResultLabel.isHidden = true
+                        searchView.resultTableView.reloadData()
                     }
-                    searchView.resultTableView.reloadData()
-                    Loading.hideLoading()
                 case .failure(let error):
-                    print(error)
+                    print("통신 에러 \(error)")
+                    return
                 }
+                
             })
-             */
-            
         }
     }
 }

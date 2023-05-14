@@ -12,7 +12,6 @@ class MainTabBarController: UITabBarController {
     //MARK: - 라이프사이클
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("텝바 뷰디드로드")
         
         let homeVC = UINavigationController.init(rootViewController: HomeViewController(title: "닥홈"))
         let mapVC = UINavigationController.init(rootViewController: MapViewController(title: "지도"))
