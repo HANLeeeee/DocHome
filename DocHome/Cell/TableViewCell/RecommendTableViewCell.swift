@@ -81,8 +81,11 @@ class RecommendTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
-        self.favoriteButton.isSelected = false
+        hospitalNameLabel.text = ""
+        hospitalLocationLabel.text = ""
+        hospitalPhoneLabel.text = ""
+        hospitalDistanceLabel.text = ""
+        favoriteButton.isSelected = false
     }
    
     //MARK: - UI 관련

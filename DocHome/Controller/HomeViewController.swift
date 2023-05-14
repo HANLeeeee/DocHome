@@ -16,13 +16,14 @@ class HomeViewController: UIViewController {
     
     let homeView = HomeView()
     let hospitalCategory = ["전체", "외과", "내과", "치과", "기타"]
-    let tableViewSectionHeader = ["즐겨찾기", "내 주변 병원"]
+    let tableViewSectionHeaderTitle = ["즐겨찾기", "내 주변 병원"]
     var searchResultOriginData = [Document]()
     var searchResultData = [Document]()
     let refreshControl = UIRefreshControl()
     
     var currentCategoryTag = 0
     //페이징
+    var isPaging: Bool = true
     var currentPage: Int = 1
     var metaData: Meta?
         
@@ -76,23 +77,21 @@ class HomeViewController: UIViewController {
     
     //MARK: - 병원정보 가져오는 메소드
     func fetchHospitalInfo() {
-        DispatchQueue.global().async { [self] in
-            let userLocation = UserDefaultsData.shared.getLocation()
-            APIExecute.shared.searchCategoryRequest(x: userLocation.longitude, y: userLocation.latitude, page: self.currentPage, completion: { [self] (result: Result<SearchResponse, Error>) in
-                
-                switch result {
-                case .success(let response):
-                    guard !response.documents.isEmpty else { return }
-                    updateSearchResultData(response.documents)
-                    updateSearchResultMetaData(response.meta)
-                    refreshHospitalInfo(filteredHospitalInfo(currentCategoryTag))
+        let userLocation = UserDefaultsData.shared.getLocation()
+        APIExecute.shared.searchCategoryRequest(isPaging: self.isPaging, x: userLocation.longitude, y: userLocation.latitude, page: self.currentPage, completion: { [self] (result: Result<SearchResponse, Error>) in
+            
+            switch result {
+            case .success(let response):
+                guard !response.documents.isEmpty else { return }
+                updateSearchResultData(response.documents)
+                updateSearchResultMetaData(response.meta)
+                refreshHospitalInfo(filteredHospitalInfo(currentCategoryTag))
 
-                case .failure(let error):
-                    print("통신 에러 \(error)")
-                    self.present(showAlert(), animated: true)
-                }
-            })
-        }
+            case .failure(let error):
+                print("통신 에러 \(error)")
+                self.present(showAlert(), animated: true)
+            }
+        })
     }
     
     func updateSearchResultData(_ documents: [Document]) {
@@ -109,16 +108,29 @@ class HomeViewController: UIViewController {
     
     func refreshHospitalInfo(_ filteredData: [Document]) {
         searchResultData = filteredData
-        print("갯수 \(searchResultOriginData.count), 중에 \(searchResultData.count)")
+        if searchResultData.count < 6 {
+            nextPage()
+        }
         DispatchQueue.main.async { [self] in
             homeView.homeTableView.reloadData()
             refreshControl.endRefreshing()
+            
+            self.isPaging = true
+            homeView.homeTableView.tableFooterView = nil
         }
     }
     
     func nextPage() {
-        currentPage += 1
-        fetchHospitalInfo()
+        guard let isEndPaging = metaData?.isEnd else { return }
+        if isPaging && !isEndPaging {
+            isPaging = false
+            currentPage += 1
+            fetchHospitalInfo()
+            
+            DispatchQueue.main.async { [self] in
+                homeView.homeTableView.tableFooterView = IndicatorView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+            }
+        }
     }
 }
 
@@ -149,14 +161,10 @@ extension HomeViewController {
     
     //MARK: - 병원 카테고리 필터링
     func filteredHospitalInfo(_ categoryIndex: Int) -> [Document] {
-        var filtered: [Document]
-        
         switch categoryIndex {
         case 1...3:
-            filtered = searchResultOriginData.filter { document in
+            return searchResultOriginData.filter { document in
                 document.categoryName.contains(hospitalCategory[categoryIndex])}
-            print("\(searchResultOriginData.count) 필터된 개수 \(filtered.count)")
-            return filtered
             
         case 4:
             //외과 내과 치과 피부과를 제외한 모든 카테고리
@@ -172,15 +180,15 @@ extension HomeViewController {
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     //섹션의 개수
     func numberOfSections(in tableView: UITableView) -> Int {
-        return tableViewSectionHeader.count
+        return tableViewSectionHeaderTitle.count
     }
     
-    //섹션의 타이틀 텍스트
+    //섹션헤더 텍스트
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return tableViewSectionHeader[section]
+        return tableViewSectionHeaderTitle[section]
     }
     
-    //섹션의 타이틀 텍스트 폰트 설정
+    //섹션헤더 텍스트 폰트 설정
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = HomeTableViewHeaderView()
         headerView.titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
@@ -189,19 +197,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return headerView
     }
     
-    //섹션의 타이틀 높이 설정
+    //섹션헤더 높이 설정
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch section {
-        case 0:
-            if favoriteSearchResultDatas.count == 0 {
-                return 0
-            }
-            return 50
-        
-        default:
-            return 50
+        if favoriteSearchResultDatas.count == 0 {
+            return 0
         }
-        
+        return 50
     }
     
     //테이블뷰셀 클릭
@@ -253,14 +254,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let lastIndex = tableView.indexPathsForVisibleRows?.last?.row else { return }
-        guard let metaData = metaData else { return }
-        if lastIndex == searchResultData.count-1 && !metaData.isEnd {
-            nextPage()
-        }
-    }
-    
     //테이블뷰셀 높이 설정
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -268,8 +261,19 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     //테이블뷰 스크롤 설정, 스티키헤더 설정
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateNewHospitalInfo(scrollView)
+        updateStikyHeader(scrollView)
+    }
+    
+    func updateNewHospitalInfo(_ scrollView: UIScrollView) {
         let scrollOffset = scrollView.contentOffset.y
-        
+        if scrollOffset > scrollView.contentSize.height-scrollView.frame.size.height+100 {
+            nextPage()
+        }
+    }
+    
+    func updateStikyHeader(_ scrollView: UIScrollView) {
+        let scrollOffset = scrollView.contentOffset.y
         let scrollY = homeView.topView.constraints[0].constant - scrollOffset
         let maxHeight = Constants.View.HomeView.TopView.size.maxHeight
         let minHeight = Constants.View.HomeView.TopView.size.minHeight
@@ -282,7 +286,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             
         } else {
             homeView.topView.constraints[0].constant = scrollY
-            
             //점점 흐리게
             homeView.cellStackView.alpha = scrollY / maxHeight
             //자연스럽게 스크롤

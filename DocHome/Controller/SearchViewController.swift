@@ -106,23 +106,21 @@ extension SearchViewController {
     }
     
     func searchKeywordResults(keyword: String) {
-        DispatchQueue.global().async { [self] in
-            APIExecute.shared.searchKeywordRequest(keyword: keyword, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] (result: Result<SearchResponse, Error>) in
-                switch result {
-                case .success(let response):
-                    DispatchQueue.main.async {
-                        if response.documents.isEmpty {
-                            self.clearSearchResult()
-                        } else {
-                            self.updateSearchResult(response.documents)
-                        }
+        APIExecute.shared.searchKeywordRequest(keyword: keyword, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] (result: Result<SearchResponse, Error>) in
+            switch result {
+            case .success(let response):
+                DispatchQueue.main.async {
+                    if response.documents.isEmpty {
+                        self.clearSearchResult()
+                    } else {
+                        self.updateSearchResult(response.documents)
                     }
-                case .failure(let error):
-                    print("통신 에러 \(error)")
-                    return
                 }
-            })
-        }
+            case .failure(let error):
+                print("통신 에러 \(error)")
+                return
+            }
+        })
     }
     
     func clearSearchResult() {

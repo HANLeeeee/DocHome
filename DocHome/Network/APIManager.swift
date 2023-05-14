@@ -53,7 +53,7 @@ enum APIManager {
                           URLQueryItem(name: "x", value: "\(x)"),
                           URLQueryItem(name: "y", value: "\(y)"),
                           URLQueryItem(name: "radius", value: "\(20000)"),
-                          URLQueryItem(name: "sort", value: "distance")]
+                          URLQueryItem(name: "sort", value: "accuracy")]
             
             return params
         }
