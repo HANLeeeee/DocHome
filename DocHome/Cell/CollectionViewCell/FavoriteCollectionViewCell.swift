@@ -60,7 +60,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
-        addViews()
+        addSubViews()
         makeConstraints()
     }
         
@@ -69,7 +69,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - func
-    func addViews() {
+    func addSubViews() {
         self.contentView.addSubview(cellView)
         cellView.addSubview(hospitalNameLabel)
         cellView.addSubview(hospitalLocationLabel)
@@ -122,12 +122,10 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
 //MARK: - FavoriteButtonDelegate
 extension FavoriteCollectionViewCell: FavoriteButtonDelegate {
     func actionFavoriteButton(isSelect: Bool) {
-        print("FavoriteCollectionViewCell 즐겨찾기버튼이 클릭되었어")
-        if !isSelect {
-            favoriteSearchResultDatas.remove(at: self.index)
-            
+        if isSelect {
+            favoriteSearchResultDatas.insert(favoriteSearchResult, at: index)
         } else {
-            favoriteSearchResultDatas.insert(self.favoriteSearchResult, at: self.index)
+            favoriteSearchResultDatas.remove(at: index)
         }
     }
 }

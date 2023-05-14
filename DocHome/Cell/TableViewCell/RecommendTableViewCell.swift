@@ -71,7 +71,7 @@ class RecommendTableViewCell: UITableViewCell {
     //MARK: - init()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addViews()
+        addSubViews()
         makeConstraints()
     }
     
@@ -86,7 +86,7 @@ class RecommendTableViewCell: UITableViewCell {
     }
    
     //MARK: - UI 관련
-    func addViews() {
+    func addSubViews() {
         self.contentView.addSubview(cellView)
         cellView.addSubview(hospitalNameLabel)
         cellView.addSubview(hospitalLocationLabel)
@@ -138,35 +138,28 @@ class RecommendTableViewCell: UITableViewCell {
         hospitalLocationLabel.text = searchResult.roadAddressName
         hospitalPhoneLabel.text = searchResult.phone
         hospitalDistanceLabel.text = "\(searchResult.distance) m"
-        if checkFavorite() {
-            favoriteButton.isSelected = true
-            self.searchResult.isFavorite = true
-        }
+        
+        favoriteButton.isSelected = checkFavorite()
+        self.searchResult.isFavorite = favoriteButton.isSelected
         favoriteButton.changeFavoriteButtonColor()
     }
     
     func checkFavorite() -> Bool {
-        let filtered = favoriteSearchResultDatas.contains {
-            $0.id == self.searchResult.id
-        }
-        
-        return filtered
+        return favoriteSearchResultDatas.contains { $0.id == searchResult.id }
     }
 }
 
 //MARK: - FavoriteButtonDelegate
 extension RecommendTableViewCell: FavoriteButtonDelegate {
     func actionFavoriteButton(isSelect: Bool) {
-        print("RecommendTableViewCell 즐겨찾기버튼이 클릭되었어 \(isSelect)")
-        if !isSelect {
-            guard let favoriteIndex = favoriteSearchResultDatas.firstIndex(where: {
-                $0.id == self.searchResult.id }) else { return }
-            
-            favoriteSearchResultDatas.remove(at: favoriteIndex)
+        if isSelect {
+            self.searchResult.isFavorite = true
+            favoriteSearchResultDatas.append(searchResult)
             
         } else {
-            self.searchResult.isFavorite = true
-            favoriteSearchResultDatas.append(self.searchResult)
+            if let favoriteIndex = favoriteSearchResultDatas.firstIndex(where: { $0.id == searchResult.id }) {
+                favoriteSearchResultDatas.remove(at: favoriteIndex)
+            }
         }
     }
 }

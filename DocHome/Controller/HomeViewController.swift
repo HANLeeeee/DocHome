@@ -34,76 +34,82 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUI()
-        registerTableView()
+        setupButtons()
+        setupTableView()
+        setupRefreshControl()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("홈뷰 viewWillAppear")
-        getHospitalInfo()
+        fetchHospitalInfo()
     }
     
     //MARK: - UI 메소드
-    func setUI() {
+    func setupButtons() {
         homeView.searchBtn.addTarget(self, action: #selector(touchUpSearchBtn), for: .touchUpInside)
-        
-        for btn in homeView.categoryButtons {
-            btn.addTarget(self, action: #selector(touchUpCategoryBtn), for: .touchUpInside)
+        homeView.categoryButtons.forEach { button in
+            button.addTarget(self, action: #selector(touchUpCategoryBtn), for: .touchUpInside)
         }
     }
     
     //MARK: - 테이블뷰등록 메소드
-    func registerTableView() {
+    func setupTableView() {
         homeView.homeTableView.delegate = self
         homeView.homeTableView.dataSource = self
         homeView.homeTableView.register(FavoriteTableViewCell.self,
                                         forCellReuseIdentifier: Constants.TableView.Identifier.favoriteTableViewCell)
         homeView.homeTableView.register(RecommendTableViewCell.self,
                                         forCellReuseIdentifier: Constants.TableView.Identifier.recommendCell)
-        
-        //refreshControl 설정
+    }
+    
+    func setupRefreshControl() {
         refreshControl.beginRefreshing()
         homeView.homeTableView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(refreshAction), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(pullAction), for: .valueChanged)
     }
     
     //테이블뷰 당겨서 새로고침
-    @objc func refreshAction() {
+    @objc func pullAction() {
         currentPage = 1
-        getHospitalInfo()
+        fetchHospitalInfo()
     }
     
     //MARK: - 병원정보 가져오는 메소드
-    func getHospitalInfo() {
+    func fetchHospitalInfo() {
         DispatchQueue.global().async { [self] in
             let userLocation = UserDefaultsData.shared.getLocation()
             APIExecute.shared.searchCategoryRequest(x: userLocation.longitude, y: userLocation.latitude, page: self.currentPage, completion: { [self] (result: Result<SearchResponse, Error>) in
                 
                 switch result {
                 case .success(let response):
-                    guard response.documents.count != 0 else { return }
-
-                    if currentPage == 1 {
-                        searchResultOriginData = response.documents
-
-                    } else {
-                        searchResultOriginData += response.documents
-                    }
-                    metaData = response.meta
-                    getFilteredHospitalInfo(filteredHospitalInfo(currentCategoryTag))
+                    guard !response.documents.isEmpty else { return }
+                    updateSearchResultData(response.documents)
+                    updateSearchResultMetaData(response.meta)
+                    refreshHospitalInfo(filteredHospitalInfo(currentCategoryTag))
 
                 case .failure(let error):
                     print("통신 에러 \(error)")
-                    return
+                    self.present(showAlert(), animated: true)
                 }
             })
         }
     }
     
-    func getFilteredHospitalInfo(_ filteredData: [Document]) {
+    func updateSearchResultData(_ documents: [Document]) {
+        if currentPage == 1 {
+            searchResultOriginData = documents
+        } else {
+            searchResultOriginData += documents
+        }
+    }
+    
+    func updateSearchResultMetaData(_ metaData: Meta) {
+        self.metaData = metaData
+    }
+    
+    func refreshHospitalInfo(_ filteredData: [Document]) {
         searchResultData = filteredData
-        
+        print("갯수 \(searchResultOriginData.count), 중에 \(searchResultData.count)")
         DispatchQueue.main.async { [self] in
             homeView.homeTableView.reloadData()
             refreshControl.endRefreshing()
@@ -112,32 +118,33 @@ class HomeViewController: UIViewController {
     
     func nextPage() {
         currentPage += 1
-        getHospitalInfo()
+        fetchHospitalInfo()
     }
 }
 
 //MARK: - 버튼이벤트
 extension HomeViewController {
     @objc func touchUpSearchBtn() {
-        print("검색클릭")
         let searchVC = SearchViewController()
         searchVC.searchViewDelegate = self
         self.present(searchVC, animated: true)
     }
     
-    @objc func touchUpCategoryBtn(_ sender: CategoryButton) {
-        print("카테고리 클릭 \(sender.tag)")
-        homeView.categoryButtons.forEach {
-            if $0.tag == sender.tag {
-                currentCategoryTag = sender.tag
-                sender.isSelected = true
-                
+    @objc func touchUpCategoryBtn(_ categoryButton: CategoryButton) {
+        refreshHospitalInfo(filteredHospitalInfo(categoryButton.tag))
+        updateCategoryButton(categoryButton)
+    }
+    
+    func updateCategoryButton(_ categoryButton: CategoryButton) {
+        for button in homeView.categoryButtons {
+            if button.tag == categoryButton.tag {
+                currentCategoryTag = categoryButton.tag
+                categoryButton.isSelected = true
             } else {
-                $0.isSelected = false
+                button.isSelected = false
             }
-            $0.changeCategoryButtonColor()
+            button.changeCategoryButtonColor()
         }
-        getFilteredHospitalInfo(filteredHospitalInfo(sender.tag))
     }
     
     //MARK: - 병원 카테고리 필터링
@@ -145,18 +152,19 @@ extension HomeViewController {
         var filtered: [Document]
         
         switch categoryIndex {
-        case 1,2,3:
-            filtered = searchResultOriginData.filter({
-                $0.categoryName.contains(hospitalCategory[categoryIndex])
-            })
+        case 1...3:
+            filtered = searchResultOriginData.filter { document in
+                document.categoryName.contains(hospitalCategory[categoryIndex])}
+            print("\(searchResultOriginData.count) 필터된 개수 \(filtered.count)")
+            return filtered
+            
         case 4:
             //외과 내과 치과 피부과를 제외한 모든 카테고리
-            filtered = searchResultOriginData.filter({ !$0.categoryName.contains(hospitalCategory[1]) && !$0.categoryName.contains(hospitalCategory[2]) && !$0.categoryName.contains(hospitalCategory[3])
+            return searchResultOriginData.filter({ !$0.categoryName.contains(hospitalCategory[1]) && !$0.categoryName.contains(hospitalCategory[2]) && !$0.categoryName.contains(hospitalCategory[3])
             })
         default:
-            filtered = searchResultOriginData
+            return searchResultOriginData
         }
-        return filtered
     }
 }
 
@@ -198,7 +206,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     //테이블뷰셀 클릭
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("테이블뷰 셀 클릭")
         goSearchDetailVC(data: searchResultData[indexPath.row])
     }
     

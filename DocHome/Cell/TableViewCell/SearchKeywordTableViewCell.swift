@@ -47,7 +47,7 @@ class SearchKeywordTableViewCell: UITableViewCell {
     //MARK: - init()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addViews()
+        addSubViews()
         makeConstraints()
     }
     
@@ -57,7 +57,7 @@ class SearchKeywordTableViewCell: UITableViewCell {
     
     
     //MARK: - UI 관련
-    func addViews() {
+    func addSubViews() {
         self.contentView.addSubview(resultView)
         resultView.addSubview(hospitalNameLabel)
         resultView.addSubview(hospitalLocationLabel)

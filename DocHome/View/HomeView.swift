@@ -101,7 +101,7 @@ class HomeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
-        addViews()
+        addSubViews()
         makeConstraints()
         
         categoryButtons.append(cellButton)
@@ -116,7 +116,7 @@ class HomeView: UIView {
     }
     
     //MARK: - func
-    func addViews() {
+    func addSubViews() {
         self.addSubview(topView)
         topView.addSubview(searchBtn)
         topView.addSubview(searchBtnImage)

@@ -111,7 +111,7 @@ class SearchDetailView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
-        addViews()
+        addSubViews()
         makeConstraints()
     }
         
@@ -120,7 +120,7 @@ class SearchDetailView: UIView {
     }
     
     //MARK: - func
-    func addViews() {
+    func addSubViews() {
         self.addSubview(scrollView)
         scrollView.addSubview(contentView)
         

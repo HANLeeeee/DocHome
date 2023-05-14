@@ -27,7 +27,7 @@ class HomeTableViewHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
-        addViews()
+        addSubViews()
         makeConstraints()
     }
     
@@ -36,7 +36,7 @@ class HomeTableViewHeaderView: UIView {
     }
     
     //MARK: - func
-    func addViews() {
+    func addSubViews() {
         self.addSubview(titleLabel)
         self.addSubview(bottomView)
     }

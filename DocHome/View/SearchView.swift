@@ -59,7 +59,7 @@ class SearchView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
-        addViews()
+        addSubViews()
         makeConstraints()
     }
         
@@ -68,7 +68,7 @@ class SearchView: UIView {
     }
     
     //MARK: - func
-    func addViews() {
+    func addSubViews() {
         self.addSubview(searchView)
         searchView.addSubview(searchBtn)
         searchView.addSubview(searchTextField)

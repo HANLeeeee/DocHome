@@ -7,6 +7,22 @@
 
 import Foundation
 
+enum ExecuteError: CustomStringConvertible {
+    case callingError(errorContent: String)
+    case receiveData
+    case httprequest
+    case jsonDataParsing
+
+    var description: String {
+        switch self {
+        case .callingError(let errorContent): return "오류 호출, 오류내용: \(errorContent)"
+        case .receiveData: return "데이터 수신 오류"
+        case .httprequest: return "HTTP 요청 오류"
+        case .jsonDataParsing: return "JSON 데이터 파싱 오류"
+        }
+    }
+}
+
 class APIExecute {
     static let shared: APIExecute = {
         return APIExecute()
@@ -25,20 +41,19 @@ class APIExecute {
     func execute<T: Decodable>(_ request: URLRequest, _ completion: @escaping (Result<T, Error>) -> Void ) {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                print("searchKeywordAPI Error: error calling GET")
-                print(error!)
+                print(ExecuteError.callingError(errorContent: "\(error!)"))
                 return
             }
             guard let data = data else {
-                print("searchKeywordAPI Error: Did not receive data")
+                print(ExecuteError.receiveData)
                 return
             }
             guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
-                print("searchKeywordAPI Error: HTTP request failed")
+                print(ExecuteError.httprequest)
                 return
             }
             guard let result: T = try? JSONDecoder().decode(T.self, from: data) else {
-                print("searchKeywordAPI Error: JSON Data Parsing failed")
+                print(ExecuteError.jsonDataParsing)
                 return
             }
             completion(.success(result))

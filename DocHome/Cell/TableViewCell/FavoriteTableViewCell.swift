@@ -31,8 +31,8 @@ class FavoriteTableViewCell: UITableViewCell {
     //MARK: - init()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        registerCollectionView()
-        addViews()
+        setupCollectionView()
+        addSubViews()
         makeConstraints()
     }
     
@@ -40,7 +40,7 @@ class FavoriteTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func registerCollectionView() {
+    func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(FavoriteCollectionViewCell.self, forCellWithReuseIdentifier: Constants.CollectionView.Identifier.favoriteCollectionViewCell)
@@ -48,7 +48,7 @@ class FavoriteTableViewCell: UITableViewCell {
     
     
     //MARK: - UI 관련
-    func addViews() {
+    func addSubViews() {
         self.contentView.addSubview(collectionView)
     }
     
@@ -67,11 +67,6 @@ class FavoriteTableViewCell: UITableViewCell {
 
 //MARK: - 컬렉션뷰 관련
 extension FavoriteTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("컬렉션뷰 셀 클릭 \(indexPath.row)")
-        favoriteTableViewCellDelegate?.getCollectionViewIndex(index: indexPath.row)
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return favoriteSearchResultDatas.count
     }
@@ -81,14 +76,19 @@ extension FavoriteTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
             return UICollectionViewCell()
         }
         
-        guard favoriteSearchResultDatas.count != 0 else { return  cell }
-        cell.configureCell(favoriteSearchResult: favoriteSearchResultDatas[indexPath.row], index: indexPath.row)
-        
+        if favoriteSearchResultDatas.isEmpty == false {
+            cell.configureCell(favoriteSearchResult: favoriteSearchResultDatas[indexPath.row], index: indexPath.row)
+        }
+
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         return CGSize(width: Constants.CollectionView.FavoriteCollectionViewCell.size.width, height: Constants.CollectionView.FavoriteCollectionViewCell.size.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        favoriteTableViewCellDelegate?.getCollectionViewIndex(index: indexPath.row)
     }
 }

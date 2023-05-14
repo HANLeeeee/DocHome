@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct UserLocation {
-    //서울시청을 기본값으로 설정
+struct CurrentLocation {
     let latitude: Double
     let longitude: Double
 //    let latitude: Double = 37.566352778     //위도

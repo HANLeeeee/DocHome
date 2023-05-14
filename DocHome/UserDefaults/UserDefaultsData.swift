@@ -23,14 +23,14 @@ class UserDefaultsData {
     }
     
     func setLocation(latitude: Double, longitude: Double) {
-        UserDefaults.standard.setValue(latitude, forKey: "latitude")
-        UserDefaults.standard.setValue(longitude, forKey: "longitude")
+        UserDefaults.standard.setValue(latitude, forKey: Key.latitude.rawValue)
+        UserDefaults.standard.setValue(longitude, forKey: Key.longitude.rawValue)
         UserDefaults.standard.synchronize()
     }
     
-    func getLocation() -> UserLocation {
-        let latitude = UserDefaults.standard.double(forKey: "latitude")
-        let longitude = UserDefaults.standard.double(forKey: "longitude")
-        return UserLocation(latitude: latitude, longitude: longitude)
+    func getLocation() -> CurrentLocation {
+        let latitude = UserDefaults.standard.double(forKey: Key.latitude.rawValue)
+        let longitude = UserDefaults.standard.double(forKey: Key.longitude.rawValue)
+        return CurrentLocation(latitude: latitude, longitude: longitude)
     }
 }

@@ -30,11 +30,11 @@ class SearchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        registerTableView()
-        configureTarget()
+        setupTableView()
+        setupButtons()
     }
     
-    func registerTableView() {
+    func setupTableView() {
         searchView.resultTableView.delegate = self
         searchView.resultTableView.dataSource = self
         
@@ -43,7 +43,7 @@ class SearchViewController: UIViewController {
     }
     
     
-    func configureTarget() {
+    func setupButtons() {
         searchView.searchTextField.becomeFirstResponder()
         
         searchView.searchTextField.addTarget(self,
@@ -89,48 +89,54 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 //MARK: - Action 관련
 extension SearchViewController {
     @objc func didChangeSearchTF(_ sender: Any) {
-        print("텍스트필드 입력중")
-        searchTextField()
+        updateSearchKeywordResults()
     }
     
     @objc func didTabSearchBtn(_ sender: Any) {
-        print("검색 버튼 클릭")
         self.view.endEditing(true)
-        searchTextField()
+        updateSearchKeywordResults()
     }
     
-    func searchTextField() {
-        guard var searchText = searchView.searchTextField.text else { return }
-        guard searchText.count != 0 else { return }
-        //공백제거
-        searchText = searchText.trimmingCharacters(in: .whitespaces)
+    func updateSearchKeywordResults() {
+        guard let searchText = searchView.searchTextField.text, !searchText.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
         searchView.resultTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-        print("호출 \(searchText)")
+        searchKeywordResults(keyword: searchText)
+    }
+    
+    func searchKeywordResults(keyword: String) {
         DispatchQueue.global().async { [self] in
-            APIExecute.shared.searchKeywordRequest(keyword: searchText, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] (result: Result<SearchResponse, Error>) in
-                
+            APIExecute.shared.searchKeywordRequest(keyword: keyword, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] (result: Result<SearchResponse, Error>) in
                 switch result {
                 case .success(let response):
-                    DispatchQueue.main.async { [self] in
-                        if response.documents.count == 0 {
-                            searchResultData.removeAll()
-                            searchView.resultTableView.isHidden = true
-                            searchView.searchResultLabel.isHidden = false
-                            searchView.resultTableView.reloadData()
-                            return
+                    DispatchQueue.main.async {
+                        if response.documents.isEmpty {
+                            self.clearSearchResult()
+                        } else {
+                            self.updateSearchResult(response.documents)
                         }
-                        searchResultData = response.documents
-                        searchView.resultTableView.isHidden = false
-                        searchView.searchResultLabel.isHidden = true
-                        searchView.resultTableView.reloadData()
                     }
                 case .failure(let error):
                     print("통신 에러 \(error)")
                     return
                 }
-                
             })
         }
+    }
+    
+    func clearSearchResult() {
+        searchResultData.removeAll()
+        searchView.resultTableView.isHidden = true
+        searchView.searchResultLabel.isHidden = false
+        searchView.resultTableView.reloadData()
+    }
+    
+    func updateSearchResult(_ documents: [Document]) {
+        searchResultData = documents
+        searchView.resultTableView.isHidden = false
+        searchView.searchResultLabel.isHidden = true
+        searchView.resultTableView.reloadData()
     }
 }
 

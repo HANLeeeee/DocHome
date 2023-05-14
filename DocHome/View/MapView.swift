@@ -22,7 +22,7 @@ class MapView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
-        addViews()
+        addSubViews()
         makeConstraints()
     }
         
@@ -30,7 +30,7 @@ class MapView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addViews() {
+    func addSubViews() {
         self.addSubview(searchMapView)
     }
     
