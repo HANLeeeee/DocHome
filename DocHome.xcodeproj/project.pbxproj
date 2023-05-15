@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		43C77D13E37BE6B7D7018F92 /* Pods_DocHome.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDC91C4F720A57C823475FC7 /* Pods_DocHome.framework */; };
+		B1000E492A125686002062B2 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000E482A125686002062B2 /* UIColor+Extension.swift */; };
 		B1144BDA2A05ACCD00E99ADD /* HomeTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1144BD92A05ACCD00E99ADD /* HomeTableViewHeaderView.swift */; };
 		B1144BDC2A05FC3C00E99ADD /* CategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1144BDB2A05FC3C00E99ADD /* CategoryButton.swift */; };
 		B16E540A28B7C4410053B818 /* SearchDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16E540928B7C4410053B818 /* SearchDetailViewController.swift */; };
@@ -320,6 +321,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B1000E482A125686002062B2 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		B1144BD92A05ACCD00E99ADD /* HomeTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewHeaderView.swift; sourceTree = "<group>"; };
 		B1144BDB2A05FC3C00E99ADD /* CategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButton.swift; sourceTree = "<group>"; };
 		B16E540928B7C4410053B818 /* SearchDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewController.swift; sourceTree = "<group>"; };
@@ -675,6 +677,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		B1000E472A125644002062B2 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B1000E482A125686002062B2 /* UIColor+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		B1815FA828AA1D8700F06AC0 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -683,7 +693,6 @@
 				B19CC0F128A8FEFA001E56B4 /* AppDelegate.swift */,
 				B19CC0F328A8FEFA001E56B4 /* SceneDelegate.swift */,
 				B19CC0FA28A8FEFC001E56B4 /* Assets.xcassets */,
-				B19CC80F28A9124C001E56B4 /* MainTabBarController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -721,6 +730,7 @@
 		B19CC0F028A8FEFA001E56B4 /* DocHome */ = {
 			isa = PBXGroup;
 			children = (
+				B1000E472A125644002062B2 /* Extension */,
 				B19CC15728A8FF9E001E56B4 /* DaumMapHeader */,
 				B1815FA828AA1D8700F06AC0 /* Base */,
 				B1B956F428B66F64001085BB /* Constant */,
@@ -1170,6 +1180,7 @@
 		B1FCDC0E2A0EC09A00182B57 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B19CC80F28A9124C001E56B4 /* MainTabBarController.swift */,
 				B19CC0F528A8FEFA001E56B4 /* HomeViewController.swift */,
 				B1CF431C28B13A59003835BC /* SearchViewController.swift */,
 				B16E540928B7C4410053B818 /* SearchDetailViewController.swift */,
@@ -1581,6 +1592,7 @@
 				B1BC1B052A055FCA007F5751 /* FavoriteButton.swift in Sources */,
 				B1CF431D28B13A59003835BC /* SearchViewController.swift in Sources */,
 				B19CC82428A95C1C001E56B4 /* RecommendTableViewCell.swift in Sources */,
+				B1000E492A125686002062B2 /* UIColor+Extension.swift in Sources */,
 				B1B9570728B6DF77001085BB /* SearchResponse.swift in Sources */,
 				B19CC81228A9193E001E56B4 /* MapViewController.swift in Sources */,
 				B16E540A28B7C4410053B818 /* SearchDetailViewController.swift in Sources */,

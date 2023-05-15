@@ -47,9 +47,9 @@ class HomeViewController: UIViewController {
     
     //MARK: - UI 메소드
     func setupButtons() {
-        homeView.searchBtn.addTarget(self, action: #selector(touchUpSearchBtn), for: .touchUpInside)
+        homeView.searchButton.addTarget(self, action: #selector(touchUpSearchButton), for: .touchUpInside)
         homeView.categoryButtons.forEach { button in
-            button.addTarget(self, action: #selector(touchUpCategoryBtn), for: .touchUpInside)
+            button.addTarget(self, action: #selector(touchUpCategoryButton), for: .touchUpInside)
         }
     }
     
@@ -136,13 +136,13 @@ class HomeViewController: UIViewController {
 
 //MARK: - 버튼이벤트
 extension HomeViewController {
-    @objc func touchUpSearchBtn() {
+    @objc func touchUpSearchButton() {
         let searchVC = SearchViewController()
         searchVC.searchViewDelegate = self
         self.present(searchVC, animated: true)
     }
     
-    @objc func touchUpCategoryBtn(_ categoryButton: CategoryButton) {
+    @objc func touchUpCategoryButton(_ categoryButton: CategoryButton) {
         refreshHospitalInfo(filteredHospitalInfo(categoryButton.tag))
         updateCategoryButton(categoryButton)
     }
@@ -300,6 +300,7 @@ extension HomeViewController: SearchViewDelegate {
     func goSearchDetailVC(data: Document) {
         let searchDetailVC = SearchDetailViewController()
         searchDetailVC.detailData = data
+        searchDetailVC.index = favoriteSearchResultDatas.firstIndex(where: { $0.id == data.id }) ?? favoriteSearchResultDatas.endIndex
         self.navigationController?.pushViewController(searchDetailVC, animated: true)
     }
 }

@@ -15,12 +15,12 @@ class HomeView: UIView {
         return view
     }()
     
-    lazy var searchBtn = { () -> UIButton in
+    lazy var searchButton = { () -> UIButton in
         let btn = UIButton()
         btn.backgroundColor = .white
         btn.layer.cornerRadius = 20
         btn.layer.borderWidth = 2
-        btn.layer.borderColor = UIColor(named: "COLOR_PURPLE")?.cgColor
+        btn.layer.borderColor = UIColor.purpleColor?.cgColor
         btn.setTitle("병원명을 검색해보세요 !", for: .normal)
         btn.setTitleColor(.lightGray, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
@@ -30,10 +30,10 @@ class HomeView: UIView {
         return btn
     }()
 
-    lazy var searchBtnImage = { () -> UIImageView in
+    lazy var searchButtonImage = { () -> UIImageView in
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "magnifyingglass")
-        imageView.tintColor = UIColor(named: "COLOR_PURPLE")
+        imageView.tintColor = .purpleColor
         return imageView
     }()
     
@@ -49,7 +49,7 @@ class HomeView: UIView {
         btn.setTitle("전체", for: .normal)
         btn.tag = 0
         btn.isSelected = true
-        btn.backgroundColor = UIColor(named: "COLOR_PURPLE")
+        btn.backgroundColor = .purpleColor
         return btn
     }()
     
@@ -118,8 +118,8 @@ class HomeView: UIView {
     //MARK: - func
     func addSubViews() {
         self.addSubview(topView)
-        topView.addSubview(searchBtn)
-        topView.addSubview(searchBtnImage)
+        topView.addSubview(searchButton)
+        topView.addSubview(searchButtonImage)
         
         topView.addSubview(cellStackView)
         cellStackView.addArrangedSubview(cellButton)
@@ -138,18 +138,18 @@ class HomeView: UIView {
             make.height.equalTo(Constants.View.HomeView.TopView.size.maxHeight)
         }
         
-        searchBtn.snp.makeConstraints { make in
+        searchButton.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(Constants.View.HomeView.TopView.size.minHeight)
         }
         
-        searchBtnImage.snp.makeConstraints { make in
-            make.centerY.equalTo(searchBtn.snp.centerY)
-            make.trailing.equalTo(searchBtn.snp.trailing).offset(-20)
+        searchButtonImage.snp.makeConstraints { make in
+            make.centerY.equalTo(searchButton.snp.centerY)
+            make.trailing.equalTo(searchButton.snp.trailing).offset(-20)
         }
         
         cellStackView.snp.makeConstraints { make in
-            make.top.equalTo(searchBtn.snp.bottom).offset(20)
+            make.top.equalTo(searchButton.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(50)
         }

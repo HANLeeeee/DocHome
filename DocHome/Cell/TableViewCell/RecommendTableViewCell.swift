@@ -56,8 +56,8 @@ class RecommendTableViewCell: UITableViewCell {
     lazy var hospitalDistanceLabel = { () -> UILabel in
         let label = UILabel()
         label.text = "거리거리다당"
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
-        label.textColor = UIColor(named: "COLOR_PURPLE")
+        label.font = .systemFont(ofSize: 18, weight: .bold)
+        label.textColor = .yellowColor
         
         return label
     }()

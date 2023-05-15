@@ -13,14 +13,14 @@ class HomeTableViewHeaderView: UIView {
     lazy var titleLabel = { () -> UILabel in
         let label = UILabel()
         label.font = .systemFont(ofSize: 24, weight: .bold)
-        label.textColor = UIColor(named: "COLOR_PURPLE")
+        label.textColor = .purpleColor
         label.textAlignment = .left
         return label
     }()
 
     lazy var bottomView = { () -> UIView in
         let view = UIView()
-        view.backgroundColor = UIColor(named: "COLOR_PURPLE")
+        view.backgroundColor = .purpleColor
         return view
     }()
     

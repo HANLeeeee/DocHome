@@ -27,7 +27,7 @@ class MainTabBarController: UITabBarController {
         mapVC.tabBarItem = mapTabBarItem
         settingVC.tabBarItem = settingTabBarItem
         
-        self.tabBar.tintColor = UIColor(named: "COLOR_PURPLE")
+        self.tabBar.tintColor = .purpleColor
         
     }
 }

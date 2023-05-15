@@ -122,6 +122,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
 //MARK: - FavoriteButtonDelegate
 extension FavoriteCollectionViewCell: FavoriteButtonDelegate {
     func actionFavoriteButton(isSelect: Bool) {
+        if index < 0 { return }
         if isSelect {
             favoriteSearchResultDatas.insert(favoriteSearchResult, at: index)
         } else {

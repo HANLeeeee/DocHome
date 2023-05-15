@@ -47,10 +47,10 @@ class SearchViewController: UIViewController {
         searchView.searchTextField.becomeFirstResponder()
         
         searchView.searchTextField.addTarget(self,
-                     action: #selector(didChangeSearchTF(_:)),
+                     action: #selector(didChangeSearchTextField(_:)),
                      for: .editingChanged)
-        searchView.searchBtn.addTarget(self,
-                      action: #selector(didTabSearchBtn(_:)),
+        searchView.searchButton.addTarget(self,
+                      action: #selector(touchupSearchButton(_:)),
                       for: .touchUpInside)
     }
 }
@@ -88,11 +88,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: - Action 관련
 extension SearchViewController {
-    @objc func didChangeSearchTF(_ sender: Any) {
+    @objc func didChangeSearchTextField(_ sender: Any) {
         updateSearchKeywordResults()
     }
     
-    @objc func didTabSearchBtn(_ sender: Any) {
+    @objc func touchupSearchButton(_ sender: Any) {
         self.view.endEditing(true)
         updateSearchKeywordResults()
     }

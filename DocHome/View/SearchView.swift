@@ -15,15 +15,15 @@ class SearchView: UIView {
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
         view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor(named: "COLOR_PURPLE")?.cgColor
+        view.layer.borderColor = UIColor.purpleColor?.cgColor
         
         return view
     }()
     
-    lazy var searchBtn = { () -> UIButton in
+    lazy var searchButton = { () -> UIButton in
         let btn = UIButton()
         btn.setBackgroundImage(UIImage(systemName: "magnifyingglass"), for: .normal)
-        btn.tintColor = UIColor(named: "COLOR_PURPLE")
+        btn.tintColor = .purpleColor
         
         return btn
     }()
@@ -70,7 +70,7 @@ class SearchView: UIView {
     //MARK: - func
     func addSubViews() {
         self.addSubview(searchView)
-        searchView.addSubview(searchBtn)
+        searchView.addSubview(searchButton)
         searchView.addSubview(searchTextField)
         
         self.addSubview(searchResultLabel)
@@ -83,7 +83,7 @@ class SearchView: UIView {
             make.height.equalTo(50)
         }
         
-        searchBtn.snp.makeConstraints { make in
+        searchButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 10))
         }

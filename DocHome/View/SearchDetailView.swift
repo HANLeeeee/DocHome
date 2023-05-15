@@ -34,25 +34,25 @@ class SearchDetailView: UIView {
         return view
     }()
     
-    lazy var myLocationBtn = { () -> UIButton in
+    lazy var myLocationButton = { () -> UIButton in
         let btn = UIButton()
-        btn.setTitle("내 위치로", for: .normal)
+        btn.setTitle("내 위치", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        btn.setTitleColor(.link, for: .normal)
+        btn.setTitleColor(.yellowColor, for: .normal)
         btn.setImage(UIImage(systemName: "location.fill"), for: .normal)
-        //버튼 title 왼쪽정렬
+        btn.tintColor = .yellowColor
         btn.contentHorizontalAlignment = .left
         btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5)
         return btn
     }()
     
-    lazy var destinationBtn = { () -> UIButton in
+    lazy var destinationButton = { () -> UIButton in
         let btn = UIButton()
-        btn.setTitle("목적지로", for: .normal)
+        btn.setTitle("목적지", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 15)
-        btn.setTitleColor(.link, for: .normal)
+        btn.setTitleColor(.yellowColor, for: .normal)
         btn.setImage(UIImage(systemName: "pin.fill"), for: .normal)
-        //버튼 title 왼쪽정렬
+        btn.tintColor = .yellowColor
         btn.contentHorizontalAlignment = .left
         btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5)
         return btn
@@ -60,9 +60,19 @@ class SearchDetailView: UIView {
     
     lazy var titleLabel = { () -> UILabel in
         let label = UILabel()
-        label.textColor = UIColor(named: "COLOR_PURPLE")
+        label.textColor = .purpleColor
         label.text = "병원명이 아주 길었을 경우를 대비하여 작성한 예시입니다."
         label.font = .systemFont(ofSize: 26, weight: .bold)
+        label.lineBreakMode = .byCharWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    lazy var categoryLabel = { () -> UILabel in
+        let label = UILabel()
+        label.textColor = .purpleColor
+        label.text = "병원명이 아주 길었을 경우를 대비하여 작성한 예시입니다."
+        label.font = .systemFont(ofSize: 18, weight: .bold)
         label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
         return label
@@ -72,7 +82,7 @@ class SearchDetailView: UIView {
         let label = UILabel()
         label.textColor = .black
         label.text = "스크롤 뷰 안에 컨텐츠 들이 들어가는 컨텐츠뷰를 하나 생성하였습니다. 애플 공식 문서에서도 정의되어있듯이 스크롤뷰 안에는 스크롤 되는 컨텐츠뷰가 존재해야 스크롤 뷰가 정상적으로 동작합니다. 따라서 컨텐츠 뷰라는 이름을 가진 UIView객체를 하나 생성하였습니다. 스크롤 되는 모든 컴포넌트들은 모두 여기의 자식뷰로 들어갈 예정입니다."
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.font = .systemFont(ofSize: 16, weight: .light)
         label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
         return label
@@ -82,7 +92,17 @@ class SearchDetailView: UIView {
         let label = UILabel()
         label.textColor = .black
         label.text = "현재 위치에서의 거리"
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
+        label.font = .systemFont(ofSize: 16, weight: .light)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    lazy var distanceValueLabel = { () -> UILabel in
+        let label = UILabel()
+        label.textColor = .yellowColor
+        label.text = "거리를 나타내는 라벨입니다."
+        label.font = .systemFont(ofSize: 18, weight: .bold)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -92,18 +112,22 @@ class SearchDetailView: UIView {
         let label = UILabel()
         label.textColor = .black
         label.text = "02-1234-5678"
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.font = .systemFont(ofSize: 18, weight: .regular)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
     }()
     
-    lazy var linkBtn = { () -> UIButton in
+    lazy var kakaoMapButton = { () -> UIButton in
         let btn = UIButton()
         btn.setTitle("카카오맵 바로가기", for: .normal)
-        btn.setTitleColor(.link, for: .normal)
-        //버튼 title 왼쪽정렬
+        btn.setTitleColor(.gray, for: .normal)
         btn.contentHorizontalAlignment = .left
+        return btn
+    }()
+    
+    lazy var favoriteButton = { () -> FavoriteButton in
+        let btn = FavoriteButton()
         return btn
     }()
     
@@ -127,14 +151,17 @@ class SearchDetailView: UIView {
         contentView.addSubview(mapView)
         mapView.addSubview(mapLocationView)
         
-        contentView.addSubview(myLocationBtn)
-        contentView.addSubview(destinationBtn)
+        contentView.addSubview(myLocationButton)
+        contentView.addSubview(destinationButton)
         
         contentView.addSubview(titleLabel)
+        contentView.addSubview(favoriteButton)
+        contentView.addSubview(categoryLabel)
         contentView.addSubview(locationLabel)
         contentView.addSubview(distanceLabel)
+        contentView.addSubview(distanceValueLabel)
         contentView.addSubview(telLabel)
-        contentView.addSubview(linkBtn)
+        contentView.addSubview(kakaoMapButton)
     }
     
     func makeConstraints() {
@@ -154,49 +181,66 @@ class SearchDetailView: UIView {
             make.width.equalTo(Constants.Device.width)
         }
         
-        myLocationBtn.snp.makeConstraints { make in
+        myLocationButton.snp.makeConstraints { make in
             make.top.equalTo(mapView.snp.bottom).offset(15)
             make.leading.equalTo(20)
             make.height.equalTo(20)
             make.width.equalTo(100)
         }
         
-        destinationBtn.snp.makeConstraints { make in
-            make.centerY.equalTo(myLocationBtn.snp.centerY)
-            make.leading.equalTo(myLocationBtn.snp.trailing).offset(10)
-            make.height.equalTo(20)
-            make.width.equalTo(100)
+        destinationButton.snp.makeConstraints { make in
+            make.top.equalTo(myLocationButton.snp.top)
+            make.leading.equalTo(myLocationButton.snp.trailing).offset(10)
+            make.height.equalTo(myLocationButton.snp.height)
+            make.width.equalTo(myLocationButton.snp.width)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(myLocationBtn.snp.bottom).offset(20)
+            make.top.equalTo(myLocationButton.snp.bottom).offset(20)
             make.leading.equalTo(20)
             make.trailing.equalTo(-20)
+        }
+        
+        favoriteButton.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.top)
+            make.trailing.equalTo(titleLabel.snp.trailing)
+            make.height.width.equalTo(30)
+        }
+        
+        categoryLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(15)
+            make.leading.equalTo(titleLabel.snp.leading)
+            make.trailing.equalTo(titleLabel.snp.trailing)
         }
         
         locationLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(20)
-            make.leading.equalTo(20)
-            make.trailing.equalTo(-20)
+            make.top.equalTo(categoryLabel.snp.bottom).offset(15)
+            make.leading.equalTo(titleLabel.snp.leading)
+            make.trailing.equalTo(titleLabel.snp.trailing)
         }
         
         distanceLabel.snp.makeConstraints { make in
-            make.top.equalTo(locationLabel.snp.bottom).offset(10)
-            make.leading.equalTo(20)
-            make.trailing.equalTo(-20)
+            make.top.equalTo(locationLabel.snp.bottom).offset(15)
+            make.leading.equalTo(titleLabel.snp.leading)
         }
         
+        distanceValueLabel.snp.makeConstraints { make in
+            make.top.equalTo(distanceLabel.snp.top)
+            make.leading.equalTo(distanceLabel.snp.trailing).offset(5)
+            make.trailing.equalTo(titleLabel.snp.trailing)
+        }
+
         telLabel.snp.makeConstraints { make in
-            make.top.equalTo(distanceLabel.snp.bottom).offset(20)
-            make.leading.equalTo(20)
-            make.trailing.equalTo(-20)
+            make.top.equalTo(distanceLabel.snp.bottom).offset(15)
+            make.leading.equalTo(titleLabel.snp.leading)
+            make.trailing.equalTo(titleLabel.snp.trailing)
         }
         
-        linkBtn.snp.makeConstraints { make in
+        kakaoMapButton.snp.makeConstraints { make in
             make.top.equalTo(telLabel.snp.bottom).offset(20)
-            make.leading.equalTo(20)
-            make.trailing.equalTo(-20)
-            make.height.equalTo(30)
+            make.leading.equalTo(titleLabel.snp.leading)
+            make.trailing.equalTo(titleLabel.snp.trailing)
+            make.bottom.equalTo(-40)
         }
         
     }
