@@ -199,10 +199,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     //섹션헤더 높이 설정
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if favoriteSearchResultDatas.count == 0 {
-            return 0
+        switch section {
+        case 0:
+            if favoriteSearchResultDatas.isEmpty {
+                return 0
+            }
+            return 50
+        default:
+            return 50
         }
-        return 50
     }
     
     //테이블뷰셀 클릭
@@ -278,19 +283,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let maxHeight = Constants.View.HomeView.TopView.size.maxHeight
         let minHeight = Constants.View.HomeView.TopView.size.minHeight
         
-        if scrollY > maxHeight {
-            homeView.topView.constraints[0].constant = maxHeight
-            
-        } else if scrollY < minHeight {
-            homeView.topView.constraints[0].constant = minHeight
-            
-        } else {
-            homeView.topView.constraints[0].constant = scrollY
-            //점점 흐리게
-            homeView.cellStackView.alpha = scrollY / maxHeight
-            //자연스럽게 스크롤
-            scrollView.contentOffset.y = 0
-        }
+        let clampedScrollY = min(max(scrollY, minHeight), maxHeight)
+        homeView.topView.constraints[0].constant = clampedScrollY
+        
+        if scrollY > minHeight && scrollY < maxHeight {
+             scrollView.contentOffset.y = 0
+         }
+        
+        let alpha = clampedScrollY / maxHeight
+        homeView.cellStackView.alpha = alpha
     }
 }
 
