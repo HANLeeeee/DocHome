@@ -100,7 +100,7 @@ class SearchDetailView: UIView {
     
     lazy var distanceValueLabel = { () -> UILabel in
         let label = UILabel()
-        label.textColor = .yellowColor
+        label.textColor = .purpleColor
         label.text = "거리를 나타내는 라벨입니다."
         label.font = .systemFont(ofSize: 18, weight: .bold)
         label.lineBreakMode = .byWordWrapping

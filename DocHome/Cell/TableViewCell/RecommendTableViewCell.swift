@@ -57,7 +57,7 @@ class RecommendTableViewCell: UITableViewCell {
         let label = UILabel()
         label.text = "거리거리다당"
         label.font = .systemFont(ofSize: 18, weight: .bold)
-        label.textColor = .yellowColor
+        label.textColor = .purpleColor
         
         return label
     }()
