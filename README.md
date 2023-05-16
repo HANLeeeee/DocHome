@@ -15,6 +15,7 @@
 - Simulator를 사용하는 경우 [설정 -> 일반 -> 언어 및 지역] 에서 지역을 대한민국으로 변경
 - 검색을 클릭하여 원하는 병원명 검색
 
+<br/><br/>
 
 ## 📌 Project Goal
 - Snapkit을 사용하여 Code Base를 기반으로 UI 구현 <br/>
