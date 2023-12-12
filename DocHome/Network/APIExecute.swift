@@ -23,7 +23,7 @@ enum ExecuteError: CustomStringConvertible {
     }
 }
 
-class APIExecute {
+final class APIExecute {
     static let shared: APIExecute = {
         return APIExecute()
     }()

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MapView: UIView {
+final class MapView: UIView {
     
     lazy var searchMapView = { () -> MTMapView in
         let view = MTMapView.init(frame: CGRect(x: 0, y: 0,
@@ -26,15 +26,16 @@ class MapView: UIView {
         makeConstraints()
     }
         
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addSubViews() {
+    private func addSubViews() {
         self.addSubview(searchMapView)
     }
     
-    func makeConstraints() {
+    private func makeConstraints() {
         searchMapView.snp.makeConstraints { make in
             make.edges.equalTo(self.safeAreaLayoutGuide)
         }

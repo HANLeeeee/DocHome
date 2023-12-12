@@ -5,57 +5,50 @@
 //  Created by 최하늘 on 2022/08/21.
 //
 
-import Foundation
+import UIKit
 import SnapKit
 
-class SearchView: UIView {
+final class SearchView: UIView {
     
-    lazy var searchView = { () -> UIView in
+    private let searchView = { () -> UIView in
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.purpleColor?.cgColor
-        
         return view
     }()
     
-    lazy var searchButton = { () -> UIButton in
+    let searchButton = { () -> UIButton in
         let btn = UIButton()
         btn.setBackgroundImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         btn.tintColor = .purpleColor
-        
         return btn
     }()
     
-    lazy var searchTextField = { () -> UITextField in
+    let searchTextField = { () -> UITextField in
         let tf = UITextField()
         tf.placeholder = "병원명을 검색해보세요 !"
         return tf
     }()
     
-    lazy var resultTableView = { () -> UITableView in
+    let resultTableView = { () -> UITableView in
         let tableView = UITableView()
-//        tableView.backgroundColor = .brown
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.showsHorizontalScrollIndicator = false
-        
         return tableView
     }()
     
-    lazy var searchResultLabel = { () -> UILabel in
+    let searchResultLabel = { () -> UILabel in
         let label = UILabel()
         label.text = "검색 결과 없음"
         label.font = .systemFont(ofSize: 15, weight: .semibold)
         label.textColor = .darkGray
         label.isHidden = true
-        
         return label
     }()
     
-    
-    //MARK: - init()
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
@@ -63,12 +56,12 @@ class SearchView: UIView {
         makeConstraints()
     }
         
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - func
-    func addSubViews() {
+    private func addSubViews() {
         self.addSubview(searchView)
         searchView.addSubview(searchButton)
         searchView.addSubview(searchTextField)
@@ -77,7 +70,7 @@ class SearchView: UIView {
         self.addSubview(resultTableView)
     }
     
-    func makeConstraints() {
+    private func makeConstraints() {
         searchView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview().inset(15)
             make.height.equalTo(50)

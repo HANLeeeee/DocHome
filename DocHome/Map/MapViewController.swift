@@ -1,5 +1,5 @@
 //
-//  MapVC.swift
+//  MapViewController.swift
 //  DocHome
 //
 //  Created by 최하늘 on 2022/08/14.
@@ -9,23 +9,20 @@ import UIKit
 import SnapKit
 import CoreLocation
 
-class MapViewController: UIViewController, MTMapViewDelegate {
+final class MapViewController: UIViewController, MTMapViewDelegate {
     
-    //MARK: - 프로퍼티
-    let userLocation = UserDefaultsData.shared.getLocation()
-    let mapView = MapView()
-    var locationManger = CLLocationManager()
+    private let userLocation = UserDefaultsData.shared.getLocation()
+    private let mapView = MapView()
+    private var locationManger = CLLocationManager()
     
-    //MARK: - init()
     convenience init(title: String) {
         self.init()
         self.title = title
         self.view.backgroundColor = .white
     }
     
-    //MARK: - 라이프사이클
     override func loadView() {
-        self.view = .init()
+        super.loadView()
         self.view = mapView
     }
     
@@ -42,37 +39,31 @@ class MapViewController: UIViewController, MTMapViewDelegate {
         setCurrentLocation()
     }
     
-    func configureLocation() {
+    private func configureLocation() {
         mapView.searchMapView.delegate = self
-        
         locationManger.delegate = self
-        // 거리 정확도 설정
         locationManger.desiredAccuracy = kCLLocationAccuracyBest
         getLocationPermission()
         
-        // 아이폰 설정에서의 위치 서비스가 켜진 상태라면
         DispatchQueue.global().async {
             if CLLocationManager.locationServicesEnabled() {
                 print("위치 서비스 On 상태")
-                self.locationManger.startUpdatingLocation() //위치 정보 받아오기 시작
+                self.locationManger.startUpdatingLocation()
             } else {
                 print("위치 서비스 Off 상태")
             }
         }
     }
     
-    func setCurrentLocation() {
-        //위치설정
+    private func setCurrentLocation() {
         mapView.searchMapView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(latitude: userLocation.latitude, longitude: userLocation.longitude)), zoomLevel: 1, animated: true)
     }
     
-    // 사용자에게 허용 받기 alert 띄우기
-    func getLocationPermission() {
+    private func getLocationPermission() {
         self.locationManger.requestWhenInUseAuthorization()
     }
     
-    //현재위치 마커 추가
-    func addCurrentLocationMarker() {
+    private func addCurrentLocationMarker() {
         let mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: userLocation.latitude, longitude: userLocation.longitude))
         let poiItem = MTMapPOIItem()
         poiItem.markerType = MTMapPOIItemMarkerType.bluePin
@@ -83,7 +74,7 @@ class MapViewController: UIViewController, MTMapViewDelegate {
 }
 
 //MARK: - CoreLocation 위치 관련
-extension MapViewController : CLLocationManagerDelegate {
+extension MapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             print("위도: \(location.coordinate.latitude)")
@@ -92,7 +83,6 @@ extension MapViewController : CLLocationManagerDelegate {
         }
     }
     
-    // 위도 경도 받아오기 에러
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UserDefaultsData {
+final class UserDefaultsData {
     enum Key: String, CaseIterable {
         case latitude, longitude
     }
@@ -25,7 +25,6 @@ class UserDefaultsData {
     func setLocation(latitude: Double, longitude: Double) {
         UserDefaults.standard.setValue(latitude, forKey: Key.latitude.rawValue)
         UserDefaults.standard.setValue(longitude, forKey: Key.longitude.rawValue)
-        UserDefaults.standard.synchronize()
     }
     
     func getLocation() -> CurrentLocation {

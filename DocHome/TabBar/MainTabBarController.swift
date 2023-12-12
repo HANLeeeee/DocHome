@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController {
+final class MainTabBarController: UITabBarController {
     
     //MARK: - 라이프사이클
     override func viewDidLoad() {
@@ -27,7 +27,6 @@ class MainTabBarController: UITabBarController {
         mapVC.tabBarItem = mapTabBarItem
         settingVC.tabBarItem = settingTabBarItem
         
-        self.tabBar.tintColor = .purpleColor
-        
+        self.tabBar.tintColor = .purpleColor        
     }
 }

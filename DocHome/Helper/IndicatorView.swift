@@ -8,11 +8,12 @@
 import UIKit
 import SnapKit
 
-class IndicatorView: UIView {
+final class IndicatorView: UIView {
     
-    lazy var spinner = { () -> UIActivityIndicatorView in
+    private lazy var spinner = { () -> UIActivityIndicatorView in
         let spinner = UIActivityIndicatorView()
         spinner.center = self.center
+        spinner.style = .medium
         spinner.startAnimating()
         return spinner
     }()
@@ -23,12 +24,12 @@ class IndicatorView: UIView {
         addSubViews()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - func
-    func addSubViews() {
+    private func addSubViews() {
         self.addSubview(spinner)
     }
 }

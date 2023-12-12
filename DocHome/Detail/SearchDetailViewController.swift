@@ -9,17 +9,27 @@ import UIKit
 import SafariServices
 import CoreLocation
 
-class SearchDetailViewController: UIViewController, MTMapViewDelegate {
+final class SearchDetailViewController: UIViewController, MTMapViewDelegate {
     
-    //MARK: - 프로퍼티
-    let userLocation = UserDefaultsData.shared.getLocation()
-    let searchDetailView = SearchDetailView()
-    var index = -1
-    var detailData = Document()
+    private let userLocation = UserDefaultsData.shared.getLocation()
+    private let searchDetailView = SearchDetailView()
     
-    //MARK: - 라이프사이클
+    private let index: Int
+    private var detailData: Document
+    
+    init(detailData: Document, index: Int) {
+        self.detailData = detailData
+        self.index = index
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
-        self.view = .init()
+        super.loadView()
         self.title = detailData.placeName
         self.view = searchDetailView
     }
@@ -34,7 +44,7 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
         updateFavoriteButton()
     }
     
-    func setupButtons() {
+    private func setupButtons() {
         searchDetailView.myLocationButton.addTarget(self,
                                                  action: #selector(touchUpMyLocationButton(_:)),
                                                  for: .touchUpInside)
@@ -47,7 +57,7 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
         searchDetailView.favoriteButton.favoriteButtonDelegate = self
     }
 
-    func configureLocation() {
+    private func configureLocation() {
         searchDetailView.mapLocationView.delegate = self
         searchDetailView.mapLocationView.setMapCenter(MTMapPoint(geoCoord: MTMapPointGeo(
             latitude: Double(detailData.y) ?? 0,
@@ -55,8 +65,7 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
         )), zoomLevel: MTMapZoomLevel(0.1), animated: true)
     }
 
-    //현재위치 마커 추가
-    func addCurrentLocationMarker() {
+    private func addCurrentLocationMarker() {
         let mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: userLocation.latitude, longitude: userLocation.longitude))
         let poiItem = MTMapPOIItem()
         poiItem.markerType = MTMapPOIItemMarkerType.bluePin
@@ -65,8 +74,7 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
         searchDetailView.mapLocationView.add(poiItem)
     }
     
-    //목적지 마커 추가
-    func addDestinationMarker() {
+    private func addDestinationMarker() {
         let mapPoint = MTMapPoint(geoCoord: MTMapPointGeo(latitude: Double(detailData.y) ?? 0, longitude: Double(detailData.x) ?? 0))
         let poiItem = MTMapPOIItem()
         poiItem.markerType = MTMapPOIItemMarkerType.redPin
@@ -75,20 +83,12 @@ class SearchDetailViewController: UIViewController, MTMapViewDelegate {
         searchDetailView.mapLocationView.add(poiItem)
     }
 
-    func setupViewData() {
-        searchDetailView.titleLabel.text = detailData.placeName
-        searchDetailView.categoryLabel.text = detailData.categoryName
-        searchDetailView.locationLabel.text = detailData.roadAddressName
-        searchDetailView.distanceValueLabel.text = "\(detailData.distance)m"
-        searchDetailView.telLabel.text = detailData.phone
+    private func setupViewData() {
+        searchDetailView.setupLabelText(title: detailData.placeName, category: detailData.categoryName, location: detailData.roadAddressName, distance: "\(detailData.distance)m", tel: detailData.phone)
     }
     
-    func updateFavoriteButton() {
-        print(index)
-        print("원래 \(searchDetailView.favoriteButton.isSelected)")
-        if index < 0 { return }
+    private func updateFavoriteButton() {
         searchDetailView.favoriteButton.isSelected = favoriteSearchResultDatas.contains(where: { $0.id == detailData.id })
-        print("변경후 \(searchDetailView.favoriteButton.isSelected)")
         searchDetailView.favoriteButton.changeFavoriteButtonColor()
     }
 }
@@ -115,15 +115,14 @@ extension SearchDetailViewController {
         print("카카오맵 버튼 클릭")
         guard let url = NSURL(string: detailData.placeURL) else { return }
         let urlView: SFSafariViewController = SFSafariViewController(url: url as URL)
+        urlView.modalPresentationStyle = .formSheet
         self.present(urlView, animated: true, completion: nil)
     }
 }
 
-
 //MARK: - FavoriteButtonDelegate
 extension SearchDetailViewController: FavoriteButtonDelegate {
     func actionFavoriteButton(isSelect: Bool) {
-        if index < 0 { return }
         if isSelect {
             detailData.isFavorite = true
             favoriteSearchResultDatas.insert(detailData, at: index)

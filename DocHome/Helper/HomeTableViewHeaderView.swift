@@ -8,9 +8,9 @@
 import UIKit
 import SnapKit
 
-class HomeTableViewHeaderView: UIView {
+final class HomeTableViewHeaderView: UIView {
     
-    lazy var titleLabel = { () -> UILabel in
+    let titleLabel = { () -> UILabel in
         let label = UILabel()
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.textColor = .purpleColor
@@ -18,7 +18,7 @@ class HomeTableViewHeaderView: UIView {
         return label
     }()
 
-    lazy var bottomView = { () -> UIView in
+    let bottomView = { () -> UIView in
         let view = UIView()
         view.backgroundColor = .purpleColor
         return view
@@ -31,17 +31,17 @@ class HomeTableViewHeaderView: UIView {
         makeConstraints()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - func
-    func addSubViews() {
+    private func addSubViews() {
         self.addSubview(titleLabel)
         self.addSubview(bottomView)
     }
     
-    func makeConstraints() {
+    private func makeConstraints() {
         titleLabel.snp.makeConstraints{ make in
             make.top.equalTo(10)
             make.leading.equalTo(20)

@@ -1,5 +1,5 @@
 //
-//  SearchVC.swift
+//  SearchViewController.swift
 //  DocHome
 //
 //  Created by 최하늘 on 2022/08/21.
@@ -7,34 +7,29 @@
 
 import UIKit
 
-protocol SearchViewDelegate {
+protocol SearchViewDelegate: AnyObject {
     func goSearchDetailVC(data: Document)
 }
 
-class SearchViewController: UIViewController {
+final class SearchViewController: UIViewController {
     
-    let userLocation = UserDefaultsData.shared.getLocation()
-    let searchView = SearchView()
-    var searchResultData = [Document]()
-    var searchViewDelegate: SearchViewDelegate?
-        
-    //MARK: - 라이프사이클
+    private let userLocation = UserDefaultsData.shared.getLocation()
+    private let searchView = SearchView()
+    private var searchResultData = [Document]()
+    weak var searchViewDelegate: SearchViewDelegate?
+    
     override func loadView() {
-        self.view = .init()
+        super.loadView()
         self.view = searchView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         setupTableView()
         setupButtons()
     }
     
-    func setupTableView() {
+    private func setupTableView() {
         searchView.resultTableView.delegate = self
         searchView.resultTableView.dataSource = self
         
@@ -42,8 +37,7 @@ class SearchViewController: UIViewController {
                                             forCellReuseIdentifier: Constants.TableView.Identifier.searchKeywordCell)
     }
     
-    
-    func setupButtons() {
+    private func setupButtons() {
         searchView.searchTextField.becomeFirstResponder()
         
         searchView.searchTextField.addTarget(self,
@@ -58,7 +52,6 @@ class SearchViewController: UIViewController {
 
 //MARK: - 테이블뷰 관련
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("테이블뷰 셀 클릭 \(indexPath.row)번째")
         searchViewDelegate?.goSearchDetailVC(data: searchResultData[indexPath.row])
@@ -70,9 +63,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.searchKeywordCell, for: indexPath) as? SearchKeywordTableViewCell else {
-            return UITableViewCell()
-        }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.searchKeywordCell, for: indexPath) as? SearchKeywordTableViewCell else { return UITableViewCell() }
         
         let searchResult = searchResultData[indexPath.row]
         cell.configureCell(searchResult: searchResult)
@@ -97,7 +88,7 @@ extension SearchViewController {
         updateSearchKeywordResults()
     }
     
-    func updateSearchKeywordResults() {
+    private func updateSearchKeywordResults() {
         guard let searchText = searchView.searchTextField.text, !searchText.trimmingCharacters(in: .whitespaces).isEmpty else {
             return
         }
@@ -105,7 +96,7 @@ extension SearchViewController {
         searchKeywordResults(keyword: searchText)
     }
     
-    func searchKeywordResults(keyword: String) {
+    private func searchKeywordResults(keyword: String) {
         APIExecute.shared.searchKeywordRequest(keyword: keyword, x: userLocation.longitude, y: userLocation.latitude, completion: { [self] (result: Result<SearchResponse, Error>) in
             switch result {
             case .success(let response):
@@ -123,14 +114,14 @@ extension SearchViewController {
         })
     }
     
-    func clearSearchResult() {
+    private func clearSearchResult() {
         searchResultData.removeAll()
         searchView.resultTableView.isHidden = true
         searchView.searchResultLabel.isHidden = false
         searchView.resultTableView.reloadData()
     }
     
-    func updateSearchResult(_ documents: [Document]) {
+    private func updateSearchResult(_ documents: [Document]) {
         searchResultData = documents
         searchView.resultTableView.isHidden = false
         searchView.searchResultLabel.isHidden = true

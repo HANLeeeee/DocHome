@@ -5,25 +5,16 @@
 //  Created by 최하늘 on 2023/05/04.
 //
 
-import Foundation
 import SnapKit
 import UIKit
 
-class SearchDetailView: UIView {
-    lazy var scrollView = { () -> UIScrollView in
-        let scrollView = UIScrollView()
-        return scrollView
-    }()
+final class SearchDetailView: UIView {
     
-    lazy var contentView = { () -> UIView in
-        let view = UIView()
-        return view
-    }()
+    private let scrollView: UIScrollView = UIScrollView()
     
-    lazy var mapView = { () -> UIView in
-        let view = UIView()
-        return view
-    }()
+    private let contentView: UIView = UIView()
+    
+    private let mapView: UIView = UIView()
     
     lazy var mapLocationView = { () -> MTMapView in
         let view = MTMapView.init(frame: CGRect(x: 0, y: 0,
@@ -34,7 +25,7 @@ class SearchDetailView: UIView {
         return view
     }()
     
-    lazy var myLocationButton = { () -> UIButton in
+    let myLocationButton = { () -> UIButton in
         let btn = UIButton()
         btn.setTitle("내 위치", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
@@ -46,7 +37,7 @@ class SearchDetailView: UIView {
         return btn
     }()
     
-    lazy var destinationButton = { () -> UIButton in
+    let destinationButton = { () -> UIButton in
         let btn = UIButton()
         btn.setTitle("목적지", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 15)
@@ -58,37 +49,34 @@ class SearchDetailView: UIView {
         return btn
     }()
     
-    lazy var titleLabel = { () -> UILabel in
+    private let titleLabel = { () -> UILabel in
         let label = UILabel()
         label.textColor = .purpleColor
-        label.text = "병원명이 아주 길었을 경우를 대비하여 작성한 예시입니다."
         label.font = .systemFont(ofSize: 26, weight: .bold)
         label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
         return label
     }()
     
-    lazy var categoryLabel = { () -> UILabel in
+    private let categoryLabel = { () -> UILabel in
         let label = UILabel()
         label.textColor = .purpleColor
-        label.text = "병원명이 아주 길었을 경우를 대비하여 작성한 예시입니다."
         label.font = .systemFont(ofSize: 18, weight: .bold)
         label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
         return label
     }()
     
-    lazy var locationLabel = { () -> UILabel in
+    private let locationLabel = { () -> UILabel in
         let label = UILabel()
         label.textColor = .black
-        label.text = "스크롤 뷰 안에 컨텐츠 들이 들어가는 컨텐츠뷰를 하나 생성하였습니다. 애플 공식 문서에서도 정의되어있듯이 스크롤뷰 안에는 스크롤 되는 컨텐츠뷰가 존재해야 스크롤 뷰가 정상적으로 동작합니다. 따라서 컨텐츠 뷰라는 이름을 가진 UIView객체를 하나 생성하였습니다. 스크롤 되는 모든 컴포넌트들은 모두 여기의 자식뷰로 들어갈 예정입니다."
         label.font = .systemFont(ofSize: 16, weight: .light)
         label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
         return label
     }()
     
-    lazy var distanceLabel = { () -> UILabel in
+    private let distanceLabel = { () -> UILabel in
         let label = UILabel()
         label.textColor = .black
         label.text = "현재 위치에서의 거리"
@@ -98,27 +86,25 @@ class SearchDetailView: UIView {
         return label
     }()
     
-    lazy var distanceValueLabel = { () -> UILabel in
+    private let distanceValueLabel = { () -> UILabel in
         let label = UILabel()
         label.textColor = .purpleColor
-        label.text = "거리를 나타내는 라벨입니다."
         label.font = .systemFont(ofSize: 18, weight: .bold)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
     }()
     
-    lazy var telLabel = { () -> UILabel in
+    private let telLabel = { () -> UILabel in
         let label = UILabel()
         label.textColor = .black
-        label.text = "02-1234-5678"
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
     }()
     
-    lazy var kakaoMapButton = { () -> UIButton in
+    let kakaoMapButton = { () -> UIButton in
         let btn = UIButton()
         btn.setTitle("카카오맵 바로가기", for: .normal)
         btn.setTitleColor(.gray, for: .normal)
@@ -126,12 +112,8 @@ class SearchDetailView: UIView {
         return btn
     }()
     
-    lazy var favoriteButton = { () -> FavoriteButton in
-        let btn = FavoriteButton()
-        return btn
-    }()
+    let favoriteButton: FavoriteButton = FavoriteButton()
     
-    //MARK: - init()
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
@@ -139,12 +121,12 @@ class SearchDetailView: UIView {
         makeConstraints()
     }
         
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - func
-    func addSubViews() {
+    private func addSubViews() {
         self.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
@@ -164,7 +146,7 @@ class SearchDetailView: UIView {
         contentView.addSubview(kakaoMapButton)
     }
     
-    func makeConstraints() {
+    private func makeConstraints() {
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(self.safeAreaLayoutGuide)
         }
@@ -242,6 +224,13 @@ class SearchDetailView: UIView {
             make.trailing.equalTo(titleLabel.snp.trailing)
             make.bottom.equalTo(-40)
         }
-        
+    }
+    
+    func setupLabelText(title: String, category: String, location: String, distance: String, tel: String) {
+        titleLabel.text = title
+        categoryLabel.text = category
+        locationLabel.text = location
+        distanceValueLabel.text = distance
+        telLabel.text = tel
     }
 }

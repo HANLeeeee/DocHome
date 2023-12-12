@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HomeViewController.swift
 //  DocHome
 //
 //  Created by 최하늘 on 2022/08/14.
@@ -7,29 +7,27 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
+    
+    private let homeView = HomeView()
+    private let hospitalCategory = ["전체", "외과", "내과", "치과", "기타"]
+    private let tableViewSectionHeaderTitle = ["즐겨찾기", "내 주변 병원"]
+    private var searchResultOriginData = [Document]()
+    private var searchResultData = [Document]()
+    private let refreshControl = UIRefreshControl()
+    
+    private var currentCategoryTag = 0
+    private var isPaging: Bool = true
+    private var currentPage: Int = 1
+    private var metaData: Meta?
     
     convenience init(title: String) {
         self.init()
         self.title = title
     }
     
-    let homeView = HomeView()
-    let hospitalCategory = ["전체", "외과", "내과", "치과", "기타"]
-    let tableViewSectionHeaderTitle = ["즐겨찾기", "내 주변 병원"]
-    var searchResultOriginData = [Document]()
-    var searchResultData = [Document]()
-    let refreshControl = UIRefreshControl()
-    
-    var currentCategoryTag = 0
-    //페이징
-    var isPaging: Bool = true
-    var currentPage: Int = 1
-    var metaData: Meta?
-        
-    //MARK: - 라이프사이클
     override func loadView() {
-        self.view = .init()
+        super.loadView()
         self.view = homeView
     }
     
@@ -45,8 +43,7 @@ class HomeViewController: UIViewController {
         fetchHospitalInfo()
     }
     
-    //MARK: - UI 메소드
-    func setupButtons() {
+    private func setupButtons() {
         homeView.searchButton.addTarget(self, action: #selector(touchUpSearchButton), for: .touchUpInside)
         homeView.categoryButtons.forEach { button in
             button.addTarget(self, action: #selector(touchUpCategoryButton), for: .touchUpInside)
@@ -54,7 +51,7 @@ class HomeViewController: UIViewController {
     }
     
     //MARK: - 테이블뷰등록 메소드
-    func setupTableView() {
+    private func setupTableView() {
         homeView.homeTableView.delegate = self
         homeView.homeTableView.dataSource = self
         homeView.homeTableView.register(FavoriteTableViewCell.self,
@@ -63,20 +60,19 @@ class HomeViewController: UIViewController {
                                         forCellReuseIdentifier: Constants.TableView.Identifier.recommendCell)
     }
     
-    func setupRefreshControl() {
+    private func setupRefreshControl() {
         refreshControl.beginRefreshing()
         homeView.homeTableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(pullAction), for: .valueChanged)
     }
     
-    //테이블뷰 당겨서 새로고침
     @objc func pullAction() {
         currentPage = 1
         fetchHospitalInfo()
     }
     
     //MARK: - 병원정보 가져오는 메소드
-    func fetchHospitalInfo() {
+    private func fetchHospitalInfo() {
         let userLocation = UserDefaultsData.shared.getLocation()
         APIExecute.shared.searchCategoryRequest(isPaging: self.isPaging, x: userLocation.longitude, y: userLocation.latitude, page: self.currentPage, completion: { [self] (result: Result<SearchResponse, Error>) in
             
@@ -89,12 +85,12 @@ class HomeViewController: UIViewController {
 
             case .failure(let error):
                 print("통신 에러 \(error)")
-                self.present(showAlert(), animated: true)
+                showAlert()
             }
         })
     }
     
-    func updateSearchResultData(_ documents: [Document]) {
+    private func updateSearchResultData(_ documents: [Document]) {
         if currentPage == 1 {
             searchResultOriginData = documents
         } else {
@@ -102,11 +98,11 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func updateSearchResultMetaData(_ metaData: Meta) {
+    private func updateSearchResultMetaData(_ metaData: Meta) {
         self.metaData = metaData
     }
     
-    func refreshHospitalInfo(_ filteredData: [Document]) {
+    private func refreshHospitalInfo(_ filteredData: [Document]) {
         searchResultData = filteredData
         if searchResultData.count < 6 {
             nextPage()
@@ -120,7 +116,7 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func nextPage() {
+    private func nextPage() {
         guard let isEndPaging = metaData?.isEnd else { return }
         if isPaging && !isEndPaging {
             isPaging = false
@@ -147,7 +143,7 @@ extension HomeViewController {
         updateCategoryButton(categoryButton)
     }
     
-    func updateCategoryButton(_ categoryButton: CategoryButton) {
+    private func updateCategoryButton(_ categoryButton: CategoryButton) {
         for button in homeView.categoryButtons {
             if button.tag == categoryButton.tag {
                 currentCategoryTag = categoryButton.tag
@@ -159,8 +155,7 @@ extension HomeViewController {
         }
     }
     
-    //MARK: - 병원 카테고리 필터링
-    func filteredHospitalInfo(_ categoryIndex: Int) -> [Document] {
+    private func filteredHospitalInfo(_ categoryIndex: Int) -> [Document] {
         switch categoryIndex {
         case 1...3:
             return searchResultOriginData.filter { document in
@@ -178,17 +173,14 @@ extension HomeViewController {
 
 //MARK: - 테이블뷰 관련
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
-    //섹션의 개수
     func numberOfSections(in tableView: UITableView) -> Int {
         return tableViewSectionHeaderTitle.count
     }
     
-    //섹션헤더 텍스트
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return tableViewSectionHeaderTitle[section]
     }
     
-    //섹션헤더 텍스트 폰트 설정
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = HomeTableViewHeaderView()
         headerView.titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
@@ -197,7 +189,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return headerView
     }
     
-    //섹션헤더 높이 설정
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0:
@@ -210,16 +201,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    //테이블뷰셀 클릭
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         goSearchDetailVC(data: searchResultData[indexPath.row])
     }
     
-    //섹션별 테이블뷰셀 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            if favoriteSearchResultDatas.count == 0 {
+            if favoriteSearchResultDatas.isEmpty {
                 return 0
             }
             return 1
@@ -232,25 +221,20 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    //테이블뷰셀 설정
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.favoriteTableViewCell, for: indexPath) as? FavoriteTableViewCell else {
-                return UITableViewCell()
-            }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.favoriteTableViewCell, for: indexPath) as? FavoriteTableViewCell else { return UITableViewCell() }
             cell.reloadFavoriteCollectionView()
             cell.favoriteTableViewCellDelegate = self
             cell.selectionStyle = .none
             return cell
             
         case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.recommendCell, for: indexPath) as? RecommendTableViewCell else {
-                return UITableViewCell()
-            }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableView.Identifier.recommendCell, for: indexPath) as? RecommendTableViewCell else { return UITableViewCell() }
             
             let searchResult = searchResultData[indexPath.row]
-            cell.configureCell(searchResult: searchResult, index: indexPath.row)
+            cell.configureCell(searchResult: searchResult)
             cell.selectionStyle = .none
             return cell
             
@@ -259,25 +243,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    //테이블뷰셀 높이 설정
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
-    //테이블뷰 스크롤 설정, 스티키헤더 설정
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateNewHospitalInfo(scrollView)
         updateStikyHeader(scrollView)
     }
     
-    func updateNewHospitalInfo(_ scrollView: UIScrollView) {
+    private func updateNewHospitalInfo(_ scrollView: UIScrollView) {
         let scrollOffset = scrollView.contentOffset.y
         if scrollOffset > scrollView.contentSize.height-scrollView.frame.size.height+100 {
             nextPage()
         }
     }
     
-    func updateStikyHeader(_ scrollView: UIScrollView) {
+    private func updateStikyHeader(_ scrollView: UIScrollView) {
         let scrollOffset = scrollView.contentOffset.y
         let scrollY = homeView.topView.constraints[0].constant - scrollOffset
         let maxHeight = Constants.View.HomeView.TopView.size.maxHeight
@@ -299,9 +281,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 //MARK: - SearchViewDelegate
 extension HomeViewController: SearchViewDelegate {
     func goSearchDetailVC(data: Document) {
-        let searchDetailVC = SearchDetailViewController()
-        searchDetailVC.detailData = data
-        searchDetailVC.index = favoriteSearchResultDatas.firstIndex(where: { $0.id == data.id }) ?? favoriteSearchResultDatas.endIndex
+        let index = favoriteSearchResultDatas.firstIndex(where: { $0.id == data.id }) ?? favoriteSearchResultDatas.endIndex
+        let searchDetailVC = SearchDetailViewController(detailData: data, index: index)
+        
         self.navigationController?.pushViewController(searchDetailVC, animated: true)
     }
 }

@@ -7,11 +7,19 @@
 
 import UIKit
 
-class CategoryButton: UIButton {
+final class CategoryButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        setup()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setup() {
         self.backgroundColor = .white
         self.setTitleColor(.purpleColor, for: .normal)
         self.setTitleColor(.white, for: .selected)
@@ -19,10 +27,6 @@ class CategoryButton: UIButton {
         self.layer.cornerRadius = 10
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.purpleColor?.cgColor
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     func changeCategoryButtonColor() {

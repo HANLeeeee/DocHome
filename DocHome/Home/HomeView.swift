@@ -8,14 +8,11 @@
 import UIKit
 import SnapKit
 
-class HomeView: UIView {
+final class HomeView: UIView {
     
-    lazy var topView = { () -> UIView in
-        let view = UIView()
-        return view
-    }()
+    let topView: UIView = UIView()
     
-    lazy var searchButton = { () -> UIButton in
+    let searchButton = { () -> UIButton in
         let btn = UIButton()
         btn.backgroundColor = .white
         btn.layer.cornerRadius = 20
@@ -26,25 +23,24 @@ class HomeView: UIView {
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         btn.contentHorizontalAlignment = .left
         btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
-
         return btn
     }()
 
-    lazy var searchButtonImage = { () -> UIImageView in
+    private let searchButtonImage = { () -> UIImageView in
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "magnifyingglass")
         imageView.tintColor = .purpleColor
         return imageView
     }()
     
-    lazy var cellStackView = { () -> UIStackView in
+    let cellStackView = { () -> UIStackView in
         let stackView = UIStackView()
         stackView.distribution = .fillEqually
         stackView.spacing = 10
         return stackView
     }()
     
-    lazy var cellButton = { () -> CategoryButton in
+    private let cellButton = { () -> CategoryButton in
         let btn = CategoryButton()
         btn.setTitle("전체", for: .normal)
         btn.tag = 0
@@ -53,35 +49,35 @@ class HomeView: UIView {
         return btn
     }()
     
-    lazy var cellButton2 = { () -> CategoryButton in
+    private let cellButton2 = { () -> CategoryButton in
         let btn = CategoryButton()
         btn.setTitle("외과", for: .normal)
         btn.tag = 1
         return btn
     }()
     
-    lazy var cellButton3 = { () -> CategoryButton in
+    private let cellButton3 = { () -> CategoryButton in
         let btn = CategoryButton()
         btn.setTitle("내과", for: .normal)
         btn.tag = 2
         return btn
     }()
     
-    lazy var cellButton4 = { () -> CategoryButton in
+    private let cellButton4 = { () -> CategoryButton in
         let btn = CategoryButton()
         btn.setTitle("치과", for: .normal)
         btn.tag = 3
         return btn
     }()
     
-    lazy var cellButton5 = { () -> CategoryButton in
+    private let cellButton5 = { () -> CategoryButton in
         let btn = CategoryButton()
         btn.setTitle("기타", for: .normal)
         btn.tag = 4
         return btn
     }()
     
-    lazy var homeTableView = { () -> UITableView in
+    let homeTableView = { () -> UITableView in
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.separatorStyle = .none
@@ -95,7 +91,7 @@ class HomeView: UIView {
         return tableView
     }()
     
-    var categoryButtons = [CategoryButton]()
+    lazy var categoryButtons: [CategoryButton] = [cellButton, cellButton2, cellButton3, cellButton4, cellButton5]
 
     //MARK: - init()
     override init(frame: CGRect) {
@@ -103,20 +99,14 @@ class HomeView: UIView {
         self.backgroundColor = .white
         addSubViews()
         makeConstraints()
-        
-        categoryButtons.append(cellButton)
-        categoryButtons.append(cellButton2)
-        categoryButtons.append(cellButton3)
-        categoryButtons.append(cellButton4)
-        categoryButtons.append(cellButton5)
     }
         
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - func
-    func addSubViews() {
+    private func addSubViews() {
         self.addSubview(topView)
         topView.addSubview(searchButton)
         topView.addSubview(searchButtonImage)
@@ -131,7 +121,7 @@ class HomeView: UIView {
         self.addSubview(homeTableView)
     }
     
-    func makeConstraints() {
+    private func makeConstraints() {
         topView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(15)

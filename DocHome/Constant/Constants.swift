@@ -73,10 +73,10 @@ struct Constants {
             static let searchURL = "https://dapi.kakao.com"
             
             struct category_group_code {
-                static let bigMart = "MT1" //대형마트
-                static let convenienceStore = "CS2" //편의점
-                static let hospital = "HP8" //병원
-                static let drugStore = "PM9" //약국
+                static let bigMart = "MT1" /// 대형마트
+                static let convenienceStore = "CS2" /// 편의점
+                static let hospital = "HP8" /// 병원
+                static let drugStore = "PM9" /// 약국
             }
         }
     }
