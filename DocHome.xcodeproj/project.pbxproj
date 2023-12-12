@@ -13,6 +13,7 @@
 		B1144BDC2A05FC3C00E99ADD /* CategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1144BDB2A05FC3C00E99ADD /* CategoryButton.swift */; };
 		B1672E4A2B27E99200A404CB /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1672E492B27E99200A404CB /* UIViewController+Extension.swift */; };
 		B1672E602B28048700A404CB /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1672E5F2B28048700A404CB /* Bundle+Extension.swift */; };
+		B1672E622B280C0200A404CB /* KakaoAPIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1672E612B280C0200A404CB /* KakaoAPIKey.plist */; };
 		B16E540A28B7C4410053B818 /* SearchDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16E540928B7C4410053B818 /* SearchDetailViewController.swift */; };
 		B184B5C32A03ED7100F28298 /* SearchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B184B5C22A03ED7100F28298 /* SearchDetailView.swift */; };
 		B19CC0F228A8FEFA001E56B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19CC0F128A8FEFA001E56B4 /* AppDelegate.swift */; };
@@ -327,6 +328,7 @@
 		B1144BDB2A05FC3C00E99ADD /* CategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButton.swift; sourceTree = "<group>"; };
 		B1672E492B27E99200A404CB /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		B1672E5F2B28048700A404CB /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
+		B1672E612B280C0200A404CB /* KakaoAPIKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KakaoAPIKey.plist; sourceTree = "<group>"; };
 		B16E540928B7C4410053B818 /* SearchDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewController.swift; sourceTree = "<group>"; };
 		B184B5C22A03ED7100F28298 /* SearchDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailView.swift; sourceTree = "<group>"; };
 		B19CC0EE28A8FEFA001E56B4 /* DocHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -745,6 +747,7 @@
 				B19CC0F128A8FEFA001E56B4 /* AppDelegate.swift */,
 				B19CC0F328A8FEFA001E56B4 /* SceneDelegate.swift */,
 				B19CC0FA28A8FEFC001E56B4 /* Assets.xcassets */,
+				B1672E612B280C0200A404CB /* KakaoAPIKey.plist */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -1385,6 +1388,7 @@
 				B1CF48AD28B14CAC003835BC /* map_pin_custom.png in Resources */,
 				B1CF48EF28B14CAC003835BC /* nav_g.png in Resources */,
 				B1CF490628B14CAC003835BC /* bdwn.png in Resources */,
+				B1672E622B280C0200A404CB /* KakaoAPIKey.plist in Resources */,
 				B1CF493128B14CAC003835BC /* properties_4.js in Resources */,
 				B1CF494228B14CAC003835BC /* properties_b.js in Resources */,
 				B1CF495828B14CAC003835BC /* functions_d.html in Resources */,
