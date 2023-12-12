@@ -12,6 +12,8 @@
 		B1144BDA2A05ACCD00E99ADD /* HomeTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1144BD92A05ACCD00E99ADD /* HomeTableViewHeaderView.swift */; };
 		B1144BDC2A05FC3C00E99ADD /* CategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1144BDB2A05FC3C00E99ADD /* CategoryButton.swift */; };
 		B1672E4A2B27E99200A404CB /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1672E492B27E99200A404CB /* UIViewController+Extension.swift */; };
+		B1672E5E2B28040500A404CB /* KakaoAPIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1672E5D2B28040400A404CB /* KakaoAPIKey.plist */; };
+		B1672E602B28048700A404CB /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1672E5F2B28048700A404CB /* Bundle+Extension.swift */; };
 		B16E540A28B7C4410053B818 /* SearchDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16E540928B7C4410053B818 /* SearchDetailViewController.swift */; };
 		B184B5C32A03ED7100F28298 /* SearchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B184B5C22A03ED7100F28298 /* SearchDetailView.swift */; };
 		B19CC0F228A8FEFA001E56B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19CC0F128A8FEFA001E56B4 /* AppDelegate.swift */; };
@@ -325,6 +327,8 @@
 		B1144BD92A05ACCD00E99ADD /* HomeTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewHeaderView.swift; sourceTree = "<group>"; };
 		B1144BDB2A05FC3C00E99ADD /* CategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButton.swift; sourceTree = "<group>"; };
 		B1672E492B27E99200A404CB /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		B1672E5D2B28040400A404CB /* KakaoAPIKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KakaoAPIKey.plist; sourceTree = "<group>"; };
+		B1672E5F2B28048700A404CB /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		B16E540928B7C4410053B818 /* SearchDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailViewController.swift; sourceTree = "<group>"; };
 		B184B5C22A03ED7100F28298 /* SearchDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDetailView.swift; sourceTree = "<group>"; };
 		B19CC0EE28A8FEFA001E56B4 /* DocHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DocHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -682,6 +686,7 @@
 			children = (
 				B1000E482A125686002062B2 /* UIColor+Extension.swift */,
 				B1672E492B27E99200A404CB /* UIViewController+Extension.swift */,
+				B1672E5F2B28048700A404CB /* Bundle+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -742,6 +747,7 @@
 				B19CC0F128A8FEFA001E56B4 /* AppDelegate.swift */,
 				B19CC0F328A8FEFA001E56B4 /* SceneDelegate.swift */,
 				B19CC0FA28A8FEFC001E56B4 /* Assets.xcassets */,
+				B1672E5D2B28040400A404CB /* KakaoAPIKey.plist */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -1503,6 +1509,7 @@
 				B1CF49AD28B14CAD003835BC /* _m_t_map_circle_8h.html in Resources */,
 				B1CF496928B14CAC003835BC /* functions_1.js in Resources */,
 				B1CF48ED28B14CAC003835BC /* interface_m_t_map_camera_update-members.html in Resources */,
+				B1672E5E2B28040500A404CB /* KakaoAPIKey.plist in Resources */,
 				B1CF48BF28B14CAC003835BC /* noimage256.png in Resources */,
 				B1CF499428B14CAD003835BC /* struct_m_t_map_point_plain.js in Resources */,
 				B1CF497128B14CAC003835BC /* variables_4.js in Resources */,
@@ -1607,6 +1614,7 @@
 				B16E540A28B7C4410053B818 /* SearchDetailViewController.swift in Sources */,
 				B1B956F128B66CBC001085BB /* APIExecute.swift in Sources */,
 				B19CC81B28A94AEF001E56B4 /* MapView.swift in Sources */,
+				B1672E602B28048700A404CB /* Bundle+Extension.swift in Sources */,
 				B184B5C32A03ED7100F28298 /* SearchDetailView.swift in Sources */,
 				B1B9570028B69961001085BB /* UserDefaultsData.swift in Sources */,
 				B19CC81928A94844001E56B4 /* HomeView.swift in Sources */,

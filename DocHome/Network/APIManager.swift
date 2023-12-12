@@ -25,7 +25,7 @@ enum APIManager {
         default:
             let headers = [
                 "Accept": "*/*",
-                "Authorization": "KakaoAK d94bc5225be67c27460132ba4155d4da"
+                "Authorization": Bundle.main.kakaoAuthKey
             ]
             return headers
         }
