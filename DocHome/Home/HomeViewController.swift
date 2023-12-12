@@ -107,11 +107,12 @@ final class HomeViewController: UIViewController {
         if searchResultData.count < 6 {
             nextPage()
         }
-        DispatchQueue.main.async { [self] in
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
             homeView.homeTableView.reloadData()
             refreshControl.endRefreshing()
             
-            self.isPaging = true
+            isPaging = true
             homeView.homeTableView.tableFooterView = nil
         }
     }
@@ -123,7 +124,8 @@ final class HomeViewController: UIViewController {
             currentPage += 1
             fetchHospitalInfo()
             
-            DispatchQueue.main.async { [self] in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
                 homeView.homeTableView.tableFooterView = IndicatorView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
             }
         }
