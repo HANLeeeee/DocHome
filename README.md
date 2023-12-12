@@ -15,8 +15,21 @@
 
 ## 📌 사용 방법
 - Simulator를 사용하는 경우 [설정 -> 일반 -> 언어 및 지역] 에서 지역을 대한민국으로 변경
-- 검색을 클릭하여 원하는 병원명 검색
-
+- Podfile 설치
+	```bash  
+	# Uncomment the next line to define a global platform for your project
+	platform :ios, '14.0'
+	
+	target 'DocHome' do
+	  # Comment the next line if you don't want to use dynamic frameworks
+	  use_frameworks!
+	
+	  # Pods for DocHome
+	
+	  pod 'SnapKit'
+	
+	end
+	```
 
 
 <br/><br/>
