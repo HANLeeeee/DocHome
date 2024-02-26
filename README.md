@@ -1,10 +1,6 @@
 # DocHome
 
-
-<img src="https://github.com/HANLeeeee/DocHome/assets/74815957/e665c3f4-fc14-4883-be53-694197c80cf9" width=200>
-
-
-<br /> <br />
+<br/>
 
 ## 📌 프로젝트 소개
 > 2022.08.14 ~ 2022.08.28 (2주간)  <br/>
@@ -53,12 +49,16 @@
     <th><code>검색/디테일</code></th>
   </tr>
   <tr>
-    <td><img src="https://github.com/HANLeeeee/DocHome/assets/74815957/fb0ba05d-1445-4076-b94d-a08f45d26d91" alt="즐겨찾기">
-    <td><img src="https://github.com/HANLeeeee/DocHome/assets/74815957/9e5fb5fd-c38f-44cf-9631-323233223a6a" alt="무한스크롤">
-    <td><img src="https://github.com/HANLeeeee/DocHome/assets/74815957/a8bc32af-c4dd-456e-9326-d5a60f3e29aa" alt="카테고리">
-    <td><img src="https://github.com/HANLeeeee/DocHome/assets/74815957/9c37876c-45d5-4083-907e-d6bf9440df14" alt="검색/디테일">
+    <td><img src="https://github.com/HANLeeeee/DocHome/assets/74815957/8fe01946-33fe-41e8-802d-2882d0e19045" alt="즐겨찾기">
+    <td><img src="https://github.com/HANLeeeee/DocHome/assets/74815957/e675101c-d840-423a-93e9-512b4500f33f" alt="무한스크롤">
+    <td><img src="https://github.com/HANLeeeee/DocHome/assets/74815957/b29440cb-d6eb-46f2-ae76-73aed9b50f0f" alt="카테고리">
+    <td><img src="https://github.com/HANLeeeee/DocHome/assets/74815957/71cea017-f4de-40f3-9a8a-257b1cb1354a" alt="검색/디테일">
   </tr>
 </table>
+
+
+
+
 
 
 <br/><br/>
@@ -84,7 +84,7 @@ topView.snp.makeConstraints { make in
 </details>
 
 <details>
-<summary><h3>모델/네트워크 타입 구현</h3></summary>
+<summary><h3>모델/네트워크 타입</h3></summary>
 
 - API서버와 HTTP 네트워크를 진행하기 위해서 <code>enum</code> 열거형으로 <code>case</code>를 통해 조건에 맞는 요소들을 추가하였습니다.
 - 새로운 Request를 추가할 경우에도 <code>case</code>를 추가하여 확장이 편리하도록 만들었습니다.
@@ -129,28 +129,149 @@ enum APIManager {
 </details>
 
 <details>
-<summary><h3>DelegatePattern 구현</h3></summary>
+<summary><h3>Delegate Pattern으로 화면 전환</h3></summary>
 
-- 검색화면에서 <code>present</code>나 <code>push</code>를 이용하여 화면 전환을 하면 메인 네비게이션과 연결되지 않아 <code>DelegatePattern</code>을 사용했습니다.
-- 프로토콜을 정의하여 검색화면으로 전환하고 싶을 경우에 사용할 수 있게 했습니다.
-- 코드의 중복을 줄이고 화면의 재사용을 높여주었습니다.
+- 검색화면에서 <code>present</code>나 <code>push</code>를 이용하여 화면 전환을 하면 메인 네비게이션과 연결되지 않아 <code>Delegate Pattern</code>을 사용했습니다.
+- <code>navigationController</code>가 있는 <code>HomeViewController</code>에서 <code>pushViewController</code>를 호출하여 화면 전환을 했습니다.
+
+<br/>
+
+<h4>❌ 네비게이션 연결되지 않은 코드</h4>
+- <code>SearchViewController</code>에는 네비게이션이 옵셔널이기 때문에 테이블뷰셀을 클릭했을 때 <code>pushViewController</code>가 실행되지 않는다.
 
 ```swift
-protocol FavoriteTableViewCellDelegate: AnyObject {
-    func getCollectionViewIndex(index: Int)
+func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    print("테이블뷰 셀 클릭 \(indexPath.row)번째")
+    
+    let searchDetailVC = SearchDetailViewController(detailData: searchResultData[indexPath.row], index: indexPath.row)
+    self.navigationController?.pushViewController(searchDetailVC, animated: true)
+}
+```
+
+- <code>present</code>를 사용하여 화면 전환을 할 경우에는 화면이 이동되기는 하지만 이 방법도 네비게이션은 연결되어 있지 않다.
+
+```swift
+self.present(searchDetailVC, animated: true)
+```
+
+<br/>
+
+<h4>🟢 Delegate Pattern 사용한 코드</h4>
+
+```swift
+func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    print("테이블뷰 셀 클릭 \(indexPath.row)번째")
+
+    searchViewDelegate?.goSearchDetailVC(data: searchResultData[indexPath.row])
+    self.dismiss(animated: true)
 }
 
-//MARK: - FavoriteTableViewCellDelegate
-extension HomeViewController: FavoriteTableViewCellDelegate {
-    func getCollectionViewIndex(index: Int) {
-        let favoriteDocument = favoriteSearchResultDatas[index]
-        goSearchDetailVC(data: favoriteDocument)
+// MARK: - SearchViewDelegate
+extension HomeViewController: SearchViewDelegate {
+    func goSearchDetailVC(data: Document) {
+        ... 
+        let searchDetailVC = SearchDetailViewController(detailData: data, index: index)
+        self.navigationController?.pushViewController(searchDetailVC, animated: true)
     }
 }
 ```
 
+<br/>
+
+<table align="center">
+  <tr>
+    <th>❌ <code>push</code></th>
+    <th>❌ <code>present</code></th>
+    <th>🟢 <code>Delegate</code></th>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/HANLeeeee/DocHome/assets/74815957/d5d057d6-3bfc-4ded-94f0-cd40953934a7" alt="push">
+    <td><img src="https://github.com/HANLeeeee/DocHome/assets/74815957/4b04c314-7c01-4e13-a13a-d4912a9b95b4" alt="present">
+    <td><img src="https://github.com/HANLeeeee/DocHome/assets/74815957/df87ac8a-9b88-440f-9401-9b4515d57045" alt="Delegate">
+  </tr>
+</table>
+
 
 <br/>
+
+</details>
+
+
+<details>
+<summary><h3>Delegate Pattern으로 즐겨찾기 버튼</h3></summary>
+
+- 즐겨찾기 버튼은 여러 <code>View</code>에서 반복적으로 사용하기 때문에 <code>UIButton</code>파일을 만들어서 재사용하였습니다.
+
+```swift
+final class FavoriteButton: UIButton {
+    weak var favoriteButtonDelegate: FavoriteButtonDelegate?
+        
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setup() {
+        self.isSelected = false
+        self.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        self.setImage(UIImage(systemName: "bookmark.fill"), for: .selected)
+        changeFavoriteButtonColor()
+        
+        self.addTarget(self, action: #selector(touchUpFavoriteButton), for: .touchUpInside)
+    }
+    
+    ...
+}
+
+```
+
+<br/>
+
+- 즐겨찾기 버튼은 <code>TableViewCell</code>, <code>CollectionViewCell</code>, <code>DetailView</code> 등 다양한 곳에서 사용되기 때문에 클릭 이벤트를 프로토콜로 정의하여 재사용성을 높였습니다.
+
+```swift
+// 사용
+private lazy var favoriteButton = { () -> FavoriteButton in
+    let btn = FavoriteButton()
+    btn.favoriteButtonDelegate = self
+    return btn
+}()
+
+protocol FavoriteButtonDelegate: AnyObject {
+    func actionFavoriteButton(isSelect: Bool)
+}
+
+// RecommendTableViewCell의 FavoriteButtonDelegate
+extension RecommendTableViewCell: FavoriteButtonDelegate {
+    func actionFavoriteButton(isSelect: Bool) {
+    ...
+}
+
+// FavoriteCollectionViewCell의 FavoriteButtonDelegate
+extension FavoriteCollectionViewCell: FavoriteButtonDelegate {
+    ...
+}
+
+// SearchDetailViewController의 FavoriteButtonDelegate
+extension SearchDetailViewController: FavoriteButtonDelegate {
+    func actionFavoriteButton(isSelect: Bool) {
+    ...
+}
+
+```
+
+<br/>
+<h3>즐겨찾기 버튼 구현 화면</h3>
+
+![스크린샷 2024-02-27 06 51 39](https://github.com/HANLeeeee/DocHome/assets/74815957/d97f121b-a4fc-4d88-84cd-bd51d49a2b96)
+![스크린샷 2024-02-27 06 51 45](https://github.com/HANLeeeee/DocHome/assets/74815957/63a81d84-49fd-44df-b76c-41e712d95211)
+
+
 
 </details>
 
@@ -220,117 +341,83 @@ DispatchQueue.global().asyncAfter(deadline: .now() + (isPaging ? 0 : 1)) {
 }
 ```
 
+<br/>
+
+
+<h3>무한 스크롤 영상</h3>
+
+![2024-02-27 06 03 24 resize](https://github.com/HANLeeeee/DocHome/assets/74815957/3871ddb4-47db-4846-a114-68304d7b7ee1)
+
+
 
 <br/>
 
 </details>
 
 <details>
-<summary><h3>StikyHeader 구현</h3></summary>
-
+<summary><h3>StikyHeader</h3></summary>
+	
 - 처음에는 검색창과 카테고리 버튼들이 고정으로 보이는 화면이지만
-- 스크롤을 내렸을 때 많은 데이터가 보일 수 있도록 카테고리 버튼들은 보이지 않게 구현하였습니다.
+- 스크롤을 내렸을 때 많은 데이터가 보일 수 있도록 검색 버튼과 카테고리 버튼을 보이지 않게 구현하였습니다.
+
+<br/>
+
+![image](https://github.com/HANLeeeee/DocHome/assets/74815957/dcbd5d61-3a6a-41fa-8005-e6e28627eb25)
+
+- <code>TableView</code>가 올라갈 때
+  <code>TopView</code>가 올라가면서 점점 흐려지고 <code>HeaderView</code>는 점점 보이기 시작합니다.
+- <code>TableView</code>가 내려갈 때 
+  <code>TopView</code>가 내려오면서 점점 보이고 <code>HeaderView</code>는 점점 흐려집니다.
+
+<br/>
+
+- <code>Snapkit</code> 라이브러리에서 <code>updateConstraints</code>를 사용하여 <code>TableView</code>의 <code>ScrollView</code> y값에 따라 topAnchor 제약조건을 변경하였습니다.
+- <code>ScrollView</code> y값으로 투명도를 계산하여 흐려지게 만들었습니다.
+
 
 ```swift
 private func updateStikyHeader(_ scrollView: UIScrollView) {
-    // 스크롤뷰의 위치를 구하기
     let scrollOffset = scrollView.contentOffset.y
-    // 스크롤뷰의 top제약조건을 가져오기
-    let scrollY = homeView.topView.constraints[0].constant - scrollOffset
-    // 검색창과 버튼들의 고정 최대 높이와 최소 높이를 정하기
+    let topAnchor = Constants.View.HomeView.TopView.topAnchor
     let maxHeight = Constants.View.HomeView.TopView.size.maxHeight
-    let minHeight = Constants.View.HomeView.TopView.size.minHeight
+    let scrollY = homeView.topView.constraints[0].constant - scrollOffset
+    let alpha = min(scrollY, maxHeight) / maxHeight
     
-    // 스크롤뷰의 위치값에 따라서 제약조건을 변경
-    let clampedScrollY = min(max(scrollY, minHeight), maxHeight)
-    homeView.topView.constraints[0].constant = clampedScrollY
-    
-    // 스크롤뷰가 한번에 스크롤되는 것을 방지
-    if scrollY > minHeight && scrollY < maxHeight {
-        scrollView.contentOffset.y = 0
+    homeView.topView.snp.updateConstraints { make in
+        if scrollOffset <= 0 {
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(topAnchor)
+            
+            homeView.topView.alpha = 1
+            homeView.headerView.isHidden = true
+        } else if scrollOffset > 0 && scrollOffset < maxHeight {
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(-scrollOffset + topAnchor)
+            
+            homeView.topView.alpha = alpha
+            homeView.headerView.isHidden = false
+            homeView.headerTitleLabel.textColor = .black.withAlphaComponent(1-alpha)
+            homeView.headerSearchButton.tintColor = .black.withAlphaComponent(1-alpha)
+        } else {
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(-maxHeight + topAnchor)
+            
+            homeView.topView.alpha = 0
+            homeView.headerView.isHidden = false
+        }
     }
-    
-    // 투명도 조절
-    let alpha = clampedScrollY / maxHeight
-    homeView.cellStackView.alpha = alpha
 }
 ```
+
+<br/>
+
+<h3>Stiky Header 영상</h3>
+
+![2024-02-2706 41 18-ezgif com-video-to-gif-converter](https://github.com/HANLeeeee/DocHome/assets/74815957/1ffd466d-034c-4452-af52-8a1ebffb6ecb)
+
 
 
 <br/>
 
 </details>
 
-<details>
-<summary><h3>Custom UIButton 구현</h3></summary>
-
-- 카테고리 버튼이나 즐겨찾기 버튼은 여러 <code>View</code>에서 반복적으로 사용하기 때문에 <code>UIView</code> 및 <code>UIButton</code>파일을 만들어서 재사용하였습니다.
-
-```swift
-final class FavoriteButton: UIButton {
-    weak var favoriteButtonDelegate: FavoriteButtonDelegate?
-        
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setup() {
-        self.isSelected = false
-        self.setImage(UIImage(systemName: "bookmark"), for: .normal)
-        self.setImage(UIImage(systemName: "bookmark.fill"), for: .selected)
-        changeFavoriteButtonColor()
-        
-        self.addTarget(self, action: #selector(touchUpFavoriteButton), for: .touchUpInside)
-    }
-    
-    ...
-}
-
-```
-
-<br/>
-
-- 즐겨찾기 버튼은 <code>TableViewCell</code>, <code>CollectionViewCell</code>, <code>DetailView</code> 등 다양한 곳에서 사용되기 때문에 클릭되었을 때를 알려주기 위해서 프로토콜을 정의하여 재사용성을 높였습니다.
-
-```swift
-// 사용
-lazy var favoriteButton = { () -> FavoriteButton in
-    let btn = FavoriteButton()
-    btn.favoriteButtonDelegate = self
-    return btn
-}()
-
-protocol FavoriteButtonDelegate: AnyObject {
-    func actionFavoriteButton(isSelect: Bool)
-}
-
-// RecommendTableViewCell의 FavoriteButtonDelegate
-extension RecommendTableViewCell: FavoriteButtonDelegate {
-    func actionFavoriteButton(isSelect: Bool) {
-    ...
-}
-
-// FavoriteCollectionViewCell의 FavoriteButtonDelegate
-extension FavoriteCollectionViewCell: FavoriteButtonDelegate {
-    ...
-}
-
-// SearchDetailViewController의 FavoriteButtonDelegate
-extension SearchDetailViewController: FavoriteButtonDelegate {
-    func actionFavoriteButton(isSelect: Bool) {
-    ...
-}
-
-```
-
-
-</details>
 
 
 <br/><br/>
