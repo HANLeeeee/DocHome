@@ -107,6 +107,8 @@ final class HomeViewController: UIViewController {
     
     private func refreshHospitalInfo(_ filteredData: [Document]) {
         searchResultData = filteredData
+        homeView.searchResultLabel.isHidden = filteredData.isEmpty ? false : true
+        
         if searchResultData.count < 6 {
             nextPage()
         }

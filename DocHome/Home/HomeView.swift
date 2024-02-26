@@ -121,6 +121,15 @@ final class HomeView: UIView {
         return tableView
     }()
     
+    let searchResultLabel = { () -> UILabel in
+        let label = UILabel()
+        label.text = "검색 결과 없음"
+        label.font = .systemFont(ofSize: 15, weight: .semibold)
+        label.textColor = .darkGray
+        label.isHidden = true
+        return label
+    }()
+    
     lazy var categoryButtons: [CategoryButton] = [cellButton, cellButton2, cellButton3, cellButton4, cellButton5]
 
     //MARK: - init()
@@ -154,6 +163,7 @@ final class HomeView: UIView {
         cellStackView.addArrangedSubview(cellButton5)
         
         self.addSubview(homeTableView)
+        homeTableView.addSubview(searchResultLabel)
     }
     
     private func makeConstraints() {
@@ -206,6 +216,11 @@ final class HomeView: UIView {
         homeTableView.snp.makeConstraints { make in
             make.top.equalTo(topView.snp.bottom).offset(10)
             make.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide)
+        }
+        
+        searchResultLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(50)
         }
     }
 }
