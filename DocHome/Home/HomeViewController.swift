@@ -34,6 +34,7 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        changeStatusBarBgColor()
         setupButtons()
         setupTableView()
         setupRefreshControl()
