@@ -9,16 +9,38 @@ import UIKit
 import SnapKit
 
 final class HomeView: UIView {
+    private let titleString = "DocHome"
     
-    let titleLabel = { () -> UILabel in
+    let headerView = { () -> UIView in
+        let view = UIView()
+        view.isHidden = true
+        return view
+    }()
+    
+    lazy var headerTitleLabel = { () -> UILabel in
         let label = UILabel()
-        label.text = "DocHome"
+        label.text = titleString
+        label.font = .systemFont(ofSize: 17, weight: .semibold)
+        label.textColor = .black
+        return label
+    }()
+    
+    let headerSearchButton = { () -> UIButton in
+        let btn = UIButton()
+        btn.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        btn.tintColor = .purpleColor
+        return btn
+    }()
+    
+    let topView: UIView = UIView()
+    
+    private lazy var titleLabel = { () -> UILabel in
+        let label = UILabel()
+        label.text = titleString
         label.font = .systemFont(ofSize: 38, weight: .black)
         label.textColor = .purpleColor
         return label
     }()
-    
-    let topView: UIView = UIView()
     
     let searchButton = { () -> UIButton in
         let btn = UIButton()
@@ -120,6 +142,10 @@ final class HomeView: UIView {
         topView.addSubview(searchButton)
         topView.addSubview(searchButtonImage)
         
+        self.addSubview(headerView)
+        headerView.addSubview(headerTitleLabel)
+        headerView.addSubview(headerSearchButton)
+        
         topView.addSubview(cellStackView)
         cellStackView.addArrangedSubview(cellButton)
         cellStackView.addArrangedSubview(cellButton2)
@@ -132,7 +158,7 @@ final class HomeView: UIView {
     
     private func makeConstraints() {
         topView.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.top.equalTo(self.safeAreaLayoutGuide).offset(Constants.View.HomeView.TopView.topAnchor)
             make.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(15)
             make.height.equalTo(Constants.View.HomeView.TopView.size.maxHeight)
         }
@@ -150,6 +176,21 @@ final class HomeView: UIView {
         searchButtonImage.snp.makeConstraints { make in
             make.centerY.equalTo(searchButton.snp.centerY)
             make.trailing.equalTo(searchButton.snp.trailing).offset(-20)
+        }
+        
+        headerView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(self.safeAreaLayoutGuide)
+            make.height.equalTo(Constants.View.HomeView.TopView.size.minHeight)
+        }
+        
+        headerTitleLabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalTo(headerView)
+        }
+        
+        headerSearchButton.snp.makeConstraints { make in
+            make.centerY.equalTo(headerView)
+            make.height.width.equalTo(headerView.snp.height)
+            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
         }
         
         cellStackView.snp.makeConstraints { make in

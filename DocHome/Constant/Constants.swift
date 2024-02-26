@@ -20,6 +20,8 @@ struct Constants {
     struct View {
         struct HomeView {
             struct TopView {
+                static let topAnchor: CGFloat = 30
+                
                 struct size {
                     static let maxHeight: CGFloat = 180
                     static let minHeight: CGFloat = 50

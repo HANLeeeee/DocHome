@@ -34,7 +34,6 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        changeStatusBarBgColor()
         setupButtons()
         setupTableView()
         setupRefreshControl()
@@ -47,6 +46,7 @@ final class HomeViewController: UIViewController {
     }
     
     private func setupButtons() {
+        homeView.headerSearchButton.addTarget(self, action: #selector(touchUpSearchButton), for: .touchUpInside)
         homeView.searchButton.addTarget(self, action: #selector(touchUpSearchButton), for: .touchUpInside)
         homeView.categoryButtons.forEach { button in
             button.addTarget(self, action: #selector(touchUpCategoryButton), for: .touchUpInside)
@@ -266,21 +266,29 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     private func updateStikyHeader(_ scrollView: UIScrollView) {
         let scrollOffset = scrollView.contentOffset.y
+        let topAnchor = Constants.View.HomeView.TopView.topAnchor
         let maxHeight = Constants.View.HomeView.TopView.size.maxHeight
         let scrollY = homeView.topView.constraints[0].constant - scrollOffset
-        let alpha = min(max(scrollY, 0), maxHeight) / maxHeight
-        homeView.topView.alpha = alpha
+        let alpha = min(scrollY - 50, maxHeight) / maxHeight
         
         homeView.topView.snp.updateConstraints { make in
             if scrollOffset <= 0 {
-                //안보이기
-                make.top.equalTo(self.view.safeAreaLayoutGuide)
+                make.top.equalTo(self.view.safeAreaLayoutGuide).offset(topAnchor)
+                
+                homeView.topView.alpha = 1
+                homeView.headerView.isHidden = true
             } else if scrollOffset > 0 && scrollOffset < maxHeight {
-                //점점보이기
-                make.top.equalTo(self.view.safeAreaLayoutGuide).offset(-scrollOffset)
+                make.top.equalTo(self.view.safeAreaLayoutGuide).offset(-scrollOffset + topAnchor)
+                
+                homeView.topView.alpha = alpha
+                homeView.headerView.isHidden = false
+                homeView.headerTitleLabel.textColor = .black.withAlphaComponent(1-alpha)
+                homeView.headerSearchButton.tintColor = .black.withAlphaComponent(1-alpha)
             } else {
-                //보이기
-                make.top.equalTo(self.view.safeAreaLayoutGuide).offset(-maxHeight)
+                make.top.equalTo(self.view.safeAreaLayoutGuide).offset(-maxHeight + topAnchor)
+                
+                homeView.topView.alpha = 0
+                homeView.headerView.isHidden = false
             }
         }
     }
