@@ -21,7 +21,7 @@ struct Constants {
         struct HomeView {
             struct TopView {
                 struct size {
-                    static let maxHeight: CGFloat = 120
+                    static let maxHeight: CGFloat = 180
                     static let minHeight: CGFloat = 50
                 }
             }

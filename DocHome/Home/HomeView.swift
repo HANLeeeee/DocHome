@@ -10,6 +10,14 @@ import SnapKit
 
 final class HomeView: UIView {
     
+    let titleLabel = { () -> UILabel in
+        let label = UILabel()
+        label.text = "DocHome"
+        label.font = .systemFont(ofSize: 38, weight: .black)
+        label.textColor = .purpleColor
+        return label
+    }()
+    
     let topView: UIView = UIView()
     
     let searchButton = { () -> UIButton in
@@ -33,7 +41,7 @@ final class HomeView: UIView {
         return imageView
     }()
     
-    let cellStackView = { () -> UIStackView in
+    private let cellStackView = { () -> UIStackView in
         let stackView = UIStackView()
         stackView.distribution = .fillEqually
         stackView.spacing = 10
@@ -108,6 +116,7 @@ final class HomeView: UIView {
     
     private func addSubViews() {
         self.addSubview(topView)
+        topView.addSubview(titleLabel)
         topView.addSubview(searchButton)
         topView.addSubview(searchButtonImage)
         
@@ -128,8 +137,13 @@ final class HomeView: UIView {
             make.height.equalTo(Constants.View.HomeView.TopView.size.maxHeight)
         }
         
-        searchButton.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
+        }
+        
+        searchButton.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.leading.trailing.equalToSuperview()
             make.height.equalTo(Constants.View.HomeView.TopView.size.minHeight)
         }
         
