@@ -13,7 +13,7 @@ final class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let homeVC = UINavigationController.init(rootViewController: HomeViewController(title: "닥홈"))
+        let homeVC = UINavigationController.init(rootViewController: HomeViewController(title: "홈"))
         let mapVC = UINavigationController.init(rootViewController: MapViewController(title: "지도"))
         let settingVC = UINavigationController.init(rootViewController: SettingViewController(title: "설정"))
         

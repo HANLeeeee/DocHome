@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 final class HomeViewController: UIViewController {
     
@@ -264,19 +265,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     private func updateStikyHeader(_ scrollView: UIScrollView) {
         let scrollOffset = scrollView.contentOffset.y
-        let scrollY = homeView.topView.constraints[0].constant - scrollOffset
         let maxHeight = Constants.View.HomeView.TopView.size.maxHeight
-        let minHeight = Constants.View.HomeView.TopView.size.minHeight
+        let scrollY = homeView.topView.constraints[0].constant - scrollOffset
+        let alpha = min(max(scrollY, 0), maxHeight) / maxHeight
+        homeView.topView.alpha = alpha
         
-        let clampedScrollY = min(max(scrollY, minHeight), maxHeight)
-        homeView.topView.constraints[0].constant = clampedScrollY
-        
-        if scrollY > minHeight && scrollY < maxHeight {
-            scrollView.contentOffset.y = 0
+        homeView.topView.snp.updateConstraints { make in
+            if scrollOffset <= 0 {
+                //안보이기
+                make.top.equalTo(self.view.safeAreaLayoutGuide)
+            } else if scrollOffset > 0 && scrollOffset < maxHeight {
+                //점점보이기
+                make.top.equalTo(self.view.safeAreaLayoutGuide).offset(-scrollOffset)
+            } else {
+                //보이기
+                make.top.equalTo(self.view.safeAreaLayoutGuide).offset(-maxHeight)
+            }
         }
-        
-        let alpha = clampedScrollY / maxHeight
-        homeView.cellStackView.alpha = alpha
     }
 }
 
