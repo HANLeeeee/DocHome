@@ -40,6 +40,7 @@ final class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
         fetchHospitalInfo()
     }
     
@@ -271,8 +272,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         homeView.topView.constraints[0].constant = clampedScrollY
         
         if scrollY > minHeight && scrollY < maxHeight {
-             scrollView.contentOffset.y = 0
-         }
+            scrollView.contentOffset.y = 0
+        }
         
         let alpha = clampedScrollY / maxHeight
         homeView.cellStackView.alpha = alpha

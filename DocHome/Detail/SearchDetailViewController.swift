@@ -32,6 +32,7 @@ final class SearchDetailViewController: UIViewController, MTMapViewDelegate {
         super.loadView()
         self.title = detailData.placeName
         self.view = searchDetailView
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     override func viewDidLoad() {
